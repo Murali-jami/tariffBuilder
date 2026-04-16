@@ -1,48 +1,9 @@
 [ {
-  "name" : "TESTH",
-  "pkgType" : "PREPAID",
-  "pkgSubType" : "NORMAL",
-  "savedOn" : "16 Apr 2026",
-  "savedTime" : "11:23",
-  "selectedSvcs_s2" : "[\"VOICE\"]",
-  "selectedSvcs_s3" : "[\"VOICE\"]",
-  "selectedSvcs_s4" : "[\"VOICE\",\"SMS\",\"DATA\"]",
-  "state" : {
-    "s2" : [ {
-      "id" : "1743",
-      "name" : "MI MUNDO S_V"
-    } ],
-    "s3" : [ {
-      "id" : 1750,
-      "name" : "MI MUNDO M_VO",
-      "validity" : "Monthly",
-      "midnightExpiry" : "No",
-      "renewal" : "No",
-      "rental" : 0,
-      "maxCount" : 0,
-      "freeCycles" : "0"
-    } ],
-    "s4" : [ {
-      "id" : 1765,
-      "name" : "DYNAMIC_DATP",
-      "validity" : "Weekly",
-      "midnightExpiry" : "Yes",
-      "renewal" : "Yes",
-      "rental" : 0,
-      "maxCount" : "10",
-      "freeCycles" : "10"
-    } ],
-    "price" : "10",
-    "publicityCode" : "PUB10",
-    "endDate" : "2026-04-15",
-    "isCorporate" : true
-  }
-}, {
   "name" : "Untitled Draft",
-  "pkgType" : "POSTPAID",
-  "pkgSubType" : "NORMAL",
+  "pkgType" : "PREPAID",
+  "pkgSubType" : null,
   "savedOn" : "16 Apr 2026",
-  "savedTime" : "11:14",
+  "savedTime" : "16:04",
   "selectedSvcs_s2" : "[\"DATA\"]",
   "selectedSvcs_s3" : null,
   "selectedSvcs_s4" : null,
@@ -59,90 +20,24 @@
     "isCorporate" : false
   }
 }, {
-  "name" : "TP_2",
+  "name" : "TP02",
   "pkgType" : "POSTPAID",
-  "pkgSubType" : "COMMERCIAL",
+  "pkgSubType" : "GENERAL",
   "savedOn" : "16 Apr 2026",
-  "savedTime" : "01:31",
-  "selectedSvcs_s2" : "[\"VOICE\"]",
-  "selectedSvcs_s3" : "[\"SMS\"]",
-  "selectedSvcs_s4" : "[\"VOICE\",\"SMS\",\"DATA\"]",
+  "savedTime" : "13:11",
+  "selectedSvcs_s2" : "[\"DATA\"]",
+  "selectedSvcs_s3" : "[]",
+  "selectedSvcs_s4" : "[]",
   "state" : {
     "s2" : [ {
-      "id" : 1743,
-      "name" : "MI MUNDO S_V"
+      "id" : 1745,
+      "name" : "MI MUNDO S_DA"
     } ],
-    "s3" : [ {
-      "id" : 1742,
-      "name" : "MI MUNDO S_SMS",
-      "validity" : "Monthly",
-      "midnightExpiry" : "No",
-      "renewal" : "No",
-      "rental" : 0,
-      "maxCount" : 0,
-      "freeCycles" : "0"
-    } ],
-    "s4" : [ {
-      "id" : 1746,
-      "name" : "MI MUNDO S_D",
-      "validity" : "Weekly",
-      "midnightExpiry" : "Yes",
-      "renewal" : "Yes",
-      "rental" : 0,
-      "maxCount" : 0,
-      "freeCycles" : "0"
-    }, {
-      "id" : 1765,
-      "name" : "DYNAMIC_DATP",
-      "validity" : "Monthly",
-      "midnightExpiry" : "No",
-      "renewal" : "No",
-      "rental" : 0,
-      "maxCount" : 0,
-      "freeCycles" : "0"
-    } ],
+    "s3" : [ ],
+    "s4" : [ ],
     "price" : "299",
     "publicityCode" : "pub1",
     "endDate" : "2026-04-30",
-    "isCorporate" : false
-  }
-}, {
-  "name" : "tp1",
-  "pkgType" : "POSTPAID",
-  "pkgSubType" : "COMMERCIAL",
-  "savedOn" : "15 Apr 2026",
-  "savedTime" : "15:38",
-  "selectedSvcs_s2" : "[\"VOICE\",\"SMS\",\"DATA\"]",
-  "selectedSvcs_s3" : "[\"VOICE\"]",
-  "selectedSvcs_s4" : "[\"VOICE\"]",
-  "state" : {
-    "s2" : [ {
-      "id" : "1747",
-      "name" : "MI MUNDO M_S"
-    } ],
-    "s3" : [ {
-      "id" : "1750",
-      "name" : "MI MUNDO M_VO",
-      "validity" : "Monthly",
-      "renewal" : "Yes",
-      "midnightExpiry" : "No",
-      "rental" : "",
-      "maxCount" : "",
-      "freeCycles" : "0"
-    } ],
-    "s4" : [ {
-      "id" : "1750",
-      "name" : "MI MUNDO M_VO",
-      "validity" : "Monthly",
-      "renewal" : "No",
-      "midnightExpiry" : "No",
-      "rental" : "",
-      "maxCount" : "",
-      "freeCycles" : "0"
-    } ],
-    "price" : "",
-    "publicityCode" : "",
-    "endDate" : "",
     "isCorporate" : false
   }
 } ]

@@ -45,8 +45,7 @@ public class SaveConfigService {
 		String publicityId = (String) request.get("publicityId");
 		Number tariffPlanId = (Number) request.get("tariffPlanId");
 
-		logger.debug("Extracted fields tpName={} publicityId={} tariffPlanId={}",
-				tpName, publicityId, tariffPlanId);
+		logger.debug("Extracted fields tpName={} publicityId={} tariffPlanId={}", tpName, publicityId, tariffPlanId);
 
 		// BASIC VALIDATION
 		if (tpName == null || tpName.isBlank()) {
@@ -125,24 +124,23 @@ public class SaveConfigService {
 			}
 		}
 
-		// JSON DUPLICATE CHECK
-		if (jsonStorage.exists(tpName)) {
+		boolean isUpdate = Boolean.TRUE.equals(request.get("isUpdate"));
 
+		// JSON DUPLICATE CHECK — skip if this is an update
+		if (!isUpdate && jsonStorage.exists(tpName)) {
 			logger.warn("JSON validation failed: config already exists tpName={}", tpName);
 			response.put("error", "Tariff already prepared in JSON");
-
 			return response;
 		}
 
 		// STORE JSON
-		logger.info("Storing config tpName={} username={} networkId={}",
-				tpName, username, networkId);
+		logger.info("Storing config tpName={} username={} networkId={}", tpName, username, networkId);
 		jsonStorage.store(tpName, username, networkId, request);
 
 		// SUCCESS RESPONSE
 		logger.info("Config prepared successfully tpName={} username={} networkId={}", tpName, username, networkId);
 
-		response.put("message", "Configuration prepared successfully");
+		response.put("message", isUpdate ? "Configuration updated successfully" : "Configuration prepared successfully");
 
 		response.put("tpName", tpName);
 
@@ -165,10 +163,8 @@ public class SaveConfigService {
 			List<Map<String, Object>> drafts = new ArrayList<>();
 
 			if (Files.exists(path) && Files.size(path) > 0) {
-				drafts = mapper.readValue(
-						path.toFile(),
-						new TypeReference<List<Map<String, Object>>>() {
-						});
+				drafts = mapper.readValue(path.toFile(), new TypeReference<List<Map<String, Object>>>() {
+				});
 			}
 
 			logger.debug("Removing existing draft with same name={}", draft.get("name"));
@@ -182,8 +178,7 @@ public class SaveConfigService {
 			}
 			drafts.add(0, draft);
 
-			mapper.writerWithDefaultPrettyPrinter()
-					.writeValue(path.toFile(), drafts);
+			mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), drafts);
 
 			logger.info("Draft saved successfully username={} draftName={}", username, draft.get("name"));
 

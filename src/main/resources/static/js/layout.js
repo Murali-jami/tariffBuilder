@@ -683,6 +683,8 @@ async function saveConfiguration() {
     }
 
     const state = JSON.parse(sessionStorage.getItem("state"));
+	
+	const isUpdate = sessionStorage.getItem("isUpdate") === "true";
 
     if (!state?.s2?.length) {
         alert("Step 2 required");
@@ -719,6 +721,8 @@ async function saveConfiguration() {
     const payload = {
 
         username: USERNAME,
+		
+		isUpdate: isUpdate,
 
         submittedOn: new Date().toLocaleDateString('en-GB', {
             day: '2-digit',
@@ -820,8 +824,8 @@ async function saveConfiguration() {
             alert(result.error || "Validation failed");
             return;
         }
-        alert("Configuration Prepared (JSON stored)");
-
+        alert(result.message);
+		
         clearBuilderSession();
 
         window.isInternalNavigation = true;
@@ -842,6 +846,7 @@ function clearBuilderSession() {
     sessionStorage.removeItem('configName');
     sessionStorage.removeItem('pkgType');
     sessionStorage.removeItem('pkgSubType');
+	sessionStorage.removeItem("isUpdate");
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1127,7 +1132,7 @@ function loadSaved() {
                             <span class="material-icons draft-icon">inventory_2</span>
                             <div class="draft-text">
                                 <span class="draft-name">${c.tpName}</span>
-                                <span class="draft-meta">${c.username}</span>
+                                <span class="draft-meta">${c.username} · ${c.data?.submittedOn || ''}</span>
                             </div>
                         </div>
 
@@ -1259,6 +1264,7 @@ function loadSavedPackage(index) {
         d.selectedSvcs_s4 || '[]'
     );
 
+	sessionStorage.setItem("isUpdate", "true");
 
     window.isInternalNavigation = true;
 
