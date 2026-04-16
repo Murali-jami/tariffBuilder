@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{builder/layout :: layout(~{::title}, ~{::section}, 5)}">
+
+<head>
+    <title>Pricing</title>
+</head>
+
+<body>
+    <section class="stage">
+        <div class="step-guide modern">
+
+            <div class="guide-header">
+                <span class="material-icons">payments</span>
+                <b>Finalize Configuration</b>
+            </div>
+
+            
+            <div class="guide-steps">
+
+                <div class="guide-step">
+                    <span class="guide-num">1</span>
+                    <span>Enter required details to complete and prepare the package for submission.</span>
+                </div>
+
+            </div>
+
+            <div class="guide-points">
+                <span class="guide-pill">Charge → package price</span>
+                <span class="guide-pill">End Date → validity</span>
+            </div>
+
+        </div>
+
+        <div class="form-container">
+            <div class="form-group">
+                <label>PACKAGE CHARGE</label>
+                <input type="number" id="price" oninput="onPriceChange(this.value)" placeholder="0.00">
+            </div>
+
+            <div class="form-group">
+                <label>PACKAGE END DATE</label>
+                <input type="date" id="endDate" onchange="onEndDateChange(this.value)">
+            </div>
+
+            <div class="form-group">
+                <label>PUBLICITY CODE</label>
+                <input type="text" id="publicityCode" oninput="onPublicityCodeChange(this.value)"
+                    placeholder="Enter code">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="isCorporate" onchange="onCorporateChange(this.checked)">
+                <label for="isCorporate">IS CORPORATE PACK</label>
+            </div>
+        </div>
+
+        <div class="step-actions">
+            <button class="btn-secondary" onclick="goBack()" th:disabled="${activeStep == 1}">
+                <span class="material-icons">arrow_back</span>
+                Back
+            </button>
+
+            <button class="btn-primary" th:if="${activeStep == 5}" onclick="saveConfiguration()">
+                SAVE CONFIG
+                <span class="material-icons">check</span>
+            </button>
+        </div>
+
+        <script th:src="@{/js/step5.js}"></script>
+    </section>
+</body>
+
+</html>

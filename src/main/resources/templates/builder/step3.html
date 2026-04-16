@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{builder/layout :: layout(~{::title}, ~{::section}, 3)}">
+
+<head>
+    <title>Default ATPs</title>
+</head>
+
+<body>
+    <section class="stage">
+        <div class="step-guide modern">
+
+            <div class="guide-header">
+                <span class="material-icons">extension</span>
+                <b>Default Components (DATP)</b>
+            </div>
+
+            <div class="guide-steps">
+
+                <div class="guide-step">
+                    <span class="guide-num">1</span>
+                    <span>Add services that should be automatically included when the package is activated.</span>
+                </div>
+
+            </div>
+
+            <div class="guide-points">
+                <span class="guide-pill">Auto activated</span>
+                <span class="guide-pill">Included in package</span>
+            </div>
+
+        </div>
+
+        <div class="svc-container">
+            <button class="svc-pill" data-svc="VOICE" onclick="toggleSvc('VOICE', this)">VOICE</button>
+            <button class="svc-pill" data-svc="SMS" onclick="toggleSvc('SMS', this)">SMS</button>
+            <button class="svc-pill" data-svc="DATA" onclick="toggleSvc('DATA', this)">DATA</button>
+        </div>
+
+        <!-- Drop zone — rendered by step3.js -->
+        <div id="dropArea" class="service-results"></div>
+
+        <div class="step-actions">
+            <button class="btn-secondary" onclick="goBack()" th:disabled="${activeStep == 1}">
+                <span class="material-icons">arrow_back</span>
+                Back
+            </button>
+
+            <button class="btn-primary" onclick="goNext()" th:disabled="${activeStep == 5}">
+                Continue
+                <span class="material-icons">arrow_forward</span>
+            </button>
+        </div>
+
+        <script th:src="@{/js/step3.js}"></script>
+    </section>
+</body>
+
+</html>

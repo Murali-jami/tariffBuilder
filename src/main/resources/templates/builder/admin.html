@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{builder/layout :: layout(~{::title}, ~{::section}, 0)}">
+
+<head>
+    <title>Admin</title>
+</head>
+
+<body>
+
+    <section style="flex: 1; width: 100%; height: 100%; padding: 24px; box-sizing: border-box; overflow: hidden;">
+
+        <div class="admin-container">
+
+            <!-- LEFT PANE: Pending Approvals -->
+            <div class="left-pane" th:classappend="${#lists.isEmpty(tariff)} ? ' empty'">
+                <div class="pane-header">
+                    <h3>Pending Approvals</h3>
+                    <p class="count" th:if="${not #lists.isEmpty(tariff)}"
+                        th:text="${#lists.size(tariff)} + ' package(s)'">
+                    </p>
+                </div>
+
+                <div class="approval-list" th:if="${not #lists.isEmpty(tariff)}">
+                    <div class="approval-card" th:each="tpName : ${tariff}" th:attr="data-tpname=${tpName}"
+                        onclick="selectPackage(this)">
+                        <div class="card-content">
+                            <span class="package-name" th:text="${tpName}"></span>
+                        </div>
+                        <div class="actions">
+
+							<button class="btn btn-approve"
+								th:attr="onclick=|approvePackage('${tpName}', this, event)|">
+
+								Approve</button>
+
+
+							<button class="btn btn-reject"
+								th:attr="onclick=|rejectPackage('${tpName}', this, event)|">
+
+								Reject</button>
+
+						</div>
+                    </div>
+                </div>
+
+                <div th:if="${#lists.isEmpty(tariff)}" class="empty-state">
+                    <div class="empty-icon">
+                        <span class="material-icons">inbox</span>
+                    </div>
+                    <p class="empty-title">All caught up!</p>
+                    <p class="empty-sub">No tariff packages are pending approval right now</p>
+                </div>
+            </div>
+
+            <!-- RIGHT PANE: Hierarchy Viewer -->
+            <div class="right-pane">
+
+                <!-- shown when left pane is empty — NO packages at all -->
+                <div id="no-packages" class="placeholder" th:classappend="${#lists.isEmpty(tariff)} ? '' : ' hidden'">
+                    <div class="placeholder-icon" style="background:#f1f5f9;">
+                        <span class="material-icons" style="color:#94a3b8;">inventory_2</span>
+                    </div>
+                    <h3 class="placeholder-title">Nothing to review</h3>
+                    <p class="placeholder-sub">There are no tariff packages to view their heirarchy</p>
+                </div>
+
+                <!-- shown when packages exist but none selected -->
+                <div id="no-selection" class="placeholder"
+                    th:classappend="${not #lists.isEmpty(tariff)} ? '' : ' hidden'">
+                    <div class="placeholder-icon">
+                        <span class="material-icons">fact_check</span>
+                    </div>
+                    <h3 class="placeholder-title">No package selected</h3>
+                    <p class="placeholder-sub">Pick a package from the left to review its full hierarchy</p>
+                    <div class="placeholder-hint">
+                        <span class="material-icons" style="font-size:15px;">arrow_back</span>
+                        Choose from pending approvals
+                    </div>
+                </div>
+
+                <!-- Hierarchy content (hidden by default) -->
+                <div id="hierarchy-view" class="hierarchy-view hidden">
+                    <div class="package-header">
+                        <div class="package-header-left">
+                            <h2 id="h-name"></h2>
+                            <div id="h-meta" class="meta-pills"></div>
+                        </div>
+                        <div class="package-header-right">
+                            <div id="h-submeta" class="h-submeta"></div>
+                        </div>
+                    </div>
+
+                    <!-- PLANS ZONE -->
+                    <div class="plans-container">
+                        <div class="plans-inner">
+                            <div class="main-plan section">
+                                <h4 id="h-main-header">📦 MAIN SERVICE PLAN</h4>
+                            </div>
+
+                            <div class="section">
+                                <h4 id="h-datp-header">🛒 DATP - 0 COMPONENTS</h4>
+                                <div id="h-datp" class="components-list"></div>
+                            </div>
+
+                            <div class="section">
+                                <h4 id="h-aatp-header">➕ AATP - 0 COMPONENTS</h4>
+                                <div id="h-aatp" class="components-list"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="h-footer-bar" class="footer-bar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+[ {
+  "name" : "Untitled Draft",
+  "pkgType" : "PREPAID",
+  "pkgSubType" : "NORMAL",
+  "savedOn" : "16 Apr 2026",
+  "savedTime" : "09:32",
+  "selectedSvcs_s2" : "[]",
+  "selectedSvcs_s3" : null,
+  "selectedSvcs_s4" : null,
+  "state" : {
+    "s2" : [ ],
+    "s3" : [ ],
+    "s4" : [ ],
+    "price" : "",
+    "publicityCode" : "",
+    "endDate" : "",
+    "isCorporate" : false
+  }
+} ]

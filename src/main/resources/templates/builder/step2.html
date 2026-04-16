@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{builder/layout :: layout(~{::title}, ~{::section}, 2)}">
+
+<head>
+    <title>Service Plan</title>
+</head>
+
+<body>
+    <section class="stage">
+        <div class="step-guide modern">
+
+            <div class="guide-header">
+                <span class="material-icons">settings</span>
+                <b>Base Plan Selection</b>
+            </div>
+
+            <div class="guide-steps">
+
+                <div class="guide-step">
+                    <span class="guide-num">1</span>
+                    <span>Select service type — Voice, SMS or Data</span>
+                </div>
+
+                <div class="guide-step">
+                    <span class="guide-num">2</span>
+                    <span>Choose one <span class="guide-label">Base Plan</span></span>
+                </div>
+
+            </div>
+
+            <div class="guide-points">
+                <span class="guide-pill">Voice → calls</span>
+                <span class="guide-pill">SMS → messages</span>
+                <span class="guide-pill">Data → internet usage</span>
+            </div>
+
+        </div>
+
+        <div class="svc-container">
+            <button class="svc-pill" data-svc="VOICE" onclick="toggleSvc('VOICE', this)">VOICE</button>
+            <button class="svc-pill" data-svc="SMS" onclick="toggleSvc('SMS', this)">SMS</button>
+            <button class="svc-pill" data-svc="DATA" onclick="toggleSvc('DATA', this)">DATA</button>
+        </div>
+
+        <div id="main-area" class="service-results"></div>
+
+
+        <!-- Hidden input to submit selected plan IDs with form -->
+        <input type="hidden" id="selectedPlanIds" name="selectedPlanIds" />
+
+        <div class="step-actions">
+            <button class="btn-secondary" onclick="goBack()" th:disabled="${activeStep == 1}">
+                <span class="material-icons">arrow_back</span>
+                Back
+            </button>
+
+            <button class="btn-primary" onclick="goNext()" th:disabled="${activeStep == 5}">
+                Continue
+                <span class="material-icons">arrow_forward</span>
+            </button>
+        </div>
+
+        <script th:src="@{/js/step2.js}"></script>
+    </section>
+</body>
+
+</html>

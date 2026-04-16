@@ -1,0 +1,46 @@
+{
+  "TESTH" : {
+    "tpName" : "TESTH",
+    "username" : "USER1",
+    "networkId" : 16,
+    "data" : {
+      "username" : "USER1",
+      "submittedOn" : "16 Apr 2026",
+      "packageType" : "PREPAID",
+      "tariffPackCategory" : "NORMAL",
+      "tariffPackageDesc" : "TESTH",
+      "charge" : "10",
+      "endDate" : "04/15/2026",
+      "publicityId" : "PUB10",
+      "chargeId" : "TESTH_PR",
+      "isCorporateYn" : true,
+      "tariffPlanId" : 1743,
+      "tariffPlanName" : "MI MUNDO S_V",
+      "selectedSvcs_s2" : "[\"VOICE\"]",
+      "selectedSvcs_s3" : "[\"VOICE\"]",
+      "selectedSvcs_s4" : "[\"VOICE\",\"SMS\",\"DATA\"]",
+      "defaultAtps" : [ {
+        "servicePackageId" : 1750,
+        "chargeId" : "TESTH_PR",
+        "packageName" : "MI MUNDO M_VO",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "No",
+        "rental" : 0,
+        "maxCount" : 0,
+        "freeCycles" : "0"
+      } ],
+      "allowedAtps" : [ {
+        "servicePackageId" : 1765,
+        "chargeId" : "TESTH_PR",
+        "packageName" : "DYNAMIC_DATP",
+        "validity" : "Weekly",
+        "midnightExpiry" : "Yes",
+        "renewal" : "Yes",
+        "rental" : 0,
+        "maxCount" : "10",
+        "freeCycles" : "10"
+      } ]
+    }
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{builder/layout :: layout(~{::title}, ~{::section}, 1)}">
+
+<head>
+    <title>Package Type</title>
+</head>
+
+<body>
+    <section class="stage">
+
+        <div class="step-guide modern">
+
+            <div class="guide-header">
+                <span class="material-icons">category</span>
+                <b>Package Setup</b>
+            </div>
+
+            <div class="guide-steps">
+
+                <div class="guide-step">
+                    <span class="guide-num">1</span>
+                    <span>
+                        Select <span class="guide-label">Billing Type</span> — Prepaid or Postpaid
+                    </span>
+                </div>
+
+                <div class="guide-step">
+                    <span class="guide-num">2</span>
+                    <span>
+                        Choose <span class="guide-label">Category</span> — Normal or Commercial
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="guide-points">
+                <span class="guide-pill">Prepaid → pay before usage</span>
+                <span class="guide-pill">Postpaid → pay after usage</span>
+                <span class="guide-pill">Normal → one-time plans</span>
+                <span class="guide-pill">Commercial → recurring billing</span>
+            </div>
+
+        </div>
+
+        <div class="step1-layout">
+
+            <div class="step1-group">
+                <p class="step1-label">BILLING TYPE</p>
+                <div id="typeSection" class="type-grid">
+                    <div class="type-card" id="card-PREPAID" onclick="selectType('PREPAID')">
+                        <span class="type-icon material-icons">phone_android</span>
+                        PREPAID
+                    </div>
+                    <div class="type-card" id="card-POSTPAID" onclick="selectType('POSTPAID')">
+                        <span class="type-icon material-icons">receipt_long</span>
+                        POSTPAID
+                    </div>
+                </div>
+            </div>
+
+            <div class="step1-arrow material-icons">arrow_forward</div>
+
+            <div class="step1-group" id="subTypeGroup" style="opacity:0.3; pointer-events:none;">
+                <p class="step1-label">CATEGORY</p>
+                <div id="subTypeSection" class="type-grid">
+                    <div class="type-card" id="card-NORMAL" onclick="selectSubType('NORMAL')">
+                        <span class="type-icon material-icons">layers</span>
+                        NORMAL
+                    </div>
+                    <div class="type-card" id="card-COMMERCIAL" onclick="selectSubType('COMMERCIAL')">
+                        <span class="type-icon material-icons">business_center</span>
+                        COMMERCIAL
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="step-actions">
+            <button class="btn-secondary" onclick="goBack()" th:disabled="${activeStep == 1}">
+                <span class="material-icons">arrow_back</span>
+                Back
+            </button>
+
+            <button class="btn-primary" onclick="goNext()" th:disabled="${activeStep == 5}">
+                Continue
+                <span class="material-icons">arrow_forward</span>
+            </button>
+        </div>
+
+        <script th:src="@{/js/step1.js}"></script>
+    </section>
+</body>
+
+</html>
