@@ -118,7 +118,9 @@ function refreshSidebar() {
 
             list.innerHTML = data.map(plan => `
                 <div class="draggable-item"
-                     onclick="addToCenter('${plan.servicePackageId}', '${plan.servicePackageName}')">
+                    data-network-id="${plan.networkId || sessionStorage.getItem('networkId')}"
+                    data-package-id="${plan.servicePackageId}"
+                    onclick="addToCenter('${plan.servicePackageId}', '${plan.servicePackageName}')">
                     ${plan.servicePackageName}
                 </div>
             `).join('');

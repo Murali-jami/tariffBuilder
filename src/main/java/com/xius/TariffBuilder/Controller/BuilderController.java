@@ -30,6 +30,7 @@ import com.xius.TariffBuilder.Entity.ServicePlanPackMap;
 import com.xius.TariffBuilder.UserService.BundleService;
 import com.xius.TariffBuilder.UserService.SaveConfigService;
 import com.xius.TariffBuilder.UserService.ServiceCloneService;
+import com.xius.TariffBuilder.UserService.ServicePackageService;
 import com.xius.TariffBuilder.UserService.ServicePlanService;
 import com.xius.TariffBuilder.UserService.TariffApprovalService;
 import com.xius.TariffBuilder.UserService.TariffService;
@@ -58,10 +59,18 @@ public class BuilderController {
     @Autowired
     private ServiceCloneService serviceCloneService;
 
+    @Autowired
+    private ServicePackageService servicePackageService;
+    
+    @Autowired
+    private BundleService bundleService;
+
     // ================= LOGIN =================
 
     @GetMapping("/loginform")
     public String showLoginPage(HttpSession session, Model model) {
+
+        model.addAttribute("sessionId", session.getId());
 
         if (!isNotLoggedIn(session)) {
             return "redirect:/builder";
@@ -340,6 +349,8 @@ public class BuilderController {
         model.addAttribute("privileges", session.getAttribute("privileges"));
 
         model.addAttribute("privilegeIds", session.getAttribute("privilegeIds"));
+
+        model.addAttribute("sessionId", session.getId());
     }
 
     private boolean isNotLoggedIn(HttpSession session) {
@@ -354,7 +365,9 @@ public class BuilderController {
 
         return result;
     }
-
+    
+    
+    // ================= LOGOUT =================
     @GetMapping("/logout")
     public String logout(HttpSession session) {
 
@@ -364,7 +377,7 @@ public class BuilderController {
 
         return "redirect:/loginform";
     }
-//
+
 //    @PostMapping("/clone")
 //    public ResponseEntity<?> cloneService(@RequestBody Map<String, Object> request) {
 //
@@ -391,8 +404,7 @@ public class BuilderController {
 //        return ResponseEntity.ok("Cloned successfully. New SERVICE_PACKAGE_ID = " + newPackageId);
 //    }
 
-    @Autowired
-    private BundleService bundleService;
+  
 
 //    @PostMapping("/clone-atp")
 //    @ResponseBody
@@ -510,5 +522,22 @@ public class BuilderController {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    @ResponseBody
+    @PostMapping("/description")
+    public Map<String, String> getDescription(@RequestBody Map<String, Object> request) {
+
+        Long servicePackageId = Long.valueOf(request.get("servicePackageId").toString());
+
+        Long networkId = Long.valueOf(request.get("networkId").toString());
+
+        String desc = servicePackageService.getDescription(servicePackageId, networkId);
+
+        // FIX → handle null
+        if (desc == null) {
+            desc = "Description not found";
+        }
+        return Map.of("description", desc);
     }
 }

@@ -113,10 +113,12 @@ function refreshSidebar() {
             list.innerHTML = data.map(plan => `
 
                 <div class="draggable-item"
-                     onclick="addToCenter('${plan.servicePackageId}', '${plan.servicePackageName}')">
+                    data-network-id="${plan.networkId}"
+                    data-package-id="${plan.servicePackageId}"
+                    onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}','${plan.networkId}')">
                     ${plan.servicePackageName}
                 </div>
-
+                
             `).join('');
         })
         .catch(err => {
@@ -126,14 +128,15 @@ function refreshSidebar() {
 }
 
 // ---------- ADD (ONLY ONE ITEM) ----------
-function addToCenter(id, name) {
+function addToCenter(id, name, networkId) {
 
     const state = getState();
 
     // REPLACE instead of push
     state.s2 = [{
         id: id,
-        name: name
+        name: name,
+        networkId: networkId
     }];
 
     saveState(state);

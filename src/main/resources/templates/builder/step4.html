@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{builder/layout :: layout(~{::title}, ~{::section}, 4)}">
 
 <head>
-    <title>Additional ATPs</title>
+    <title>Allowed ATPs</title>
 </head>
 
 <body>
@@ -11,29 +11,36 @@
 
             <div class="guide-header">
                 <span class="material-icons">add_circle</span>
-                <b>Allowed Additional Tariff plans (AATP)</b>
+                <b>Allowed Additional Tariff Plans (AATP)</b>
             </div>
 
             <div class="guide-steps">
 
                 <div class="guide-step">
                     <span class="guide-num">1</span>
-                    <span> AATP are permitted add-on services that users can choose in addition to the main tariff plan. 📶</span>
+                    <span> AATP are permitted add-on services that users can choose in addition to the main tariff plan.</span>
                 </div>
 
             </div>
 
             <div class="guide-points">
+                <span class="guide-pill">Enhances base package</span>
+                <span class="guide-pill">Flexible Choice</span>
+                <span class="guide-pill">Allowed Benefits</span>
             </div>
-                <span class="guide-pill">Optional add-ons for users</span>
-                <span class="guide-pill">On-demand features</span>
 
         </div>
 
         <div class="svc-container">
-            <button class="svc-pill" data-svc="VOICE" onclick="toggleSvc('VOICE', this)">VOICE</button>
-            <button class="svc-pill" data-svc="SMS" onclick="toggleSvc('SMS', this)">SMS</button>
-            <button class="svc-pill" data-svc="DATA" onclick="toggleSvc('DATA', this)">DATA</button>
+            <button class="svc-pill" data-svc="VOICE" onclick="toggleSvc('VOICE', this)">
+                <span class="material-icons pill-icon">phone</span>
+                VOICE</button>
+            <button class="svc-pill" data-svc="SMS" onclick="toggleSvc('SMS', this)">
+                <span class="material-icons pill-icon">sms</span>
+                SMS</button>
+            <button class="svc-pill" data-svc="DATA" onclick="toggleSvc('DATA', this)">
+                <span class="material-icons pill-icon">wifi</span>
+                DATA</button>
         </div>
 
         <!-- Drop zone — rendered by step4.js -->

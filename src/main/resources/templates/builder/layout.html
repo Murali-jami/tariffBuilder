@@ -58,7 +58,7 @@
             <a href="#" class="main-node" id="mn-saved" title="Drafts" th:classappend="${activeStep == 0} ? ' hidden'"
                 onclick="openSaved(); return false;">
                 <span class="main-node-icon material-icons">folder</span>
-                <span class="main-node-label">SAVED</span>
+                <span class="main-node-label">SAVED TP's</span>
             </a>
 
             <a href="#" class="main-node" id="mn-drafts" title="Drafts" th:classappend="${activeStep == 0} ? ' hidden'"
@@ -97,44 +97,48 @@
 
         <main class="workspace">
 
-            <!-- HEADER -->
-            <header class="header">
-                <div class="header-inner" style="display:flex; align-items:center;">
-                    <div class="logo">
-                        <span th:text="${activeStep == 0} ? 'Approver' : 'Builder'">Builder</span>
-                        | <span th:text="${username != null ? username : 'user'}">user</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:12px; margin-left:auto;">
-                        <input type="text" placeholder="Name..." class="config-name" id="configName">
-                        <span class="material-icons reset-btn" id="resetBtn" onclick="resetBuilder()"
-                            title="Reset builder" th:classappend="${activeStep == 0} ? ' hidden'">
-                            restart_alt
-                        </span>
-                        <span class="material-icons save-draft-btn" id="saveDraftBtn" onclick="manualSaveDraft()"
-                            title="Save as Draft" th:classappend="${activeStep == 0} ? ' hidden'">
-                            save
-                        </span>
-                    </div>
+            <!-- FLOATING PILL HEADER -->
+            <header class="header-pill-bar">
+                <div class="logo">
+                     <span th:text="${username != null ? username : 'user'}">user</span>
+                </div>
+                <div class="header-pill-controls" th:classappend="${activeStep == 0} ? ' hidden'">
+                    <input type="text" placeholder="Name..." class="config-name" id="configName">
+                    <span class="material-icons reset-btn" id="resetBtn" onclick="resetBuilder()"
+                        title="Reset builder" th:classappend="${activeStep == 0} ? ' hidden'">
+                        restart_alt
+                    </span>
+                    <span class="material-icons save-draft-btn" id="saveDraftBtn" onclick="manualSaveDraft()"
+                        title="Save as Draft" th:classappend="${activeStep == 0} ? ' hidden'">
+                        save
+                    </span>
                 </div>
             </header>
 
-            <th:block th:replace="${stageFrag}"></th:block>
+            <!-- TWO-PANE BODY: left card + right card -->
+            <div class="workspace-body">
 
-            <!-- FOOTER ACTIONS -->
-            <div class="config-panel" id="footerActions" th:classappend="${activeStep != 5} ? ' hidden'">
-                <button class="btn-secondary" onclick="viewTree()">Hierarchy</button>
-                <!-- <button class="btn-primary" onclick="saveConfiguration()">SAVE CONFIG</button> -->
+                <!-- LEFT PANE — stage content -->
+                <div class="pane pane-left" id="leftPane">
+                    <th:block th:replace="${stageFrag}"></th:block>
+
+                    <!-- FOOTER ACTIONS -->
+                    <div class="config-panel" id="footerActions" th:classappend="${activeStep != 5} ? ' hidden'">
+                        <button class="btn-hierarchy" onclick="viewTree()">Hierarchy</button>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANE — library sidebar -->
+                <aside class="pane pane-right sidebar" id="sidebar">
+                    <div class="sidebar-tabs">
+                        <div class="tab">LIBRARY</div>
+                    </div>
+                    <div class="sidebar-content" id="comp-list"></div>
+                </aside>
+
             </div>
 
         </main>
-
-        <!-- SIDEBAR -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-tabs">
-                <div class="tab active">LIBRARY</div>
-            </div>
-            <div class="sidebar-content" id="comp-list"></div>
-        </aside>
     </div>
 
     <!-- HIERARCHY MODAL -->
@@ -164,6 +168,7 @@
         const PRIVILEGE_IDS = /*[[${privilegeIds}]]*/[];
         const PRIVILEGES = /*[[${privileges}]]*/[];
         const USERNAME = /*[[${username}]]*/ 'User';
+        const SESSION_ID = /*[[${sessionId}]]*/ '';
     </script>
     <script th:src="@{/js/layout.js}"></script>
 
