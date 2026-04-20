@@ -703,6 +703,15 @@ body {
     max-width: 160px;
 }
 
+/* SAVED VERSION (green override) */
+.draft-item.saved {
+    border-left-color: #048f37;
+}
+
+.draft-item.saved .draft-icon {
+    color: #048f37;
+}
+
 /* ═══════════════════════════════════════
    LIBRARY SEARCH BAR
 ═══════════════════════════════════════ */
@@ -789,7 +798,7 @@ body {
     overflow: hidden;
     min-height: 0;
     background: #eef0f5;
-    padding: 20px;
+    padding: 15px 25px 15px 25px;
     gap: 15px;
 }
 
@@ -831,7 +840,7 @@ body {
     min-height: 0;
 }
 
-.workspace-body:has(.sidebar.collapsed) {
+.workspace:not(.admin-mode) .workspace-body:has(.sidebar.collapsed) {
     gap: 0;
     margin-left: 20px;
 }
@@ -841,7 +850,6 @@ body {
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e8ecf3;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -851,12 +859,14 @@ body {
     flex: 1;
     min-width: 0;
     align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .pane-right {
     width: 300px;
     flex-shrink: 0;
     padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* ═══════════════════════════════════════
@@ -942,7 +952,7 @@ body {
 .logo {
     font-weight: 800;
     color: var(--primary);
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .reset-btn {
@@ -1178,8 +1188,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    color: #2e2d2d;
-    
+    color: #3f3f3f;
 }
 
 .svc-pill:hover {
@@ -1191,12 +1200,8 @@ body {
     color: white;
     border-color: var(--success);
 }
- /* .svc-pill.active{
-    background:var(--text-muted);
-    border-color:#6366f1;
-    color:white;
-} */
-.pill-icon{
+
+.pill-icon {
     font-size: 16px;
     color: inherit;
 }
@@ -1245,7 +1250,7 @@ body {
 .service-card {
     width: 100%;
     background: #fff;
-    padding: 25px;
+    padding: 20px;
     border-radius: 24px;
     margin-bottom: 10px;
     border: 1px solid var(--border);
@@ -1264,7 +1269,7 @@ body {
 ═══════════════════════════════════════ */
 .form-container {
     background: white;
-    padding: 40px;
+    padding: 30px;
     border-radius: 30px;
     width: 100%;
     max-width: 500px;
@@ -1312,7 +1317,7 @@ body {
 .card-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 15px;
     align-items: end;
     margin-top: 15px;
 }
@@ -1465,8 +1470,9 @@ body {
     gap: 20px;
     height: 100%;
     width: 100%;
-    max-width: 1380px;
     margin: 0 auto;
+    background: #eef0f5;
+    border: none;
 }
 
 /* ── LEFT PANE ── */
@@ -1931,7 +1937,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 40px;
     margin-top: 32px;
 }
 

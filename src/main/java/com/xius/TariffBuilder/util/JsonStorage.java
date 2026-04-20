@@ -112,9 +112,13 @@ public class JsonStorage {
 					"data",
 					request);
 
-			json.put(
-					tpName,
-					tpData);
+			Map<String, Object> newJson = new LinkedHashMap<>();
+
+			newJson.put(tpName, tpData);
+
+			newJson.putAll(json);
+
+			json = newJson;
 
 			mapper
 					.writerWithDefaultPrettyPrinter()
@@ -125,7 +129,6 @@ public class JsonStorage {
 			logger.info(
 					"JSON stored {}",
 					tpName);
-
 		}
 
 		catch (Exception e) {

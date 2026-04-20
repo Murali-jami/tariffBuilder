@@ -108,5 +108,94 @@
         "freeCycles" : "0"
       } ]
     }
+  },
+  "Test_pkg" : {
+    "tpName" : "Test_pkg",
+    "username" : "USER1",
+    "networkId" : 16,
+    "data" : {
+      "username" : "USER1",
+      "isUpdate" : false,
+      "submittedOn" : "20 Apr 2026",
+      "packageType" : "POSTPAID",
+      "tariffPackCategory" : "COMMERCIAL",
+      "tariffPackageDesc" : "Test_pkg",
+      "charge" : "299",
+      "endDate" : "04/30/2026",
+      "publicityId" : "pub",
+      "chargeId" : "Test_pkg_PR",
+      "tariffPlanId" : 1743,
+      "tariffPlanName" : "MI MUNDO S_V",
+      "selectedSvcs_s2" : "[\"VOICE\"]",
+      "selectedSvcs_s3" : "[\"VOICE\",\"SMS\",\"DATA\"]",
+      "selectedSvcs_s4" : "[\"DATA\"]",
+      "defaultAtps" : [ {
+        "servicePackageId" : 1765,
+        "chargeId" : "Test_pkg_PR",
+        "packageName" : "DYNAMIC_DATP",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "No",
+        "rental" : 0,
+        "maxCount" : 0,
+        "freeCycles" : "0"
+      } ],
+      "allowedAtps" : [ {
+        "servicePackageId" : 1746,
+        "chargeId" : "Test_pkg_PR",
+        "packageName" : "MI MUNDO S_D",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "No",
+        "rental" : 0,
+        "maxCount" : 0,
+        "freeCycles" : "0"
+      } ]
+    }
+  },
+  "test-oiuyhgf" : {
+    "tpName" : "test-oiuyhgf",
+    "username" : "USER1",
+    "networkId" : 16,
+    "data" : {
+      "username" : "USER1",
+      "isUpdate" : false,
+      "submittedOn" : "20 Apr 2026",
+      "packageType" : "POSTPAID",
+      "tariffPackCategory" : "NORMAL",
+      "tariffPackageDesc" : "test-oiuyhgf",
+      "charge" : "6765",
+      "endDate" : "04/23/2026",
+      "publicityId" : "piuhgfd",
+      "chargeId" : "test-oiuyhgf_PR",
+      "isCorporateYn" : true,
+      "tariffPlanId" : 1745,
+      "tariffPlanName" : "MI MUNDO S_DA",
+      "selectedSvcs_s2" : "[\"DATA\"]",
+      "selectedSvcs_s3" : "[\"DATA\"]",
+      "selectedSvcs_s4" : "[\"SMS\"]",
+      "defaultAtps" : [ {
+        "servicePackageId" : 1746,
+        "chargeId" : "test-oiuyhgf_PR",
+        "packageName" : "MI MUNDO S_D",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "No",
+        "rental" : 0,
+        "maxCount" : 0,
+        "freeCycles" : "0"
+      } ],
+      "allowedAtps" : [ {
+        "servicePackageId" : 1742,
+        "chargeId" : "test-oiuyhgf_PR",
+        "packageName" : "MI MUNDO S_SMS",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "No",
+        "rental" : 0,
+        "maxCount" : 0,
+        "freeCycles" : "0"
+      } ]
+    }
   }
 }

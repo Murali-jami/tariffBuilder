@@ -95,12 +95,12 @@
             </a>
         </nav>
 
-        <main class="workspace">
+        <main class="workspace" th:classappend="${activeStep == 0} ? ' admin-mode'">
 
             <!-- FLOATING PILL HEADER -->
             <header class="header-pill-bar">
                 <div class="logo">
-                     <span th:text="${username != null ? username : 'user'}">user</span>
+                   <span th:text="${username != null ? username : 'user'}">user</span>
                 </div>
                 <div class="header-pill-controls" th:classappend="${activeStep == 0} ? ' hidden'">
                     <input type="text" placeholder="Name..." class="config-name" id="configName">
@@ -129,7 +129,7 @@
                 </div>
 
                 <!-- RIGHT PANE — library sidebar -->
-                <aside class="pane pane-right sidebar" id="sidebar">
+                <aside class="pane pane-right sidebar" th:classappend="${activeStep == 0} ? ' hidden'" id="sidebar">
                     <div class="sidebar-tabs">
                         <div class="tab">LIBRARY</div>
                     </div>

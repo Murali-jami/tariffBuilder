@@ -61,9 +61,6 @@ public class BuilderController {
 
     @Autowired
     private ServicePackageService servicePackageService;
-    
-    @Autowired
-    private BundleService bundleService;
 
     // ================= LOGIN =================
 
@@ -365,9 +362,7 @@ public class BuilderController {
 
         return result;
     }
-    
-    
-    // ================= LOGOUT =================
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
 
@@ -378,44 +373,45 @@ public class BuilderController {
         return "redirect:/loginform";
     }
 
-//    @PostMapping("/clone")
-//    public ResponseEntity<?> cloneService(@RequestBody Map<String, Object> request) {
-//
-//        Long networkId = Long.valueOf(request.get("networkId").toString());
-//
-//        Long servicePackageId = Long.valueOf(request.get("servicePackageId").toString());
-//
-//        String tpName = request.get("tpName").toString();
-//
-//        logger.info("Clone request networkId={} servicePackageId={} tpName={}", networkId, servicePackageId, tpName);
-//
-//        // VALIDATION
-//        if (serviceCloneService.isTpNameExists(networkId, tpName)) {
-//
-//            logger.warn("TP name already exists for networkId={} tpName={}", networkId, tpName);
-//
-//            return ResponseEntity.ok("TP name already provided for this network");
-//        }
-//
-//        Long newPackageId = serviceCloneService.cloneService(networkId, servicePackageId, tpName);
-//
-//        logger.info("Clone completed new SERVICE_PACKAGE_ID={}", newPackageId);
-//
-//        return ResponseEntity.ok("Cloned successfully. New SERVICE_PACKAGE_ID = " + newPackageId);
-//    }
+    @PostMapping("/clone")
+    public ResponseEntity<?> cloneService(@RequestBody Map<String, Object> request) {
 
-  
+        Long networkId = Long.valueOf(request.get("networkId").toString());
 
-//    @PostMapping("/clone-atp")
-//    @ResponseBody
-//    public Long cloneAtp(@RequestBody Map<String, Object> request) {
-//
-//        Long atpId = Long.valueOf(request.get("atpId").toString());
-//        Long networkId = Long.valueOf(request.get("networkId").toString());
-//        String tpName = request.get("tpName").toString();
-//
-//        return bundleService.cloneAtpData(atpId, networkId, tpName);
-//    }
+        Long servicePackageId = Long.valueOf(request.get("servicePackageId").toString());
+
+        String tpName = request.get("tpName").toString();
+
+        logger.info("Clone request networkId={} servicePackageId={} tpName={}", networkId, servicePackageId, tpName);
+
+        // VALIDATION
+        if (serviceCloneService.isTpNameExists(networkId, tpName)) {
+
+            logger.warn("TP name already exists for networkId={} tpName={}", networkId, tpName);
+
+            return ResponseEntity.ok("TP name already provided for this network");
+        }
+
+        Long newPackageId = serviceCloneService.cloneService(networkId, servicePackageId, tpName);
+
+        logger.info("Clone completed new SERVICE_PACKAGE_ID={}", newPackageId);
+
+        return ResponseEntity.ok("Cloned successfully. New SERVICE_PACKAGE_ID = " + newPackageId);
+    }
+
+    @Autowired
+    private BundleService bundleService;
+
+    @PostMapping("/clone-atp")
+    @ResponseBody
+    public Long cloneAtp(@RequestBody Map<String, Object> request) {
+
+        Long atpId = Long.valueOf(request.get("atpId").toString());
+        Long networkId = Long.valueOf(request.get("networkId").toString());
+        String tpName = request.get("tpName").toString();
+
+        return bundleService.cloneAtpData(atpId, networkId, tpName);
+    }
 
     @Autowired
     private TariffApprovalService tariffApprovalService;

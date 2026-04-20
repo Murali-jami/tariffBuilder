@@ -1,27 +1,15 @@
 [ {
   "name" : "Untitled Draft",
-  "pkgType" : "PREPAID",
-  "pkgSubType" : "NORMAL",
-  "savedOn" : "16 Apr 2026",
-  "savedTime" : "15:07",
-  "selectedSvcs_s2" : "[\"SMS\"]",
-  "selectedSvcs_s3" : "[\"DATA\"]",
+  "pkgType" : "POSTPAID",
+  "pkgSubType" : "COMMERCIAL",
+  "savedOn" : "17 Apr 2026",
+  "savedTime" : "17:01",
+  "selectedSvcs_s2" : "[\"VOICE\"]",
+  "selectedSvcs_s3" : null,
   "selectedSvcs_s4" : null,
   "state" : {
-    "s2" : [ {
-      "id" : "1760",
-      "name" : "POSTPAID_S"
-    } ],
-    "s3" : [ {
-      "id" : "1746",
-      "name" : "MI MUNDO S_D",
-      "validity" : "Monthly",
-      "renewal" : "Yes",
-      "midnightExpiry" : "No",
-      "rental" : "9",
-      "maxCount" : "99",
-      "freeCycles" : "8"
-    } ],
+    "s2" : [ ],
+    "s3" : [ ],
     "s4" : [ ],
     "price" : "",
     "publicityCode" : "",

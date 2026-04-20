@@ -1,19 +1,11 @@
 [ {
-  "name" : "Untitled Draft",
+  "name" : "test",
   "pkgType" : "POSTPAID",
-  "pkgSubType" : "COMMERCIAL",
-  "savedOn" : "17 Apr 2026",
-  "savedTime" : "16:48",
-  "selectedSvcs_s2" : "[]",
+  "pkgSubType" : "NORMAL",
+  "savedOn" : "20 Apr 2026",
+  "savedTime" : "12:08",
+  "selectedSvcs_s2" : null,
   "selectedSvcs_s3" : null,
   "selectedSvcs_s4" : null,
-  "state" : {
-    "s2" : [ ],
-    "s3" : [ ],
-    "s4" : [ ],
-    "price" : "",
-    "publicityCode" : "",
-    "endDate" : "",
-    "isCorporate" : false
-  }
+  "state" : { }
 } ]

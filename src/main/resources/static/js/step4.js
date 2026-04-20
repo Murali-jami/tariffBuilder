@@ -116,7 +116,7 @@ function refreshSidebar() {
 
             list.innerHTML = data.map(plan => `
                 <div class="draggable-item"
-                    data-network-id="${plan.networkId || sessionStorage.getItem('networkId')}"
+                    data-network-id="${plan.networkId}"
                     data-package-id="${plan.servicePackageId}"
                     onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}')">
                     ${plan.servicePackageName}
@@ -170,7 +170,7 @@ function renderCard(item) {
     card.id = `card-s4-${item.id}`;
 
     card.innerHTML = `
-    <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
         <b>${item.name}</b>
         <span onclick="removeItem('${item.id}')" style="color:red;cursor:pointer;">✕</span>
     </div>
