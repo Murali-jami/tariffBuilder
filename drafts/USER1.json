@@ -1,11 +1,11 @@
 [ {
-  "name" : "test",
+  "name" : "sathwik",
   "pkgType" : "POSTPAID",
-  "pkgSubType" : "NORMAL",
-  "savedOn" : "20 Apr 2026",
-  "savedTime" : "12:08",
-  "selectedSvcs_s2" : null,
-  "selectedSvcs_s3" : null,
-  "selectedSvcs_s4" : null,
+  "pkgSubType" : "COMMERCIAL",
+  "savedOn" : "21 Apr 2026",
+  "savedTime" : "10:28",
+  "selectedSvcs_s2" : "[]",
+  "selectedSvcs_s3" : "[]",
+  "selectedSvcs_s4" : "[]",
   "state" : { }
 } ]

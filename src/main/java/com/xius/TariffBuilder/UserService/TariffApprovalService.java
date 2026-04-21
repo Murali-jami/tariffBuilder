@@ -267,70 +267,53 @@ public class TariffApprovalService {
         }
 
         private void insertPeriodicCharge(
-                        Map<String, Object> data,
-                        Long networkId,
-                        String username) {
+                Map<String, Object> data,
+                Long networkId,
+                String username) {
 
-                String chargeId = data.get("chargeId").toString();
+        String chargeId = data.get("chargeId").toString();
 
-                Integer count = jdbcTemplate.queryForObject(
+        Integer count = jdbcTemplate.queryForObject(
+                        """
+                                        select count(*)
+                                        from CS_RAT_PERIODIC_CHARGE_INFO
+                                        where CHARGE_ID=?
+                                        and NETWORK_ID=?
+                                        """,
+                        Integer.class,
+                        chargeId,
+                        networkId);
 
-                                """
-                                                select count(*)
-                                                from CS_RAT_PERIODIC_CHARGE_INFO
-                                                where CHARGE_ID=?
-                                                and NETWORK_ID=?
-                                                """,
+        if (count > 0)
+                return;
 
-                                Integer.class,
-                                chargeId,
-                                networkId);
+        // If no defaultAtps provided, skip ONLY this insert — approval continues
+        List<Map<String, Object>> atps = (List<Map<String, Object>>) data.get("defaultAtps");
 
-                if (count > 0)
-                        return;
+        if (atps == null || atps.isEmpty())
+                return;
 
-                List<Map<String, Object>> atps = (List<Map<String, Object>>) data.get("defaultAtps");
+        Map<String, Object> atp = atps.get(0);
 
-                Map<String, Object> atp = atps.get(0);
-
-                jdbcTemplate.update(
-
-                                """
-                                                insert into CS_RAT_PERIODIC_CHARGE_INFO
-                                                (
-                                                CHARGE_ID,
-                                                CHARGE_DESC,
-                                                NETWORK_ID,
-                                                SERVICE_TYPE,
-                                                RENTAL_TYPE,
-                                                RENTAL_PERIOD,
-                                                RENTAL_FEE,
-                                                RENTAL_FREE_CYCLES,
-                                                AUTO_RENEWAL,
-                                                PLAN_EXP_MIDNIGHT_YN,
-                                                MAX_RENEWAL_COUNT,
-                                                CREATED_BY
-                                                )
-                                                values (?,?,?,?,?,?,?,?,?,?,?,?)
-                                                """,
-
-                                chargeId,
-                                chargeId,
-                                networkId,
-
-                                data.get("tariffPlanId"),
-
-                                atp.get("validity"),
-                                1,
-                                atp.get("rental"),
-                                atp.get("freeCycles"),
-
-                                convertYN(atp.get("renewal")),
-                                convertYN(atp.get("midnightExpiry")),
-
-                                atp.get("maxCount"),
-                                username);
-        }
+        jdbcTemplate.update(
+                        """
+                                        insert into CS_RAT_PERIODIC_CHARGE_INFO
+                                        (
+                                        CHARGE_ID, CHARGE_DESC, NETWORK_ID,
+                                        SERVICE_TYPE, RENTAL_TYPE, RENTAL_PERIOD,
+                                        RENTAL_FEE, RENTAL_FREE_CYCLES, AUTO_RENEWAL,
+                                        PLAN_EXP_MIDNIGHT_YN, MAX_RENEWAL_COUNT, CREATED_BY
+                                        )
+                                        values (?,?,?,?,?,?,?,?,?,?,?,?)
+                                        """,
+                        chargeId, chargeId, networkId,
+                        data.get("tariffPlanId"),
+                        atp.get("validity"), 1,
+                        atp.get("rental"), atp.get("freeCycles"),
+                        convertYN(atp.get("renewal")),
+                        convertYN(atp.get("midnightExpiry")),
+                        atp.get("maxCount"), username);
+}
 
         private String convertYN(Object value) {
 

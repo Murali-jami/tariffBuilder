@@ -26,9 +26,7 @@ public class JsonStorage {
 	 */
 	public boolean exists(String tpName) {
 
-		logger.debug(
-				"Checking JSON existence for tpName={}",
-				tpName);
+		logger.debug("Checking JSON existence for tpName={}", tpName);
 
 		try {
 
@@ -51,9 +49,7 @@ public class JsonStorage {
 
 		catch (Exception e) {
 
-			logger.error(
-					"exists error",
-					e);
+			logger.error("exists error", e);
 
 			return false;
 		}
@@ -72,9 +68,7 @@ public class JsonStorage {
 
 			Map<String, Object> request) {
 
-		logger.info(
-				"Storing JSON tpName={}",
-				tpName);
+		logger.info("Storing JSON tpName={}", tpName);
 
 		try {
 
@@ -84,6 +78,9 @@ public class JsonStorage {
 
 			Map<String, Object> json = new LinkedHashMap<>();
 
+			/*
+			 * read existing JSON
+			 */
 			if (file.exists() && file.length() > 0) {
 
 				json = mapper.readValue(
@@ -94,48 +91,49 @@ public class JsonStorage {
 						});
 			}
 
+			/*
+			 * prepare TP data
+			 */
 			Map<String, Object> tpData = new LinkedHashMap<>();
 
-			tpData.put(
-					"tpName",
-					tpName);
+			tpData.put("tpName", tpName);
 
-			tpData.put(
-					"username",
-					username);
+			tpData.put("username", username);
 
-			tpData.put(
-					"networkId",
-					networkId);
+			tpData.put("networkId", networkId);
 
-			tpData.put(
-					"data",
-					request);
+			tpData.put("data", request);
 
-			Map<String, Object> newJson = new LinkedHashMap<>();
+			/*
+			 * remove old TP if exists prevents duplicate
+			 */
+			if (json.containsKey(tpName)) {
 
-			newJson.put(tpName, tpData);
+				logger.info("Updating existing TP {}", tpName);
 
-			newJson.putAll(json);
+				json.remove(tpName);
+			}
 
-			json = newJson;
+			/*
+			 * maintain latest TP at top
+			 */
+			Map<String, Object> orderedJson = new LinkedHashMap<>();
 
-			mapper
-					.writerWithDefaultPrettyPrinter()
-					.writeValue(
-							file,
-							json);
+			orderedJson.put(tpName, tpData);
 
-			logger.info(
-					"JSON stored {}",
-					tpName);
+			orderedJson.putAll(json);
+
+			/*
+			 * write file
+			 */
+			mapper.writerWithDefaultPrettyPrinter().writeValue(file, orderedJson);
+
+			logger.info("JSON stored successfully {}", tpName);
 		}
 
 		catch (Exception e) {
 
-			logger.error(
-					"store error",
-					e);
+			logger.error("store error", e);
 		}
 	}
 
@@ -165,9 +163,7 @@ public class JsonStorage {
 
 		catch (Exception e) {
 
-			logger.error(
-					"getAllTpNames error",
-					e);
+			logger.error("getAllTpNames error", e);
 
 			return Set.of();
 		}
@@ -178,9 +174,7 @@ public class JsonStorage {
 	 */
 	public Object getTpData(String tpName) {
 
-		logger.info(
-				"Fetching JSON for {}",
-				tpName);
+		logger.info("Fetching JSON for {}", tpName);
 
 		try {
 
@@ -203,9 +197,7 @@ public class JsonStorage {
 
 		catch (Exception e) {
 
-			logger.error(
-					"getTpData error",
-					e);
+			logger.error("getTpData error", e);
 
 			return null;
 		}
@@ -235,9 +227,7 @@ public class JsonStorage {
 
 		catch (Exception e) {
 
-			logger.error(
-					"readAll error",
-					e);
+			logger.error("readAll error", e);
 
 			return new LinkedHashMap<>();
 		}
@@ -254,21 +244,14 @@ public class JsonStorage {
 
 			File file = new File(FILE_PATH);
 
-			mapper
-					.writerWithDefaultPrettyPrinter()
-					.writeValue(
-							file,
-							json);
+			mapper.writerWithDefaultPrettyPrinter().writeValue(file, json);
 
-			logger.info(
-					"json updated");
+			logger.info("json updated");
 		}
 
 		catch (Exception e) {
 
-			logger.error(
-					"writeAll error",
-					e);
+			logger.error("writeAll error", e);
 		}
 	}
 
@@ -287,17 +270,13 @@ public class JsonStorage {
 
 			writeAll(json);
 
-			logger.info(
-					"json removed {}",
-					tpName);
+			logger.info("json removed {}", tpName);
 
 		}
 
 		catch (Exception e) {
 
-			logger.error(
-					"remove error",
-					e);
+			logger.error("remove error", e);
 		}
 	}
 
@@ -326,12 +305,9 @@ public class JsonStorage {
 
 				Object storedUser = tp.get("username");
 
-				if (storedUser != null
-						&& storedUser.toString().equals(username)) {
+				if (storedUser != null && storedUser.toString().equals(username)) {
 
-					result.put(
-							entry.getKey(),
-							tp);
+					result.put(entry.getKey(), tp);
 				}
 			}
 		}
