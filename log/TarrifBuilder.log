@@ -1,0 +1,562 @@
+[2026-04-21T08:08:12.374] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-04-21T08:08:12.766] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 21.0.9 with PID 4076 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-04-21T08:08:12.771] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-04-21T08:08:13.096] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-04-21T08:08:13.566] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-04-21T08:08:13.589] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+[2026-04-21T08:08:14.068] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8090 (http)
+[2026-04-21T08:08:14.079] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8090"]
+[2026-04-21T08:08:14.081] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-04-21T08:08:14.081] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-04-21T08:08:14.124] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1288 ms
+[2026-04-21T08:08:14.399] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-04-21T08:08:16.855] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@646d810b
+[2026-04-21T08:08:16.858] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-04-21T08:08:16.881] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-04-21T08:08:16.935] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-04-21T08:08:17.306] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-04-21T08:08:17.870] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-04-21T08:08:17.874] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.149.121:1521/ATTTEST]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/IZZI_BSSSDP_QC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-04-21T08:08:18.527] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-04-21T08:08:18.533] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-04-21T08:08:18.647] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-04-21T08:08:19.163] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8090"]
+[2026-04-21T08:08:19.190] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8090 (http) with context path '/'
+[2026-04-21T08:08:19.196] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 6.752 seconds (process running for 7.447)
+[2026-04-21T08:08:19.200] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-04-21T08:08:28.667] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log] Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2026-04-21T08:08:28.667] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Initializing Servlet 'dispatcherServlet'
+[2026-04-21T08:08:28.677] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Completed initialization in 10 ms
+[2026-04-21T08:09:02.497] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:02.497] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:09:02.497] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /login
+[2026-04-21T08:09:02.497] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-04-21T08:09:02.507] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login request received for user=user2
+[2026-04-21T08:09:02.507] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication started for loginId=user2 networkName=mundo
+[2026-04-21T08:09:02.507] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getUserPrivileges] Fetching user privileges for loginId=user2 networkName=mundo
+[2026-04-21T08:09:02.517] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-2 - Starting...
+[2026-04-21T08:09:02.733] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@48e2cba2
+[2026-04-21T08:09:02.733] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-2 - Start completed.
+[2026-04-21T08:09:02.746] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getNetworkId] Fetching networkId for networkName=mundo
+[2026-04-21T08:09:02.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication successful loginId=user2 networkId=16
+[2026-04-21T08:09:02.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login successful user=user2 networkId=16 privilegesCount=7
+[2026-04-21T08:09:02.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload networkLoginName=mundo&loginId=user2&password=12345678
+[2026-04-21T08:09:02.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 302
+[2026-04-21T08:09:02.779] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 279 ms
+[2026-04-21T08:09:02.779] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:02.785] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.builderHome] Opening builder home
+[2026-04-21T08:09:02.976] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:09:08.143] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:08.143] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:09:08.143] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /saved/list
+[2026-04-21T08:09:08.143] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-04-21T08:09:08.210] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:08.210] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {}
+[2026-04-21T08:09:08.210] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 67 ms
+[2026-04-21T08:09:08.210] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:09.844] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:09.844] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:09:09.844] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/list
+[2026-04-21T08:09:09.845] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-04-21T08:09:09.858] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:09.858] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"name":"Untitled Draft","pkgType":"POSTPAID","pkgSubType":"COMMERCIAL","savedOn":"17 Apr 2026","savedTime":"17:01","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":null,"selectedSvcs_s4":null,"state":{"s2":[],"s3":[],"s4":[],"price":"","publicityCode":"","endDate":"","isCorporate":false}}]
+[2026-04-21T08:09:09.858] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 14 ms
+[2026-04-21T08:09:09.859] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /login
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login request received for user=USER1
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication started for loginId=USER1 networkName=Mundo
+[2026-04-21T08:09:12.582] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getUserPrivileges] Fetching user privileges for loginId=USER1 networkName=Mundo
+[2026-04-21T08:09:12.614] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getNetworkId] Fetching networkId for networkName=Mundo
+[2026-04-21T08:09:12.642] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication successful loginId=USER1 networkId=16
+[2026-04-21T08:09:12.642] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login successful user=USER1 networkId=16 privilegesCount=8
+[2026-04-21T08:09:12.648] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload networkLoginName=Mundo&loginId=USER1&password=12345678
+[2026-04-21T08:09:12.648] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 302
+[2026-04-21T08:09:12.648] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 66 ms
+[2026-04-21T08:09:12.652] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:12.666] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.builderHome] Opening builder home
+[2026-04-21T08:09:12.882] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:09:20.163] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:20.163] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:09:20.163] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/list
+[2026-04-21T08:09:20.163] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-04-21T08:09:20.170] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:20.170] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"name":"Untitled Draft","pkgType":"POSTPAID","pkgSubType":"COMMERCIAL","savedOn":"17 Apr 2026","savedTime":"17:01","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":null,"selectedSvcs_s4":null,"state":{"s2":[],"s3":[],"s4":[],"price":"","publicityCode":"","endDate":"","isCorporate":false}}]
+[2026-04-21T08:09:20.170] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 7 ms
+[2026-04-21T08:09:20.170] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:21.014] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step2] Opening step2
+[2026-04-21T08:09:22.860] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:22.860] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:09:22.860] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/save
+[2026-04-21T08:09:22.860] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-04-21T08:09:22.870] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.saveDraft] Saving draft for user=user2 draftName=Untitled Draft
+[2026-04-21T08:09:22.874] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.saveDraft] Deleting draft username=user2 draftName=Untitled Draft
+[2026-04-21T08:09:22.886] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"name":"Untitled Draft","pkgType":"POSTPAID","pkgSubType":"COMMERCIAL","savedOn":"17 Apr 2026","savedTime":"17:01","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":null,"selectedSvcs_s4":null,"state":{"s2":[],"s3":[],"s4":[],"price":"","publicityCode":"","endDate":"","isCorporate":false},"_delete":true}
+[2026-04-21T08:09:22.886] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:22.886] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 26 ms
+[2026-04-21T08:09:22.886] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:24.646] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getTpPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:09:24.646] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:09:26.406] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:26.406] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:09:26.406] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:09:26.406] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:09:26.464] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1743 networkId=16
+[2026-04-21T08:09:26.665] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:09:26.665] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1743"}
+[2026-04-21T08:09:26.665] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:26.665] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"MI MUNDO S_V"}
+[2026-04-21T08:09:26.665] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 259 ms
+[2026-04-21T08:09:26.665] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:28.727] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step3] Opening step3
+[2026-04-21T08:09:30.735] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:09:30.735] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:09:31.339] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:31.339] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:09:31.339] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:09:31.339] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:09:31.339] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1750 networkId=16
+[2026-04-21T08:09:31.387] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:09:31.389] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1750"}
+[2026-04-21T08:09:31.389] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:31.389] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"400 Minutes Talktime"}
+[2026-04-21T08:09:31.389] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 59 ms
+[2026-04-21T08:09:31.389] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:35.062] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step4] Opening step4
+[2026-04-21T08:09:36.703] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=2
+[2026-04-21T08:09:36.703] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=2
+[2026-04-21T08:09:37.439] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:09:37.440] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:09:37.440] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:09:37.440] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:09:37.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1742 networkId=16
+[2026-04-21T08:09:37.487] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:09:37.490] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1742"}
+[2026-04-21T08:09:37.491] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:09:37.491] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"50 SMS"}
+[2026-04-21T08:09:37.492] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 51 ms
+[2026-04-21T08:09:37.493] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:09:41.820] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step5] Opening step5
+[2026-04-21T08:09:46.196] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-04-21T08:09:46.196] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getTariffPackages] Fetching Tariff Package names from JSON
+[2026-04-21T08:09:46.205] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Fetching TP list for admin user=USER1 networkId=16
+[2026-04-21T08:09:46.205] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] TP list response size=1
+[2026-04-21T08:09:53.842] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:10:09.259] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step2] Opening step2
+[2026-04-21T08:10:09.382] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getTpPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:10:09.382] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:10:12.165] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step3] Opening step3
+[2026-04-21T08:10:12.269] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:10:12.269] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:10:13.741] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:10:13.742] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:10:13.742] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:10:13.742] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:10:13.747] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1750 networkId=16
+[2026-04-21T08:10:13.778] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:10:13.781] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1750"}
+[2026-04-21T08:10:13.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:10:13.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"400 Minutes Talktime"}
+[2026-04-21T08:10:13.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 40 ms
+[2026-04-21T08:10:13.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:10:48.291] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:11:38.944] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step4] Opening step4
+[2026-04-21T08:11:39.067] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=2
+[2026-04-21T08:11:39.067] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=2
+[2026-04-21T08:11:50.387] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step5] Opening step5
+[2026-04-21T08:12:12.457] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:12:12.458] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:12:12.458] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /prepareSaveConfig
+[2026-04-21T08:12:12.459] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:12:12.465] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config called username=USER1 networkId=16
+[2026-04-21T08:12:12.465] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Preparing config for user=USER1 networkId=16
+[2026-04-21T08:12:12.552] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Storing config tpName=testxius username=USER1 networkId=16
+[2026-04-21T08:12:12.552] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] Storing JSON tpName=testxius
+[2026-04-21T08:12:12.562] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] JSON stored successfully testxius
+[2026-04-21T08:12:12.562] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Config prepared successfully tpName=testxius username=USER1 networkId=16
+[2026-04-21T08:12:12.562] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config completed
+[2026-04-21T08:12:12.565] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"testxius","charge":"45","endDate":"04/21/2026","publicityId":"test_pucblic","chargeId":"testxius_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"SMS\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"testxius_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"1","maxCount":"34","freeCycles":"34"}],"allowedAtps":[{"servicePackageId":1742,"chargeId":"testxius_PR","packageName":"MI MUNDO S_SMS","validity":"Weekly","midnightExpiry":"Yes","renewal":"Yes","rental":"5","maxCount":"6","freeCycles":"34"}]}
+[2026-04-21T08:12:12.565] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:12:12.565] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"testxius","message":"Tariff Package created successfully, testxius"}
+[2026-04-21T08:12:12.565] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 107 ms
+[2026-04-21T08:12:12.565] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:12:22.411] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:12:26.068] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-04-21T08:12:26.069] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getTariffPackages] Fetching Tariff Package names from JSON
+[2026-04-21T08:12:26.070] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Fetching TP list for admin user=USER1 networkId=16
+[2026-04-21T08:12:26.070] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] TP list response size=2
+[2026-04-21T08:12:28.237] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:12:28.238] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:12:28.238] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /admin/hierarchy/xius27
+[2026-04-21T08:12:28.238] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:12:28.240] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getHierarchy] Fetching hierarchy for tpName=xius27
+[2026-04-21T08:12:28.240] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.getTpData] Fetching JSON for xius27
+[2026-04-21T08:12:28.247] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:12:28.248] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"xius27","username":"USER1","networkId":16,"data":{"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"POSTPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"xius27","charge":"7865","endDate":"04/24/2026","publicityId":"pub999","chargeId":"xius27_PR","isCorporateYn":false,"tariffPlanId":1745,"tariffPlanName":"MI MUNDO S_DA","selectedSvcs_s2":"[\"DATA\"]","selectedSvcs_s3":"[\"SMS\"]","selectedSvcs_s4":"[]","defaultAtps":[{"servicePackageId":1742,"chargeId":"xius27_PR","packageName":"MI MUNDO S_SMS","validity":"Monthly","midnightExpiry":"No","renewal":"Yes","rental":"543","maxCount":"433","freeCycles":"023"}],"allowedAtps":[]}}
+[2026-04-21T08:12:28.248] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 10 ms
+[2026-04-21T08:12:28.248] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:12:39.514] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:12:39.515] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:12:39.515] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /reject/xius27
+[2026-04-21T08:12:39.516] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:12:39.530] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffApprovalService.reject] Reject request received tpName=xius27
+[2026-04-21T08:12:39.530] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.getTpData] Fetching JSON for xius27
+[2026-04-21T08:12:39.534] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.writeAll] json updated
+[2026-04-21T08:12:39.535] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffApprovalService.removeFromJson] TP removed from json storage tpName=xius27
+[2026-04-21T08:12:39.535] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffApprovalService.reject] Tariff rejected successfully tpName=xius27
+[2026-04-21T08:12:39.540] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:12:39.540] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"success":true,"message":"Tariff rejected successfully"}
+[2026-04-21T08:12:39.540] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 25 ms
+[2026-04-21T08:12:39.540] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:12:41.021] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-04-21T08:12:41.021] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getTariffPackages] Fetching Tariff Package names from JSON
+[2026-04-21T08:12:41.023] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Fetching TP list for admin user=USER1 networkId=16
+[2026-04-21T08:12:41.023] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] TP list response size=1
+[2026-04-21T08:12:43.150] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:12:46.501] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step2] Opening step2
+[2026-04-21T08:12:48.919] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getTpPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:12:48.920] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:12:49.785] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:12:49.786] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:12:49.786] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:12:49.787] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:12:49.788] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1743 networkId=16
+[2026-04-21T08:12:49.800] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:12:49.801] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1743"}
+[2026-04-21T08:12:49.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:12:49.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"MI MUNDO S_V"}
+[2026-04-21T08:12:49.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 16 ms
+[2026-04-21T08:12:49.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:12:52.554] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step3] Opening step3
+[2026-04-21T08:12:53.791] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:12:53.792] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:12:54.269] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:12:54.269] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:12:54.269] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:12:54.270] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:12:54.271] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1750 networkId=16
+[2026-04-21T08:12:54.282] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:12:54.283] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1750"}
+[2026-04-21T08:12:54.283] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:12:54.283] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"400 Minutes Talktime"}
+[2026-04-21T08:12:54.283] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 13 ms
+[2026-04-21T08:12:54.283] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:13:16.736] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step4] Opening step4
+[2026-04-21T08:13:18.264] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1
+[2026-04-21T08:13:18.264] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1
+[2026-04-21T08:13:19.074] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:13:19.074] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:13:19.075] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:13:19.075] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:13:19.077] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1750 networkId=16
+[2026-04-21T08:13:19.096] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:13:19.098] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1750"}
+[2026-04-21T08:13:19.098] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:13:19.099] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"400 Minutes Talktime"}
+[2026-04-21T08:13:19.099] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 24 ms
+[2026-04-21T08:13:19.099] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:13:22.285] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2
+[2026-04-21T08:13:22.286] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2
+[2026-04-21T08:13:23.769] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2,3
+[2026-04-21T08:13:23.769] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2,3
+[2026-04-21T08:13:24.400] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:13:24.400] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:13:24.400] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:13:24.400] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:13:24.403] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1765 networkId=16
+[2026-04-21T08:13:24.449] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:13:24.450] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1765"}
+[2026-04-21T08:13:24.451] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:13:24.451] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"DYN_DATP_50SMS_10MB_400MIN"}
+[2026-04-21T08:13:24.451] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 50 ms
+[2026-04-21T08:13:24.451] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:13:36.929] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step5] Opening step5
+[2026-04-21T08:14:43.238] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:14:43.239] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:14:43.239] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /prepareSaveConfig
+[2026-04-21T08:14:43.240] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:14:43.241] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config called username=USER1 networkId=16
+[2026-04-21T08:14:43.241] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Preparing config for user=USER1 networkId=16
+[2026-04-21T08:14:43.258] [TarrifBuilder] [WARN ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] DB validation failed: publicity exists publicityId=test networkId=16
+[2026-04-21T08:14:43.258] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config completed
+[2026-04-21T08:14:43.259] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"testxius","charge":"56","endDate":"04/21/2026","publicityId":"test","chargeId":"testxius_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"testxius_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"12","maxCount":"56","freeCycles":"6"}],"allowedAtps":[{"servicePackageId":1765,"chargeId":"testxius_PR","packageName":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"4","maxCount":"5","freeCycles":"6"}]}
+[2026-04-21T08:14:43.259] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:14:43.259] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"error":"Publicity ID already mapped in DB"}
+[2026-04-21T08:14:43.259] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 21 ms
+[2026-04-21T08:14:43.259] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:14:56.748] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:14:56.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:14:56.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /prepareSaveConfig
+[2026-04-21T08:14:56.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:14:56.753] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config called username=USER1 networkId=16
+[2026-04-21T08:14:56.754] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Preparing config for user=USER1 networkId=16
+[2026-04-21T08:14:56.771] [TarrifBuilder] [WARN ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] JSON validation failed: config already exists tpName=testxius
+[2026-04-21T08:14:56.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config completed
+[2026-04-21T08:14:56.773] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"testxius","charge":"56","endDate":"04/21/2026","publicityId":"test_xius","chargeId":"testxius_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"testxius_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"12","maxCount":"56","freeCycles":"6"}],"allowedAtps":[{"servicePackageId":1765,"chargeId":"testxius_PR","packageName":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"4","maxCount":"5","freeCycles":"6"}]}
+[2026-04-21T08:14:56.773] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:14:56.773] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"error":"Tariff Package already exists in JSON"}
+[2026-04-21T08:14:56.773] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 25 ms
+[2026-04-21T08:14:56.774] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:15:08.101] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:15:08.102] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:15:08.103] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /prepareSaveConfig
+[2026-04-21T08:15:08.103] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:15:08.106] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config called username=USER1 networkId=16
+[2026-04-21T08:15:08.107] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Preparing config for user=USER1 networkId=16
+[2026-04-21T08:15:08.146] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Storing config tpName=xiustest username=USER1 networkId=16
+[2026-04-21T08:15:08.146] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] Storing JSON tpName=xiustest
+[2026-04-21T08:15:08.149] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] JSON stored successfully xiustest
+[2026-04-21T08:15:08.149] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Config prepared successfully tpName=xiustest username=USER1 networkId=16
+[2026-04-21T08:15:08.149] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config completed
+[2026-04-21T08:15:08.150] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"xiustest","charge":"56","endDate":"04/21/2026","publicityId":"test_xius","chargeId":"xiustest_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"xiustest_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"12","maxCount":"56","freeCycles":"6"}],"allowedAtps":[{"servicePackageId":1765,"chargeId":"xiustest_PR","packageName":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"4","maxCount":"5","freeCycles":"6"}]}
+[2026-04-21T08:15:08.150] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:15:08.150] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"xiustest","message":"Tariff Package created successfully, xiustest"}
+[2026-04-21T08:15:08.150] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 49 ms
+[2026-04-21T08:15:08.151] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:15:11.106] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:15:12.865] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-04-21T08:15:12.865] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getTariffPackages] Fetching Tariff Package names from JSON
+[2026-04-21T08:15:12.867] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Fetching TP list for admin user=USER1 networkId=16
+[2026-04-21T08:15:12.867] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] TP list response size=2
+[2026-04-21T08:15:20.751] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:15:20.751] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:15:20.751] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /admin/hierarchy/testxius
+[2026-04-21T08:15:20.752] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:15:20.752] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getHierarchy] Fetching hierarchy for tpName=testxius
+[2026-04-21T08:15:20.752] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.getTpData] Fetching JSON for testxius
+[2026-04-21T08:15:20.757] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:15:20.757] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"testxius","username":"USER1","networkId":16,"data":{"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"testxius","charge":"45","endDate":"04/21/2026","publicityId":"test_pucblic","chargeId":"testxius_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"SMS\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"testxius_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"1","maxCount":"34","freeCycles":"34"}],"allowedAtps":[{"servicePackageId":1742,"chargeId":"testxius_PR","packageName":"MI MUNDO S_SMS","validity":"Weekly","midnightExpiry":"Yes","renewal":"Yes","rental":"5","maxCount":"6","freeCycles":"34"}]}}
+[2026-04-21T08:15:20.758] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 6 ms
+[2026-04-21T08:15:20.758] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:15:38.534] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:15:43.964] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:15:43.965] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:15:43.965] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /saved/list
+[2026-04-21T08:15:43.965] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:15:43.969] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:15:43.970] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"xiustest":{"tpName":"xiustest","username":"USER1","networkId":16,"data":{"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"xiustest","charge":"56","endDate":"04/21/2026","publicityId":"test_xius","chargeId":"xiustest_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"xiustest_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"12","maxCount":"56","freeCycles":"6"}],"allowedAtps":[{"servicePackageId":1765,"chargeId":"xiustest_PR","packageName":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"4","maxCount":"5","freeCycles":"6"}]}},"testxius":{"tpName":"testxius","username":"USER1","networkId":16,"data":{"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"testxius","charge":"45","endDate":"04/21/2026","publicityId":"test_pucblic","chargeId":"testxius_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"SMS\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"testxius_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"1","maxCount":"34","freeCycles":"34"}],"allowedAtps":[{"servicePackageId":1742,"chargeId":"testxius_PR","packageName":"MI MUNDO S_SMS","validity":"Weekly","midnightExpiry":"Yes","renewal":"Yes","rental":"5","maxCount":"6","freeCycles":"34"}]}}}
+[2026-04-21T08:15:43.972] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 5 ms
+[2026-04-21T08:15:43.972] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:15:45.873] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:15:51.042] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step2] Opening step2
+[2026-04-21T08:15:51.165] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getTpPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:15:51.166] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:15:52.137] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step3] Opening step3
+[2026-04-21T08:15:52.249] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:15:52.250] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:15:53.744] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step4] Opening step4
+[2026-04-21T08:15:53.883] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2,3
+[2026-04-21T08:15:53.883] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2,3
+[2026-04-21T08:15:55.286] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step5] Opening step5
+[2026-04-21T08:15:57.513] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:15:57.513] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:15:57.514] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /prepareSaveConfig
+[2026-04-21T08:15:57.514] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:15:57.515] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config called username=USER1 networkId=16
+[2026-04-21T08:15:57.515] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Preparing config for user=USER1 networkId=16
+[2026-04-21T08:15:57.532] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Storing config tpName=xiustest username=USER1 networkId=16
+[2026-04-21T08:15:57.532] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] Storing JSON tpName=xiustest
+[2026-04-21T08:15:57.533] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] Updating existing TP xiustest
+[2026-04-21T08:15:57.536] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] JSON stored successfully xiustest
+[2026-04-21T08:15:57.537] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Config prepared successfully tpName=xiustest username=USER1 networkId=16
+[2026-04-21T08:15:57.537] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config completed
+[2026-04-21T08:15:57.538] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"username":"USER1","isUpdate":true,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"xiustest","charge":"56","endDate":"04/21/2026","publicityId":"test_xius","chargeId":"xiustest_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"xiustest_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"12","maxCount":"56","freeCycles":"6"}],"allowedAtps":[{"servicePackageId":1765,"chargeId":"xiustest_PR","packageName":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"Yes","renewal":"Yes","rental":"4","maxCount":"5","freeCycles":"6"}]}
+[2026-04-21T08:15:57.538] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:15:57.538] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"xiustest","message":"Tariff Package updated successfully, xiustest"}
+[2026-04-21T08:15:57.538] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 25 ms
+[2026-04-21T08:15:57.538] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:16:00.165] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:16:03.434] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:16:03.434] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-04-21T08:16:03.435] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/list
+[2026-04-21T08:16:03.435] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:16:03.443] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:16:03.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"name":"tp_test","pkgType":"PREPAID","pkgSubType":"NORMAL","savedOn":"21 Apr 2026","savedTime":"16:30","selectedSvcs_s2":null,"selectedSvcs_s3":null,"selectedSvcs_s4":null,"state":{}}]
+[2026-04-21T08:16:03.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 10 ms
+[2026-04-21T08:16:03.446] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:16:05.296] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:16:10.248] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step2] Opening step2
+[2026-04-21T08:16:18.969] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getTpPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:16:18.969] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getPlans] Fetching TP plans networkId=16 types=1
+[2026-04-21T08:16:19.781] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:16:19.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:16:19.783] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:16:19.783] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:16:19.784] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1743 networkId=16
+[2026-04-21T08:16:19.800] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:16:19.801] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1743"}
+[2026-04-21T08:16:19.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:16:19.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"MI MUNDO S_V"}
+[2026-04-21T08:16:19.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 20 ms
+[2026-04-21T08:16:19.802] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:16:27.613] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step3] Opening step3
+[2026-04-21T08:16:34.239] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:16:34.243] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getDAtpPlans] Fetching DATP plans networkId=16 types=1
+[2026-04-21T08:16:34.931] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:16:34.931] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:16:34.932] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:16:34.932] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:16:34.934] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1750 networkId=16
+[2026-04-21T08:16:34.948] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:16:34.950] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1750"}
+[2026-04-21T08:16:34.950] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:16:34.950] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"400 Minutes Talktime"}
+[2026-04-21T08:16:34.950] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 19 ms
+[2026-04-21T08:16:34.950] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:16:37.031] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step4] Opening step4
+[2026-04-21T08:16:38.684] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1
+[2026-04-21T08:16:38.684] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1
+[2026-04-21T08:16:39.392] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:16:39.392] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:16:39.392] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:16:39.392] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:16:39.394] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1750 networkId=16
+[2026-04-21T08:16:39.499] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:16:39.501] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1750"}
+[2026-04-21T08:16:39.502] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:16:39.502] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"400 Minutes Talktime"}
+[2026-04-21T08:16:39.502] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 109 ms
+[2026-04-21T08:16:39.502] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:16:42.926] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2
+[2026-04-21T08:16:42.927] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2
+[2026-04-21T08:16:44.466] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2,3
+[2026-04-21T08:16:44.467] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePlanService.getAAtpPlans] Fetching AATP plans networkId=16 types=1,2,3
+[2026-04-21T08:16:45.196] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:16:45.197] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:16:45.197] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /description
+[2026-04-21T08:16:45.197] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:16:45.201] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] getDescription called servicePackageId=1765 networkId=16
+[2026-04-21T08:16:45.390] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.ServicePackageService.getDescription] Description fetched successfully
+[2026-04-21T08:16:45.392] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"networkId":"16","servicePackageId":"1765"}
+[2026-04-21T08:16:45.392] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:16:45.393] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"description":"DYN_DATP_50SMS_10MB_400MIN"}
+[2026-04-21T08:16:45.393] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 196 ms
+[2026-04-21T08:16:45.393] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:16:46.725] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step5] Opening step5
+[2026-04-21T08:17:17.281] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:17:17.283] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:17:17.284] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /prepareSaveConfig
+[2026-04-21T08:17:17.284] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:17:17.287] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config called username=USER1 networkId=16
+[2026-04-21T08:17:17.287] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Preparing config for user=USER1 networkId=16
+[2026-04-21T08:17:17.718] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Storing config tpName=tp_test username=USER1 networkId=16
+[2026-04-21T08:17:17.720] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] Storing JSON tpName=tp_test
+[2026-04-21T08:17:17.725] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.util.JsonStorage.store] JSON stored successfully tp_test
+[2026-04-21T08:17:17.725] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.prepareConfig] Config prepared successfully tpName=tp_test username=USER1 networkId=16
+[2026-04-21T08:17:17.727] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.prepareSaveConfig] Prepare config completed
+[2026-04-21T08:17:17.729] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"username":"USER1","isUpdate":false,"submittedOn":"21 Apr 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"tp_test","charge":"4","endDate":"04/21/2026","publicityId":"tester","chargeId":"tp_test_PR","isCorporateYn":true,"tariffPlanId":1743,"tariffPlanName":"MI MUNDO S_V","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","defaultAtps":[{"servicePackageId":1750,"chargeId":"tp_test_PR","packageName":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"No","renewal":"No","rental":0,"maxCount":0,"freeCycles":"0"}],"allowedAtps":[{"servicePackageId":1765,"chargeId":"tp_test_PR","packageName":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"No","renewal":"No","rental":0,"maxCount":0,"freeCycles":"0"}]}
+[2026-04-21T08:17:17.729] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:17:17.729] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"tp_test","message":"Tariff Package created successfully, tp_test"}
+[2026-04-21T08:17:17.729] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 448 ms
+[2026-04-21T08:17:17.730] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:17:25.739] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:17:25.739] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:17:25.739] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/save
+[2026-04-21T08:17:25.739] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:17:25.741] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.saveDraft] Saving draft for user=USER1 draftName=tp_test
+[2026-04-21T08:17:25.746] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step5] Opening step5
+[2026-04-21T08:17:25.748] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.saveDraft] Draft saved successfully username=USER1 draftName=tp_test
+[2026-04-21T08:17:25.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"name":"tp_test","pkgType":"PREPAID","pkgSubType":"NORMAL","savedOn":"21 Apr 2026","savedTime":"16:47","username":"USER1","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","state":{"s2":[{"id":"1743","name":"MI MUNDO S_V","networkId":"16"}],"s3":[{"id":"1750","name":"MI MUNDO M_VO","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"s4":[{"id":"1765","name":"DYNAMIC_DATP","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"price":"4","endDate":"2026-04-21","publicityCode":"tester","isCorporate":true}}
+[2026-04-21T08:17:25.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:17:25.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 10 ms
+[2026-04-21T08:17:25.749] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:17:56.160] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-04-21T08:17:56.160] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-04-21T08:17:56.161] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/save
+[2026-04-21T08:17:56.161] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.19.157
+[2026-04-21T08:17:56.165] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.saveDraft] Saving draft for user=USER1 draftName=tp_test
+[2026-04-21T08:17:56.171] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.SaveConfigService.saveDraft] Draft saved successfully username=USER1 draftName=tp_test
+[2026-04-21T08:17:56.172] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload {"name":"tp_test","pkgType":"PREPAID","pkgSubType":"NORMAL","savedOn":"21 Apr 2026","savedTime":"16:48","username":"USER1","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","state":{"s2":[{"id":"1743","name":"MI MUNDO S_V","networkId":"16"}],"s3":[{"id":"1750","name":"MI MUNDO M_VO","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"s4":[{"id":"1765","name":"DYNAMIC_DATP","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"price":"4","endDate":"2026-04-21","publicityCode":"tester","isCorporate":true}}
+[2026-04-21T08:17:56.172] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-04-21T08:17:56.172] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 12 ms
+[2026-04-21T08:17:56.172] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-04-21T08:17:56.189] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-04-21T08:20:14.151] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-04-21T08:20:14.152] [TarrifBuilder] [WARN ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Unauthorized admin page access
+[2026-04-21T08:23:48.687] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-04-21T08:23:49.192] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 21.0.9 with PID 12660 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-04-21T08:23:49.198] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-04-21T08:23:49.424] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-04-21T08:23:49.812] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-04-21T08:23:49.839] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
+[2026-04-21T08:23:50.422] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8090 (http)
+[2026-04-21T08:23:50.435] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8090"]
+[2026-04-21T08:23:50.437] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-04-21T08:23:50.437] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-04-21T08:23:50.493] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1241 ms
+[2026-04-21T08:23:50.755] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-04-21T08:23:51.524] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@30508066
+[2026-04-21T08:23:51.526] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-04-21T08:23:51.551] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-04-21T08:23:51.613] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-04-21T08:23:52.177] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-04-21T08:23:52.450] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-04-21T08:23:52.453] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.149.121:1521/ATTTEST]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/IZZI_BSSSDP_QC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-04-21T08:23:53.191] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-04-21T08:23:53.196] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-04-21T08:23:53.323] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-04-21T08:23:53.806] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8090"]
+[2026-04-21T08:23:53.833] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8090 (http) with context path '/'
+[2026-04-21T08:23:53.839] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 5.049 seconds (process running for 5.898)
+[2026-04-21T08:23:53.844] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-04-21T08:28:02.265] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-04-21T08:28:02.645] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 21.0.9 with PID 6136 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-04-21T08:28:02.649] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-04-21T08:28:02.909] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-04-21T08:28:03.321] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-04-21T08:28:03.346] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
+[2026-04-21T08:28:03.918] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8090 (http)
+[2026-04-21T08:28:03.931] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8090"]
+[2026-04-21T08:28:03.933] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-04-21T08:28:03.933] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-04-21T08:28:03.987] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1286 ms
+[2026-04-21T08:28:04.258] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-04-21T08:28:04.942] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@33e3bd2e
+[2026-04-21T08:28:04.945] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-04-21T08:28:04.970] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-04-21T08:28:05.019] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-04-21T08:28:05.383] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-04-21T08:28:05.622] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-04-21T08:28:05.626] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.149.121:1521/ATTTEST]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/IZZI_BSSSDP_QC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-04-21T08:28:06.369] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-04-21T08:28:06.376] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-04-21T08:28:06.504] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-04-21T08:28:06.928] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8090"]
+[2026-04-21T08:28:06.958] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8090 (http) with context path '/'
+[2026-04-21T08:28:06.965] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 4.636 seconds (process running for 5.325)
+[2026-04-21T08:28:06.970] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully

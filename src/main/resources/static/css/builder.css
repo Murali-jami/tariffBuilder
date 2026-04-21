@@ -897,6 +897,7 @@ body {
  
 .nav-clock {
     font-size: 14px;
+    color: #64748b;
     font-weight: 600;
     letter-spacing: 0.03em;
     white-space: nowrap;

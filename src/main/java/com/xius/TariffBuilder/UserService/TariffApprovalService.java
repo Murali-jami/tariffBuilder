@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -18,326 +20,433 @@ import com.xius.TariffBuilder.util.JsonStorage;
 @Service
 public class TariffApprovalService {
 
-        @Autowired
-        private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-        @Autowired
-        private JsonStorage jsonStorage;
+	@Autowired
+	private JsonStorage jsonStorage;
 
-        @Autowired
-        private ServiceCloneService serviceCloneService;
+	@Autowired
+	private ServiceCloneService serviceCloneService;
 
-        @Autowired
-        private BundleService bundleService;
+	@Autowired
+	private BundleService bundleService;
 
-        private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	private static final Logger logger = LoggerFactory.getLogger(TariffApprovalService.class);
 
-        @Transactional(rollbackFor = Exception.class)
-        public Map<String, Object> approve(String tpName) {
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
-                Map<String, Object> json = (Map<String, Object>) jsonStorage.getTpData(tpName);
+	@Transactional(rollbackFor = Exception.class)
+	public Map<String, Object> approve(String tpName) {
 
-                if (json == null)
-                        throw new RuntimeException("JSON NOT FOUND");
+		long startTime = System.currentTimeMillis();
 
-                Map<String, Object> data = (Map<String, Object>) json.get("data");
+		logger.info("Approve request received tpName={}", tpName);
 
-                Long networkId = Long.valueOf(json.get("networkId").toString());
+		Map<String, Object> json = (Map<String, Object>) jsonStorage.getTpData(tpName);
 
-                String username = json.get("username").toString();
+		if (json == null) {
 
-                /*
-                 * STEP 1
-                 * periodic charge
-                 */
-                insertPeriodicCharge(data, networkId, username);
+			logger.error("Tariff approval failed JSON not found tpName={}", tpName);
 
-                /*
-                 * STEP 2
-                 * clone service plan
-                 */
-                Long newServicePlanId = serviceCloneService.cloneService(
-                                networkId,
-                                Long.valueOf(
-                                                data.get("tariffPlanId").toString()),
-                                tpName);
-                /*
-                 * STEP 3
-                 * clone ATPs and capture newly created ATP IDs
-                 */
-                Set<Long> newAtpIds = new LinkedHashSet<>();
+			throw new RuntimeException("JSON NOT FOUND");
+		}
 
-                List<Map<String, Object>> defaultAtps = (List<Map<String, Object>>) data.get("defaultAtps");
+		Map<String, Object> data = (Map<String, Object>) json.get("data");
 
-                if (defaultAtps != null) {
+		Long networkId = Long.valueOf(json.get("networkId").toString());
 
-                        for (Map<String, Object> atp : defaultAtps) {
+		String username = json.get("username").toString();
 
-                                Long oldAtpId = Long.valueOf(
-                                                atp.get("servicePackageId").toString());
+		/* REQUEST BODY */
 
-                                Long newAtpId = bundleService.cloneAtpData(
-                                                oldAtpId,
-                                                networkId,
-                                                tpName);
+		logger.info("Approve request payload tpName={} networkId={} username={} data={}", tpName, networkId, username,
+				data);
 
-                                newAtpIds.add(newAtpId);
-                        }
-                }
+		try {
 
-                List<Map<String, Object>> addAtps = (List<Map<String, Object>>) data.get("additionalAtps");
+			/* periodic charge */
 
-                if (addAtps != null) {
+			logger.info("Processing periodic charge chargeId={}", data.get("chargeId"));
 
-                        for (Map<String, Object> atp : addAtps) {
+			insertPeriodicCharge(data, networkId, username);
 
-                                Long oldAtpId = Long.valueOf(
-                                                atp.get("servicePackageId").toString());
+			/* clone base service */
 
-                                Long newAtpId = bundleService.cloneAtpData(
-                                                oldAtpId,
-                                                networkId,
-                                                tpName);
+			logger.info("Cloning base service plan servicePackageId={}", data.get("tariffPlanId"));
 
-                                newAtpIds.add(newAtpId);
-                        }
-                }
-                /*
-                 * STEP 4
-                 * generate tariff package id
-                 */
-                Long tariffId = jdbcTemplate.queryForObject(
-                                "select SEQ_TARIFF_PACK_ID.nextval from dual",
-                                Long.class);
-                /*
-                 * STEP 5
-                 * insert tariff package
-                 */
-                jdbcTemplate.update(
+			Long newServicePlanId = serviceCloneService.cloneService(networkId,
+					Long.valueOf(data.get("tariffPlanId").toString()), tpName);
 
-                                """
-                                                insert into CS_RAT_TARIFF_PACKAGE
-                                                (
-                                                TARIFF_PACKAGE_ID,
-                                                TARIFF_PACKAGE_DESC,
-                                                NETWORK_ID,
-                                                END_DATE,
-                                                PUBLICITY_ID,
-                                                CHARGE_ID,
-                                                PACKAGE_TYPE,
-                                                IS_CORPORATE_YN,
-                                                TARIFF_PACK_CATEGORY
-                                                )
-                                                values (?,?,?,?,?,?,?,?,?)
-                                                """,
+			logger.info("Base service cloned newServicePlanId={}", newServicePlanId);
 
-                                tariffId,
-                                data.get("tariffPackageDesc"),
-                                networkId,
+			/* clone ATP */
 
-                                Date.valueOf(
-                                                LocalDate.parse(
-                                                                data.get("endDate").toString(),
-                                                                formatter)),
+			Set<Long> newAtpIds = new LinkedHashSet<>();
 
-                                data.get("publicityId"),
-                                data.get("chargeId"),
-                                data.get("packageType"),
-                                convertYN(data.get("isCorporateYn")),
-                                data.get("tariffPackCategory"));
-                /*
-                 * STEP 6
-                 * publicity mapping
-                 */
-                jdbcTemplate.update(
+			List<Map<String, Object>> defaultAtps = (List<Map<String, Object>>) data.get("defaultAtps");
 
-                                """
-                                                insert into CS_RAT_TPID_VS_PUBLICITYID
-                                                (
-                                                NETWORK_ID,
-                                                TARIFF_PACKAGE_ID,
-                                                TARIFF_PACKAGE_DESC,
-                                                PUBLICITY_ID,
-                                                RECORD_INSERTED_BY,
-                                                REC_INSERTED_DATE
-                                                )
-                                                values (?,?,?,?,?,sysdate)
-                                                """,
-                                networkId,
-                                tariffId,
-                                data.get("tariffPackageDesc"),
-                                data.get("publicityId"),
-                                username);
-                /*
-                 * STEP 7
-                 * map TP → cloned service plan
-                 */
-                jdbcTemplate.update(
+			if (defaultAtps != null) {
 
-                                """
-                                                insert into CS_RAT_TARIFF_SERVICE_PACK_MAP
-                                                (
-                                                TARIFF_PACKAGE_ID,
-                                                SERVICE_PACKAGE_ID,
-                                                NETWORK_ID,
-                                                TARIFF_PLAN_TYPE
-                                                )
-                                                values (?,?,?,?)
-                                                """,
+				for (Map<String, Object> atp : defaultAtps) {
 
-                                tariffId,
-                                newServicePlanId,
-                                networkId,
-                                "TP");
-                /*
-                 * STEP 8
-                 * map TP → cloned ATPs
-                 * using newly created ATP IDs
-                 */
-                for (Long newAtpId : newAtpIds) {
+					Long oldAtpId = Long.valueOf(atp.get("servicePackageId").toString());
 
-                        jdbcTemplate.update(
+					logger.info("Cloning default ATP servicePackageId={}", oldAtpId);
 
-                                        """
-                                                        insert into CS_RAT_TARIFF_SERVICE_PACK_MAP
-                                                        (
-                                                        TARIFF_PACKAGE_ID,
-                                                        SERVICE_PACKAGE_ID,
-                                                        NETWORK_ID,
-                                                        TARIFF_PLAN_TYPE,
-                                                        CHARGE_ID,
-                                                        PRIORITY,
-                                                        SERVICE_DURATION
-                                                        )
-                                                        values (?,?,?,?,?,?,?)
-                                                        """,
-                                        tariffId,
-                                        newAtpId,
-                                        networkId,
-                                        "DATP",
-                                        data.get("chargeId"),
-                                        1,
-                                        30);
-                }
-                /*
-                 * STEP 9
-                 * approval status
-                 */
-                jdbcTemplate.update(
+					Long newAtpId = bundleService.cloneAtpData(oldAtpId, networkId, tpName);
 
-                                """
-                                                insert into CS_TARIFF_PACK_AP_REG_STATUS
-                                                (
-                                                NETWORK_ID,
-                                                TARIFF_PACKAGE_ID,
-                                                TARIFF_PACKAGE_NAME,
-                                                STATUS
-                                                )
-                                                values (?,?,?,?)
-                                                """,
+					newAtpIds.add(newAtpId);
 
-                                networkId,
-                                tariffId,
-                                data.get("tariffPackageDesc"),
-                                "A");
+					logger.info("Default ATP cloned newServicePackageId={}", newAtpId);
+				}
+			}
 
-                /*
-                 * STEP 10
-                 * remove json after success
-                 */
-                removeFromJson(tpName);
+			List<Map<String, Object>> addAtps = (List<Map<String, Object>>) data.get("additionalAtps");
 
-                return Map.of(
-                                "tariffPackageId",
-                                tariffId);
-        }
+			if (addAtps != null) {
 
-        @Transactional
-        public void reject(String tpName) {
+				for (Map<String, Object> atp : addAtps) {
 
-                Map<String, Object> json = (Map<String, Object>) jsonStorage.getTpData(tpName);
+					Long oldAtpId = Long.valueOf(atp.get("servicePackageId").toString());
 
-                if (json == null) {
-                        throw new RuntimeException("JSON NOT FOUND");
-                }
+					logger.info("Cloning additional ATP servicePackageId={}", oldAtpId);
 
-                /* only remove JSON */
+					Long newAtpId = bundleService.cloneAtpData(oldAtpId, networkId, tpName);
 
-                removeFromJson(tpName);
-        }
+					newAtpIds.add(newAtpId);
 
-        private void insertPeriodicCharge(
-                Map<String, Object> data,
-                Long networkId,
-                String username) {
+					logger.info("Additional ATP cloned newServicePackageId={}", newAtpId);
+				}
+			}
 
-        String chargeId = data.get("chargeId").toString();
+			logger.info("Total ATPs created count={}", newAtpIds.size());
 
-        Integer count = jdbcTemplate.queryForObject(
-                        """
-                                        select count(*)
-                                        from CS_RAT_PERIODIC_CHARGE_INFO
-                                        where CHARGE_ID=?
-                                        and NETWORK_ID=?
-                                        """,
-                        Integer.class,
-                        chargeId,
-                        networkId);
+			/* generate tariff id */
 
-        if (count > 0)
-                return;
+			Long tariffId = jdbcTemplate.queryForObject("select SEQ_TARIFF_PACK_ID.nextval from dual", Long.class);
 
-        // If no defaultAtps provided, skip ONLY this insert — approval continues
-        List<Map<String, Object>> atps = (List<Map<String, Object>>) data.get("defaultAtps");
+			logger.info("Generated tariff package id tariffId={}", tariffId);
 
-        if (atps == null || atps.isEmpty())
-                return;
+			/* insert tariff package */
 
-        Map<String, Object> atp = atps.get(0);
+			logger.info("Creating tariff package tariffId={} tariffName={}", tariffId, data.get("tariffPackageDesc"));
 
-        jdbcTemplate.update(
-                        """
-                                        insert into CS_RAT_PERIODIC_CHARGE_INFO
-                                        (
-                                        CHARGE_ID, CHARGE_DESC, NETWORK_ID,
-                                        SERVICE_TYPE, RENTAL_TYPE, RENTAL_PERIOD,
-                                        RENTAL_FEE, RENTAL_FREE_CYCLES, AUTO_RENEWAL,
-                                        PLAN_EXP_MIDNIGHT_YN, MAX_RENEWAL_COUNT, CREATED_BY
-                                        )
-                                        values (?,?,?,?,?,?,?,?,?,?,?,?)
-                                        """,
-                        chargeId, chargeId, networkId,
-                        data.get("tariffPlanId"),
-                        atp.get("validity"), 1,
-                        atp.get("rental"), atp.get("freeCycles"),
-                        convertYN(atp.get("renewal")),
-                        convertYN(atp.get("midnightExpiry")),
-                        atp.get("maxCount"), username);
-}
+			jdbcTemplate.update(
 
-        private String convertYN(Object value) {
+					"""
+							insert into CS_RAT_TARIFF_PACKAGE
+							(
+							TARIFF_PACKAGE_ID,
+							TARIFF_PACKAGE_DESC,
+							NETWORK_ID,
+							END_DATE,
+							PUBLICITY_ID,
+							CHARGE_ID,
+							PACKAGE_TYPE,
+							IS_CORPORATE_YN,
+							TARIFF_PACK_CATEGORY
+							)
+							values (?,?,?,?,?,?,?,?,?)
+							""",
 
-                if (value == null)
-                        return "N";
+					tariffId,
 
-                String v = value.toString();
+					data.get("tariffPackageDesc"),
 
-                if (v.equalsIgnoreCase("Y")
-                                || v.equalsIgnoreCase("YES")
-                                || v.equalsIgnoreCase("true"))
+					networkId,
 
-                        return "Y";
+					Date.valueOf(LocalDate.parse(data.get("endDate").toString(), formatter)),
 
-                return "N";
-        }
+					data.get("publicityId"),
 
-        private void removeFromJson(String tpName) {
+					data.get("chargeId"),
 
-                Map<String, Object> json = (Map<String, Object>) jsonStorage.readAll();
+					data.get("packageType"),
 
-                json.remove(tpName);
+					convertYN(data.get("isCorporateYn")),
 
-                jsonStorage.writeAll(json);
-        }
+					data.get("tariffPackCategory"));
 
+			logger.info("Tariff package inserted tariffId={}", tariffId);
+
+			/* publicity mapping */
+
+			logger.info("Mapping publicity tariffId={} publicityId={}", tariffId, data.get("publicityId"));
+
+			jdbcTemplate.update(
+
+					"""
+							insert into CS_RAT_TPID_VS_PUBLICITYID
+							(
+							NETWORK_ID,
+							TARIFF_PACKAGE_ID,
+							TARIFF_PACKAGE_DESC,
+							PUBLICITY_ID,
+							RECORD_INSERTED_BY,
+							REC_INSERTED_DATE
+							)
+							values (?,?,?,?,?,sysdate)
+							""",
+
+					networkId,
+
+					tariffId,
+
+					data.get("tariffPackageDesc"),
+
+					data.get("publicityId"),
+
+					username);
+
+			logger.info("Publicity mapping inserted tariffId={}", tariffId);
+
+			/* map service */
+
+			logger.info("Mapping tariff to base service tariffId={} serviceId={}", tariffId, newServicePlanId);
+
+			jdbcTemplate.update(
+
+					"""
+							insert into CS_RAT_TARIFF_SERVICE_PACK_MAP
+							(
+							TARIFF_PACKAGE_ID,
+							SERVICE_PACKAGE_ID,
+							NETWORK_ID,
+							TARIFF_PLAN_TYPE
+							)
+							values (?,?,?,?)
+							""",
+
+					tariffId,
+
+					newServicePlanId,
+
+					networkId,
+
+					"TP");
+
+			logger.info("Base service mapping completed");
+
+			/* map ATP */
+
+			for (Long newAtpId : newAtpIds) {
+
+				logger.info("Mapping tariff to ATP tariffId={} atpId={}", tariffId, newAtpId);
+
+				jdbcTemplate.update(
+
+						"""
+								insert into CS_RAT_TARIFF_SERVICE_PACK_MAP
+								(
+								TARIFF_PACKAGE_ID,
+								SERVICE_PACKAGE_ID,
+								NETWORK_ID,
+								TARIFF_PLAN_TYPE,
+								CHARGE_ID,
+								PRIORITY,
+								SERVICE_DURATION
+								)
+								values (?,?,?,?,?,?,?)
+								""",
+
+						tariffId,
+
+						newAtpId,
+
+						networkId,
+
+						"DATP",
+
+						data.get("chargeId"),
+
+						1,
+
+						30);
+			}
+
+			logger.info("ATP mapping completed tariffId={}", tariffId);
+
+			/* approval status */
+
+			logger.info("Updating approval status tariffId={} status=A", tariffId);
+
+			jdbcTemplate.update(
+
+					"""
+							insert into CS_TARIFF_PACK_AP_REG_STATUS
+							(
+							NETWORK_ID,
+							TARIFF_PACKAGE_ID,
+							TARIFF_PACKAGE_NAME,
+							STATUS
+							)
+							values (?,?,?,?)
+							""",
+
+					networkId,
+
+					tariffId,
+
+					data.get("tariffPackageDesc"),
+
+					"A");
+
+			/* remove json */
+
+			logger.info("Removing TP json tpName={}", tpName);
+
+			removeFromJson(tpName);
+
+			long time = System.currentTimeMillis() - startTime;
+
+			/* RESPONSE BODY */
+
+			Map<String, Object> response = Map.of("tariffPackageId", tariffId);
+
+			logger.info("Approve response payload {}", response);
+
+			logger.info("Tariff created successfully tariffId={} executionTime={}ms", tariffId, time);
+
+			return response;
+
+		} catch (Exception ex) {
+
+			logger.error("Tariff creation failed tpName={} error={}", tpName, ex.getMessage(), ex);
+
+			throw ex;
+		}
+	}
+
+	@Transactional
+	public void reject(String tpName) {
+
+		logger.info("Reject request received tpName={}", tpName);
+
+		Map<String, Object> json = (Map<String, Object>) jsonStorage.getTpData(tpName);
+
+		if (json == null) {
+
+			logger.error("Reject failed JSON not found tpName={}", tpName);
+
+			throw new RuntimeException("JSON NOT FOUND");
+		}
+
+		removeFromJson(tpName);
+
+		logger.info("Tariff rejected successfully tpName={}", tpName);
+	}
+
+	private void insertPeriodicCharge(Map<String, Object> data, Long networkId, String username) {
+
+		String chargeId = data.get("chargeId").toString();
+
+		logger.info("Checking periodic charge chargeId={} networkId={}", chargeId, networkId);
+
+		Integer count = jdbcTemplate.queryForObject(
+
+				"""
+						select count(*)
+						from CS_RAT_PERIODIC_CHARGE_INFO
+						where CHARGE_ID=?
+						and NETWORK_ID=?
+						""",
+
+				Integer.class,
+
+				chargeId,
+
+				networkId);
+
+		if (count > 0) {
+
+			logger.info("Periodic charge already exists chargeId={}", chargeId);
+
+			return;
+		}
+
+		List<Map<String, Object>> atps = (List<Map<String, Object>>) data.get("defaultAtps");
+
+		if (atps == null || atps.isEmpty()) {
+
+			logger.info("Default ATP not available skipping periodic charge creation");
+
+			return;
+		}
+
+		Map<String, Object> atp = atps.get(0);
+
+		logger.info("Creating periodic charge chargeId={}", chargeId);
+
+		jdbcTemplate.update(
+
+				"""
+						insert into CS_RAT_PERIODIC_CHARGE_INFO
+						(
+						CHARGE_ID,
+						CHARGE_DESC,
+						NETWORK_ID,
+						SERVICE_TYPE,
+						RENTAL_TYPE,
+						RENTAL_PERIOD,
+						RENTAL_FEE,
+						RENTAL_FREE_CYCLES,
+						AUTO_RENEWAL,
+						PLAN_EXP_MIDNIGHT_YN,
+						MAX_RENEWAL_COUNT,
+						CREATED_BY
+						)
+						values (?,?,?,?,?,?,?,?,?,?,?,?)
+						""",
+
+				chargeId,
+
+				chargeId,
+
+				networkId,
+
+				data.get("tariffPlanId"),
+
+				atp.get("validity"),
+
+				1,
+
+				atp.get("rental"),
+
+				atp.get("freeCycles"),
+
+				convertYN(atp.get("renewal")),
+
+				convertYN(atp.get("midnightExpiry")),
+
+				atp.get("maxCount"),
+
+				username);
+
+		logger.info("Periodic charge created successfully chargeId={}", chargeId);
+	}
+
+	private String convertYN(Object value) {
+
+		if (value == null)
+			return "N";
+
+		String v = value.toString();
+
+		if (v.equalsIgnoreCase("Y") || v.equalsIgnoreCase("YES") || v.equalsIgnoreCase("true"))
+			return "Y";
+
+		return "N";
+	}
+
+	private void removeFromJson(String tpName) {
+
+		Map<String, Object> json = (Map<String, Object>) jsonStorage.readAll();
+
+		json.remove(tpName);
+
+		jsonStorage.writeAll(json);
+
+		logger.info("TP removed from json storage tpName={}", tpName);
+	}
 }

@@ -1,11 +1,42 @@
 [ {
-  "name" : "sathwik",
-  "pkgType" : "POSTPAID",
-  "pkgSubType" : "COMMERCIAL",
+  "name" : "tp_test",
+  "pkgType" : "PREPAID",
+  "pkgSubType" : "NORMAL",
   "savedOn" : "21 Apr 2026",
-  "savedTime" : "10:28",
-  "selectedSvcs_s2" : "[]",
-  "selectedSvcs_s3" : "[]",
-  "selectedSvcs_s4" : "[]",
-  "state" : { }
+  "savedTime" : "16:48",
+  "username" : "USER1",
+  "selectedSvcs_s2" : "[\"VOICE\"]",
+  "selectedSvcs_s3" : "[\"VOICE\"]",
+  "selectedSvcs_s4" : "[\"VOICE\",\"SMS\",\"DATA\"]",
+  "state" : {
+    "s2" : [ {
+      "id" : "1743",
+      "name" : "MI MUNDO S_V",
+      "networkId" : "16"
+    } ],
+    "s3" : [ {
+      "id" : "1750",
+      "name" : "MI MUNDO M_VO",
+      "validity" : "Monthly",
+      "renewal" : "No",
+      "midnightExpiry" : "No",
+      "rental" : "",
+      "maxCount" : "",
+      "freeCycles" : "0"
+    } ],
+    "s4" : [ {
+      "id" : "1765",
+      "name" : "DYNAMIC_DATP",
+      "validity" : "Monthly",
+      "renewal" : "No",
+      "midnightExpiry" : "No",
+      "rental" : "",
+      "maxCount" : "",
+      "freeCycles" : "0"
+    } ],
+    "price" : "4",
+    "endDate" : "2026-04-21",
+    "publicityCode" : "tester",
+    "isCorporate" : true
+  }
 } ]

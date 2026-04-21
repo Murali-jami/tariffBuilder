@@ -52,14 +52,14 @@ public class SaveConfigService {
 		if (dao.checkTariffExists(networkId, tpName)) {
 
 			logger.warn("DB validation failed: tariff exists tpName={} networkId={}", tpName, networkId);
-			response.put("error", "Tariff already exists in DB");
+			response.put("error", "Tariff Package already exists in DB");
 			return response;
 		}
 
 		if (dao.checkPublicityExists(networkId, publicityId)) {
 
 			logger.warn("DB validation failed: publicity exists publicityId={} networkId={}", publicityId, networkId);
-			response.put("error", "Publicity already mapped in DB");
+			response.put("error", "Publicity ID already mapped in DB");
 			return response;
 		}
 
@@ -68,7 +68,7 @@ public class SaveConfigService {
 		// JSON DUPLICATE CHECK — skip if this is an update
 		if (!isUpdate && jsonStorage.exists(tpName)) {
 			logger.warn("JSON validation failed: config already exists tpName={}", tpName);
-			response.put("error", "Tariff already prepared in JSON");
+			response.put("error", "Tariff Package already exists in JSON");
 			return response;
 		}
 
@@ -81,7 +81,8 @@ public class SaveConfigService {
 		logger.info("Config prepared successfully tpName={} username={} networkId={}", tpName, username, networkId);
 
 		response.put("message",
-				isUpdate ? "Configuration updated successfully" : "Configuration prepared successfully");
+                isUpdate ? "Tariff Package updated successfully, " + tpName
+                        : "Tariff Package created successfully, " + tpName);
 
 		response.put("tpName", tpName);
 

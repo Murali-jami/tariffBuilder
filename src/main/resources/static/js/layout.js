@@ -4,6 +4,10 @@ window.addEventListener("pageshow", () => {
 
 window.isInternalNavigation = false;
 
+if (USERNAME) {
+    sessionStorage.setItem('username', USERNAME);
+}
+
 function saveDraftOnExit() {
     if (window.isInternalNavigation) return;
 
@@ -26,6 +30,8 @@ function saveDraftOnExit() {
     const savedTime = now.toLocaleTimeString('en-GB', {
         hour: '2-digit', minute: '2-digit'
     });
+	
+	const username = sessionStorage.getItem('username') || 'guest';
 
     const payload = JSON.stringify({
         name: configName || 'Untitled Draft',
@@ -33,6 +39,7 @@ function saveDraftOnExit() {
         pkgSubType: sessionStorage.getItem('pkgSubType'),
         savedOn,
         savedTime,
+		username,
         selectedSvcs_s2: sessionStorage.getItem('selectedSvcs_s2'),
         selectedSvcs_s3: sessionStorage.getItem('selectedSvcs_s3'),
         selectedSvcs_s4: sessionStorage.getItem('selectedSvcs_s4'),
@@ -243,11 +250,11 @@ function manualSaveDraft() {
 
     })
         .then(() => {
-            alert("Draft saved successfully ✅");
+            alert('Draft saved — ' + configName);
         })
-
+ 
         .catch(() => {
-            alert("Failed to save draft ❌");
+            alert('Failed to save draft — ' + configName);
         });
 }
 
@@ -648,7 +655,7 @@ function checkStepAccess(targetStep) {
     const hasStep2Data = state.s2 && Array.isArray(state.s2) && state.s2.length > 0;
 
     if (targetStep > 2 && !hasStep2Data) {
-        alert("Please select Service Plan in Step 2");
+        alert("Please select a Service Plan in Step 2");
         return false;
     }
 
@@ -688,7 +695,7 @@ async function saveConfiguration() {
     const isUpdate = sessionStorage.getItem("isUpdate") === "true";
 
     if (!state?.s2?.length) {
-        alert("Step 2 required");
+       alert('Service Plan selection in Step 2 is required');
         return;
     }
 
@@ -845,7 +852,7 @@ async function saveConfiguration() {
         window.location.href = "/builder/step1";
     } catch (error) {
         console.error(error);
-        alert("Server error");
+        alert("Server error — please try again");
     }
 }
 
@@ -1043,10 +1050,8 @@ function approvePackage(tpName, btn) {
 
             console.log("APPROVED", data);
 
-            alert(
-                "Tariff Created : "
-                + data.tariffPackageId
-            );
+           alert(tpName + ' approved, ' + "Tariff Package Created with ID : "
+                + data.tariffPackageId);
 
             window.location.href = '/builder/admin';
 
@@ -1081,7 +1086,7 @@ function rejectPackage(tpName, btn) {
 
             console.log("REJECTED", data);
 
-            alert("Rejected");
+           alert(tpName + ' rejected');
 
             window.location.href = '/builder/admin';
 
@@ -1311,7 +1316,7 @@ function deleteSaved(tpName, e) {
             loadSaved(); // reload list
         })
         .catch(() => {
-            alert("Delete failed ❌");
+            alert("Delete failed ");
         });
 }
 

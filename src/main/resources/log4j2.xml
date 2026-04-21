@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">[%d{yyyy-MM-dd'T'HH:mm:ss.SSS}{GMT-3}] [TarrifBuilder] [%-5p]  [%c.%M] %m%n</Property>
+        <Property name="APP_LOG_ROOT">./log/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console"  ignoreExceptions="true">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console> 
+
+ <!-- Rolling file appender with ignoreExceptions enabled -->
+        <RollingFile name="appLog"
+            fileName="${APP_LOG_ROOT}/TarrifBuilder.log"
+            filePattern="${APP_LOG_ROOT}/TarrifBuilder-%d{yyyy-MM-dd'T'HH-mm-ss}-%i.log" ignoreExceptions="true">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+    </Appenders>
+    
+     <!-- Disable noisy RMI and JMX logging -->
+    <Loggers>
+    <Logger name="sun.rmi" level="off"/>
+    <Logger name="javax.management.remote.rmi" level="off"/>
+    <Logger name="javax.management" level="off"/>
+    <Logger name="java.rmi" level="off"/>
+    
+     <!-- Your application logging -->
+    
+        <Logger name="com" additivity="false">
+            <AppenderRef ref="appLog" />
+            <AppenderRef ref="Console" />
+        </Logger>
+         <!-- Root logger -->
+        <Root level="info">
+            <AppenderRef ref="appLog" />
+        </Root>
+    </Loggers>
+</Configuration>
