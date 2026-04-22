@@ -62,8 +62,5 @@ function selectSubType(subType) {
     );
     document.getElementById('card-' + subType).classList.add('selected');
 
-    setTimeout(() => {
-        window.isInternalNavigation = true;
-        window.location.href = "/builder/step2";
-    }, 300);
+   
 }

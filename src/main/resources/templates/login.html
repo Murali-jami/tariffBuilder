@@ -1,63 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Xius Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/jpeg" href="/images/favicon.jpeg">
     <link rel="stylesheet" th:href="@{/css/builder.css}">
 </head>
-
+ 
 <body class="login-body">
-
-    <div class="navbar">
-        <img th:src="@{/images/logo.png}" alt="Xius Logo" style="height:50px; vertical-align:middle;">
-    </div>
-
-    <div class="login-card">
-
-        <span class="material-icons login-icon">lock</span>
-
-        <div class="login-subtitle">
-            Enter your credentials to access the system
+     
+     
+    <div class="login-shell">
+        <div class="login-left">
+            <div class="left-overlay"></div>
+            <div class="left-content">
+                <!-- <img th:src="@{/images/logo.png}" alt="Xius Logo" class="panel-logo"> -->
+                <img th:src="@{/images/tariff.png}" class="tariff-img" alt="Tariff Builder">
+               
+            </div>
         </div>
-
-        <div th:if="${message != null}" style="color:red; margin-bottom:10px;" th:text="${message}"></div>
-
-        <form th:action="@{/login}" th:object="${loginForm}" method="post" autocomplete="off">
-
-            <div class="input-box">
-                <label>Network *</label>
-                <div class="input-wrapper">
-                    <input type="text" th:field="*{networkLoginName}" placeholder="Enter network name">
-                    <span class="material-icons">dns</span>
+ 
+        <div class="login-right">
+            <div class="login-form-card">
+                <div class="login-heading">
+                   
+                    <h1>Login</h1>
+                    <p>Enter your credentials to access the system</p>
                 </div>
+ 
+                <div th:if="${message != null}" class="error-message" th:text="${message}"></div>
+ 
+                <form th:action="@{/login}" th:object="${loginForm}" method="post" autocomplete="off">
+                    <div class="input-box">
+                        <label>Network *</label>
+                        <div class="input-wrapper">
+                            <input type="text" th:field="*{networkLoginName}" placeholder="Enter network name">
+                            <span class="material-icons">dns</span>
+                        </div>
+                    </div>
+ 
+                    <div class="input-box">
+                       <label>Username *</label>
+                        <div class="input-wrapper">
+                            <input type="text" th:field="*{loginId}" placeholder="Enter username">
+                            <span class="material-icons">person</span>
+                        </div>
+                    </div>
+ 
+                    <div class="input-box">
+                        <label>Password *</label>
+                        <div class="input-wrapper">
+                            <input type="password" th:field="*{password}" placeholder="Enter password">
+                            <span class="material-icons">lock</span>
+                        </div>
+                    </div>
+ 
+                    <div class="login-buttons">
+						<button type="button" class="btn-cancel" onclick="clearForm()">Cancel</button>
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="input-box">
-                <label>Username *</label>
-                <div class="input-wrapper">
-                    <input type="text" th:field="*{loginId}" placeholder="Enter username">
-                    <span class="material-icons">person</span>
-                </div>
-            </div>
-
-            <div class="input-box">
-                <label>Password *</label>
-                <div class="input-wrapper">
-                    <input type="password" th:field="*{password}" placeholder="Enter password">
-                    <span class="material-icons">lock</span>
-                </div>
-            </div>
-
-            <div class="login-buttons">
-                <button type="reset" class="btn-cancel">Cancel</button>
-                <button type="submit" class="btn-submit">Submit</button>
-            </div>
-
-        </form>
+        </div>
     </div>
-
+ <script th:src="@{/js/login.js}"></script>
 </body>
 </html>
+ 

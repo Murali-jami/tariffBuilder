@@ -1,4 +1,49 @@
 {
+  "xius_test" : {
+    "tpName" : "xius_test",
+    "username" : "USer1",
+    "networkId" : 16,
+    "data" : {
+      "username" : "USer1",
+      "isUpdate" : false,
+      "submittedOn" : "22 Apr 2026",
+      "packageType" : "POSTPAID",
+      "tariffPackCategory" : "COMMERCIAL",
+      "tariffPackageDesc" : "xius_test",
+      "charge" : "999",
+      "endDate" : "04/23/2026",
+      "publicityId" : "p0099",
+      "chargeId" : "xius_test_PR",
+      "isCorporateYn" : true,
+      "tariffPlanId" : 1745,
+      "tariffPlanName" : "MI MUNDO S_DA",
+      "selectedSvcs_s2" : "[\"DATA\"]",
+      "selectedSvcs_s3" : "[\"SMS\"]",
+      "selectedSvcs_s4" : "[\"VOICE\"]",
+      "defaultAtps" : [ {
+        "servicePackageId" : 1742,
+        "chargeId" : "xius_test_PR",
+        "packageName" : "MI MUNDO S_SMS",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "Yes",
+        "rental" : "88",
+        "maxCount" : "8",
+        "freeCycles" : "08"
+      } ],
+      "allowedAtps" : [ {
+        "servicePackageId" : 1750,
+        "chargeId" : "xius_test_PR",
+        "packageName" : "MI MUNDO M_VO",
+        "validity" : "Monthly",
+        "midnightExpiry" : "No",
+        "renewal" : "No",
+        "rental" : 0,
+        "maxCount" : 0,
+        "freeCycles" : "0"
+      } ]
+    }
+  },
   "tp_test" : {
     "tpName" : "tp_test",
     "username" : "USER1",

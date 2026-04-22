@@ -75,9 +75,19 @@ public class ApiLogger extends OncePerRequestFilter {
 
 			log.info(String.valueOf(res.getStatus()));
 
+			String contentType = res.getContentType();
+
 			if (!responseBody.isBlank()) {
 
-				log.info("Response Payload {}", responseBody);
+			    if (contentType != null && contentType.contains("application/json")) {
+			        log.info("Response Payload {}", responseBody);
+
+			    } else if (contentType != null && contentType.contains("text/html")) {
+			        log.info("HTML response returned (status={})", res.getStatus());
+
+			    } else {
+			        log.info("Response Status {}", res.getStatus());
+			    }
 			}
 
 			log.info("Execution time {} ms", duration);
