@@ -741,7 +741,7 @@ async function saveConfiguration() {
         packageType: sessionStorage.getItem("pkgType"),
 
         tariffPackCategory: sessionStorage.getItem("pkgSubType") ||
-            "GENERAL",
+            "NORMAL",
 
         tariffPackageDesc: configName,
 

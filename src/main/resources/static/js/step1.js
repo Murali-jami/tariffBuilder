@@ -34,33 +34,70 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Existing functions (slightly improved)
 function selectType(type) {
+    const currentType = sessionStorage.getItem('pkgType');
+    const subGroup = document.getElementById('subTypeGroup');
+ 
+    // If same type clicked again → deselect everything
+    if (currentType === type) {
+        sessionStorage.removeItem('pkgType');
+        sessionStorage.removeItem('pkgSubType');
+ 
+        document.querySelectorAll('#typeSection .type-card').forEach(c =>
+            c.classList.remove('selected')
+        );
+ 
+        document.querySelectorAll('#subTypeSection .type-card').forEach(c =>
+            c.classList.remove('selected')
+        );
+ 
+        // Lock category section again
+        subGroup.style.opacity = '0.3';
+        subGroup.style.pointerEvents = 'none';
+ 
+        return;
+    }
+ 
+    // Normal selection
     sessionStorage.setItem('pkgType', type);
-
-    // Clear previous selection
+ 
     document.querySelectorAll('#typeSection .type-card').forEach(c =>
         c.classList.remove('selected')
     );
+ 
     document.getElementById('card-' + type).classList.add('selected');
-
-    // Unlock category group
-    const subGroup = document.getElementById('subTypeGroup');
+ 
+    // Unlock category section
     subGroup.style.opacity = '1';
     subGroup.style.pointerEvents = 'auto';
-
-    // Reset subtype when changing billing type
+ 
+    // Reset category when billing type changes
     document.querySelectorAll('#subTypeSection .type-card').forEach(c =>
         c.classList.remove('selected')
     );
+ 
     sessionStorage.removeItem('pkgSubType');
 }
-
+ 
 function selectSubType(subType) {
+    const currentSubType = sessionStorage.getItem('pkgSubType');
+ 
+    // If same category clicked again → deselect it
+    if (currentSubType === subType) {
+        sessionStorage.removeItem('pkgSubType');
+ 
+        document.querySelectorAll('#subTypeSection .type-card').forEach(c =>
+            c.classList.remove('selected')
+        );
+ 
+        return;
+    }
+ 
+    // Normal selection
     sessionStorage.setItem('pkgSubType', subType);
-
+ 
     document.querySelectorAll('#subTypeSection .type-card').forEach(c =>
         c.classList.remove('selected')
     );
+ 
     document.getElementById('card-' + subType).classList.add('selected');
-
-   
 }

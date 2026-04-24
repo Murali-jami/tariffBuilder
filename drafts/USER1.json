@@ -1,14 +1,76 @@
 [ {
   "name" : "Untitled Draft",
-  "pkgType" : "POSTPAID",
+  "pkgType" : "PREPAID",
   "pkgSubType" : "NORMAL",
-  "savedOn" : "22 Apr 2026",
-  "savedTime" : "18:16",
+  "savedOn" : "23 Apr 2026",
+  "savedTime" : "17:29",
   "username" : "USER1",
-  "selectedSvcs_s2" : null,
-  "selectedSvcs_s3" : null,
+  "selectedSvcs_s2" : "[\"VOICE\",\"SMS\",\"DATA\"]",
+  "selectedSvcs_s3" : "[\"VOICE\",\"SMS\"]",
   "selectedSvcs_s4" : null,
-  "state" : { }
+  "state" : {
+    "s2" : [ {
+      "id" : "1747",
+      "name" : "MI MUNDO M_S",
+      "networkId" : "16"
+    } ],
+    "s3" : [ {
+      "id" : "2028",
+      "name" : "xius_vs4",
+      "validity" : "Monthly",
+      "renewal" : "No",
+      "midnightExpiry" : "No",
+      "rental" : "",
+      "maxCount" : "",
+      "freeCycles" : "0"
+    } ],
+    "s4" : [ ],
+    "price" : "",
+    "publicityCode" : "",
+    "endDate" : "",
+    "isCorporate" : false
+  }
+}, {
+  "name" : "MI",
+  "pkgType" : "PREPAID",
+  "pkgSubType" : "NORMAL",
+  "savedOn" : "23 Apr 2026",
+  "savedTime" : "16:14",
+  "username" : "USER1",
+  "selectedSvcs_s2" : "[\"VOICE\"]",
+  "selectedSvcs_s3" : "[\"VOICE\"]",
+  "selectedSvcs_s4" : null,
+  "state" : {
+    "s2" : [ {
+      "id" : "1743",
+      "name" : "MI MUNDO S_V",
+      "networkId" : "16"
+    } ],
+    "s3" : [ {
+      "id" : "2173",
+      "name" : "MI MUNDO M_VO_TP_939",
+      "validity" : "Monthly",
+      "renewal" : "No",
+      "midnightExpiry" : "No",
+      "rental" : "",
+      "maxCount" : "",
+      "freeCycles" : "0"
+    }, {
+      "id" : "1985",
+      "name" : "xius_tpt",
+      "validity" : "Monthly",
+      "renewal" : "No",
+      "midnightExpiry" : "No",
+      "rental" : "",
+      "maxCount" : "",
+      "freeCycles" : "0"
+    } ],
+    "s4" : [ ],
+    "price" : "",
+    "publicityCode" : "",
+    "endDate" : "",
+    "isCorporate" : false
+  }
 }, {
   "name" : "tp_test",
   "pkgType" : "PREPAID",
