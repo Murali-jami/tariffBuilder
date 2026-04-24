@@ -1,1 +1,20 @@
-[ ]
+[ {
+  "name" : "Untitled Draft",
+  "pkgType" : "POSTPAID",
+  "pkgSubType" : "COMMERCIAL",
+  "savedOn" : "24 Apr 2026",
+  "savedTime" : "15:14",
+  "username" : "USER2",
+  "selectedSvcs_s2" : "[]",
+  "selectedSvcs_s3" : null,
+  "selectedSvcs_s4" : null,
+  "state" : {
+    "s2" : [ ],
+    "s3" : [ ],
+    "s4" : [ ],
+    "price" : "",
+    "publicityCode" : "",
+    "endDate" : "",
+    "isCorporate" : false
+  }
+} ]

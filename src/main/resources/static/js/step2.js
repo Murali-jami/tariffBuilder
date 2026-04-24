@@ -46,10 +46,6 @@ function toggleSvc(service, el) {
     if (selectedSvcs.length === 0) {
         clearCenter();
     }
-    // else {
-    //     // optional: validate if current center plan still valid
-    //     validateCenterPlan();
-    // }
 
     refreshSidebar();
 }
@@ -61,28 +57,6 @@ function clearCenter() {
     saveState(state);
 
     document.getElementById('main-area').innerHTML = '';
-}
-
-function validateCenterPlan() {
-
-    const state = getState();
-    if (!state.s2 || state.s2.length === 0) return;
-
-    const current = state.s2[0];
-
-    const svcMap = {
-        '101': 'VOICE',
-        '104': 'VOICE',
-        '102': 'SMS',
-        '103': 'DATA'
-    };
-
-    const planSvc = svcMap[current.id];
-
-    // if selected service no longer matches
-    if (!selectedSvcs.includes(planSvc)) {
-        clearCenter();
-    }
 }
 
 // ---------- SIDEBAR ----------
@@ -105,22 +79,35 @@ function refreshSidebar() {
         .then(res => res.json())
         .then(data => {
 
+            // Always clear search regardless of result
+            const searchInput = document.getElementById('librarySearchInput');
+
+            if (searchInput) {
+
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
+
             if (!data || !data.length) {
+
                 list.innerHTML = '<p class="sidebar-text">No Plans</p>';
                 return;
             }
 
             list.innerHTML = data.map(plan => `
+		 
+		                <div class="draggable-item"
 
-                <div class="draggable-item"
-                    data-network-id="${plan.networkId}"
-                    data-package-id="${plan.servicePackageId}"
-                    onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}','${plan.networkId}')">
-                    ${plan.servicePackageName}
-                </div>
-                
-            `).join('');
+		                    data-network-id="${plan.networkId}"
+		                    data-package-id="${plan.servicePackageId}"
+		                    onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}','${plan.networkId}')">
+		                    ${plan.servicePackageName}
+							
+						</div>
+
+		            `).join('');
         })
+
         .catch(err => {
             console.error(err);
             list.innerHTML = '<p class="sidebar-text">Error loading data</p>';

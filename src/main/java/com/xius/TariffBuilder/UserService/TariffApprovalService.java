@@ -269,28 +269,28 @@ public class TariffApprovalService {
 
 			/* approval status */
 
-			logger.info("Updating approval status tariffId={} status=A", tariffId);
-
-			jdbcTemplate.update(
-
-					"""
-							insert into CS_TARIFF_PACK_AP_REG_STATUS
-							(
-							NETWORK_ID,
-							TARIFF_PACKAGE_ID,
-							TARIFF_PACKAGE_NAME,
-							STATUS
-							)
-							values (?,?,?,?)
-							""",
-
-					networkId,
-
-					tariffId,
-
-					data.get("tariffPackageDesc"),
-
-					"A");
+//			logger.info("Updating approval status tariffId={} status=A", tariffId);
+//
+//			jdbcTemplate.update(
+//
+//					"""
+//							insert into CS_TARIFF_PACK_AP_REG_STATUS
+//							(
+//							NETWORK_ID,
+//							TARIFF_PACKAGE_ID,
+//							TARIFF_PACKAGE_NAME,
+//							STATUS
+//							)
+//							values (?,?,?,?)
+//							""",
+//
+//					networkId,
+//
+//					tariffId,
+//
+//					data.get("tariffPackageDesc"),
+//
+//					"A");
 
 			/* remove json */
 

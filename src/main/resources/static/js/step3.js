@@ -4,46 +4,46 @@ function getState() {
     const stored = sessionStorage.getItem('state');
     return stored ? JSON.parse(stored) : defaultState;
 }
- 
+
 function saveState(state) {
     sessionStorage.setItem('state', JSON.stringify(state));
 }
- 
+
 // ---------- INIT ----------
 function initStep3() {
     const state = getState();
- 
+
     if (!state.s3) state.s3 = [];
- 
+
     // Always re-render from state (handles both fresh load and bfcache restore)
     document.getElementById('dropArea').innerHTML = '';
     state.s3.forEach(item => renderCard(item));
- 
+
     // Restore pills into in-memory array fresh each time
     selectedSvcs = [];
     const saved = JSON.parse(sessionStorage.getItem('selectedSvcs_s3') || '[]');
- 
+
     saved.forEach(svc => {
         const pill = document.querySelector(`.svc-pill[data-svc="${svc}"]`);
         if (pill) pill.classList.add('active');
         selectedSvcs.push(svc);
     });
- 
+
     if (saved.length) refreshSidebar();
 }
- 
+
 window.addEventListener('DOMContentLoaded', initStep3);
- 
+
 // FIX: bfcache restores don't re-fire DOMContentLoaded — re-sync DOM from state on pageshow
 window.addEventListener('pageshow', (e) => {
     if (e.persisted) initStep3();
 });
- 
+
 // ---------- SERVICE SELECTION ----------
 let selectedSvcs = [];
- 
+
 function toggleSvc(service, el) {
- 
+
     if (selectedSvcs.includes(service)) {
         selectedSvcs = selectedSvcs.filter(s => s !== service);
         el.classList.remove('active');
@@ -51,31 +51,31 @@ function toggleSvc(service, el) {
         selectedSvcs.push(service);
         el.classList.add('active');
     }
- 
+
     sessionStorage.setItem('selectedSvcs_s3', JSON.stringify(selectedSvcs));
- 
+
     if (selectedSvcs.length === 0) {
         clearCenter();
     }
- 
+
     refreshSidebar();
 }
- 
+
 function clearCenter() {
- 
+
     const state = getState();
     state.s3 = [];
     saveState(state);
- 
+
     document.getElementById('dropArea').innerHTML = '';
 }
- 
+
 function validateCenterPlans() {
- 
+
     const state = getState();
- 
+
     if (!state.s3 || state.s3.length === 0) return;
- 
+
     const svcMap = {
         '201': 'VOICE',
         '202': 'VOICE',
@@ -83,77 +83,88 @@ function validateCenterPlans() {
         '204': 'DATA',
         '205': 'DATA'
     };
- 
+
     const validItems = state.s3.filter(item => {
         const svc = svcMap[String(item.id)];
         return selectedSvcs.includes(svc);
     });
- 
+
     state.s3 = validItems;
     saveState(state);
- 
+
     const container = document.getElementById('dropArea');
     container.innerHTML = '';
     state.s3.forEach(item => renderCard(item));
 }
- 
+
 // ---------- SIDEBAR ----------
 function refreshSidebar() {
- 
+
     const list = document.getElementById('comp-list');
- 
+
     const svcMap = { VOICE: '1', SMS: '2', DATA: '3' };
     const types = selectedSvcs.map(s => svcMap[s]).sort().join(",");
- 
+
     if (!types) {
         list.innerHTML = '';
         return;
     }
- 
+
     list.innerHTML = '<p class="sidebar-text">Loading...</p>';
- 
+
     fetch(`/builder/step3/filter?types=${types}`)
         .then(res => res.json())
         .then(data => {
- 
+
+            // Always clear search regardless of result
+            const searchInput = document.getElementById('librarySearchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
+
             if (!data || !data.length) {
-                list.innerHTML = '<p class="sidebar-text">No plans</p>';
+
+                list.innerHTML = '<p class="sidebar-text">No Plans</p>';
                 return;
             }
- 
+
             list.innerHTML = data.map(plan => `
-                <div class="draggable-item"
-                    data-network-id="${plan.networkId}"
-                    data-package-id="${plan.servicePackageId}"
-                    onclick="addToCenter('${plan.servicePackageId}', '${plan.servicePackageName}')">
-                    ${plan.servicePackageName}
-                </div>
-            `).join('');
- 
+				 
+				                <div class="draggable-item"
+
+				                    data-network-id="${plan.networkId}"
+				                    data-package-id="${plan.servicePackageId}"
+				                    onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}','${plan.networkId}')">
+				                    ${plan.servicePackageName}
+									
+								</div>
+
+				            `).join('');
         })
         .catch(err => {
             console.error("Fetch error:", err);
             list.innerHTML = '<p class="sidebar-text">Error loading data</p>';
         });
 }
- 
+
 // ---------- ADD ----------
 function addToCenter(id, name) {
- 
+
     const state = getState();
- 
+
     if (!state.s3) state.s3 = [];
- 
+
     // Self-duplicate check
     if (state.s3.find(i => String(i.id) === String(id))) return;
- 
+
     // Cross-check: block if already selected in step4 (AATP)
     const s4Items = state.s4 || [];
     if (s4Items.find(i => String(i.id) === String(id))) {
         alert(`"${name}" is already selected in Allowed ATPs (AATP).`);
         return;
     }
- 
+
     const item = {
         id: String(id),
         name: name,
@@ -164,24 +175,24 @@ function addToCenter(id, name) {
         maxCount: "",
         freeCycles: "0"
     };
- 
+
     state.s3.push(item);
     saveState(state);
- 
+
     renderCard(item);
 }
- 
+
 // ---------- RENDER ----------
 function renderCard(item) {
- 
+
     const container = document.getElementById('dropArea');
- 
+
     if (document.getElementById(`card-s3-${item.id}`)) return;
- 
+
     const card = document.createElement('div');
     card.className = 'service-card';
     card.id = `card-s3-${item.id}`;
- 
+
     card.innerHTML = `
  
         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
@@ -238,39 +249,38 @@ function renderCard(item) {
             </div>
         </div>
     `;
- 
+
     container.appendChild(card);
 }
- 
+
 // ---------- UPDATE ----------
 function updateField(id, key, value) {
- 
+
     const state = getState();
     const item = state.s3.find(i => String(i.id) === String(id));
- 
+
     if (item) {
         item[key] = value;
         saveState(state);
     }
 }
- 
+
 // ---------- RENEWAL ----------
 function handleRenewalChange(id, value) {
- 
+
     updateField(id, 'renewal', value);
- 
+
     const section = document.getElementById(`renewal-${id}`);
     section.style.display = value === 'Yes' ? 'contents' : 'none';
 }
- 
+
 // ---------- REMOVE ----------
 function removeItem(id) {
- 
+
     const state = getState();
- 
+
     state.s3 = state.s3.filter(i => String(i.id) !== String(id));
     saveState(state);
- 
+
     document.getElementById(`card-s3-${id}`)?.remove();
 }
- 

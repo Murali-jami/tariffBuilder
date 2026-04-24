@@ -1,29 +1,16 @@
 [ {
   "name" : "Untitled Draft",
-  "pkgType" : "PREPAID",
-  "pkgSubType" : "NORMAL",
-  "savedOn" : "23 Apr 2026",
-  "savedTime" : "17:29",
+  "pkgType" : "POSTPAID",
+  "pkgSubType" : "COMMERCIAL",
+  "savedOn" : "24 Apr 2026",
+  "savedTime" : "17:24",
   "username" : "USER1",
-  "selectedSvcs_s2" : "[\"VOICE\",\"SMS\",\"DATA\"]",
-  "selectedSvcs_s3" : "[\"VOICE\",\"SMS\"]",
+  "selectedSvcs_s2" : "[]",
+  "selectedSvcs_s3" : "[]",
   "selectedSvcs_s4" : null,
   "state" : {
-    "s2" : [ {
-      "id" : "1747",
-      "name" : "MI MUNDO M_S",
-      "networkId" : "16"
-    } ],
-    "s3" : [ {
-      "id" : "2028",
-      "name" : "xius_vs4",
-      "validity" : "Monthly",
-      "renewal" : "No",
-      "midnightExpiry" : "No",
-      "rental" : "",
-      "maxCount" : "",
-      "freeCycles" : "0"
-    } ],
+    "s2" : [ ],
+    "s3" : [ ],
     "s4" : [ ],
     "price" : "",
     "publicityCode" : "",
