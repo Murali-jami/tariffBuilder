@@ -1,4 +1,37 @@
 [ {
+  "name" : "Untitled Draft",
+  "pkgType" : "PREPAID",
+  "pkgSubType" : null,
+  "savedOn" : "11 May 2026",
+  "savedTime" : "15:14",
+  "username" : "USER1",
+  "selectedSvcs_s2" : null,
+  "selectedSvcs_s3" : null,
+  "selectedSvcs_s4" : null,
+  "state" : { }
+}, {
+  "name" : "Test_today",
+  "pkgType" : "PREPAID",
+  "pkgSubType" : "COMMERCIAL",
+  "savedOn" : "07 May 2026",
+  "savedTime" : "14:27",
+  "username" : "USER1",
+  "selectedSvcs_s2" : "[\"VOICE\"]",
+  "selectedSvcs_s3" : "[\"VOICE\"]",
+  "selectedSvcs_s4" : "[]",
+  "state" : {
+    "s2" : [ {
+      "id" : 1743,
+      "name" : "MI MUNDO S_V"
+    } ],
+    "s3" : [ ],
+    "s4" : [ ],
+    "price" : "0",
+    "publicityCode" : "testD",
+    "endDate" : "2027-04-04",
+    "isCorporate" : false
+  }
+}, {
   "name" : "tp_test",
   "pkgType" : "PREPAID",
   "pkgSubType" : "COMMERCIAL",
