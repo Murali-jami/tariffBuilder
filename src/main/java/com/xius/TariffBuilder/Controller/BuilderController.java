@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xius.TariffBuilder.Dto.LoginRequestDto;
+import com.xius.TariffBuilder.Dto.TariffPackageDetailsDto;
 import com.xius.TariffBuilder.Dto.UsrPrivilegeDTO;
 import com.xius.TariffBuilder.Entity.ServicePlanPackMap;
 import com.xius.TariffBuilder.UserService.BundleService;
@@ -33,6 +34,7 @@ import com.xius.TariffBuilder.UserService.ServiceCloneService;
 import com.xius.TariffBuilder.UserService.ServicePackageService;
 import com.xius.TariffBuilder.UserService.ServicePlanService;
 import com.xius.TariffBuilder.UserService.TariffApprovalService;
+import com.xius.TariffBuilder.UserService.TariffPackageService;
 import com.xius.TariffBuilder.UserService.TariffService;
 import com.xius.TariffBuilder.UserService.UserLoginService;
 import com.xius.TariffBuilder.util.JsonStorage;
@@ -68,6 +70,9 @@ public class BuilderController {
 
     @Autowired
     private TariffApprovalService tariffApprovalService;
+    
+    @Autowired
+    private TariffPackageService tariffPackageService;
     
     @Autowired
     private JsonStorage jsonStorage;
@@ -391,45 +396,33 @@ public class BuilderController {
         return "redirect:/loginform";
     }
 
-//    @PostMapping("/clone")
-//    public ResponseEntity<?> cloneService(@RequestBody Map<String, Object> request) {
-//
-//        Long networkId = Long.valueOf(request.get("networkId").toString());
-//
-//        Long servicePackageId = Long.valueOf(request.get("servicePackageId").toString());
-//
-//        String tpName = request.get("tpName").toString();
-//
-//        logger.info("Clone request networkId={} servicePackageId={} tpName={}", networkId, servicePackageId, tpName);
-//
-//        // VALIDATION
-//        if (serviceCloneService.isTpNameExists(networkId, tpName)) {
-//
-//            logger.warn("TP name already exists for networkId={} tpName={}", networkId, tpName);
-//
-//            return ResponseEntity.ok("TP name already provided for this network");
-//        }
-//
-//        Long newPackageId = serviceCloneService.cloneService(networkId, servicePackageId, tpName);
-//
-//        logger.info("Clone completed new SERVICE_PACKAGE_ID={}", newPackageId);
-//
-//        return ResponseEntity.ok("Cloned successfully. New SERVICE_PACKAGE_ID = " + newPackageId);
-//    }
+    // ================= CLONE =================
 
- 
+    /*
+     * POST /clone
+     * Triggered by the Clone button in the UI.
+     * Accepts the full request body from the caller, suffixes tpName and
+     * publicityId with "_CL" inside TariffApprovalService, then executes
+     * all tariff creation queries with the cloned values.
+     * Response includes clonedTpName, clonedPublicityId, clonedChargeId
+     * in addition to the standard tariff creation fields.
+     */
+    @ResponseBody
+    @PostMapping("/clone")
+    public ResponseEntity<?> clone(@RequestBody Map<String, Object> requestBody) {
 
-//    @PostMapping("/clone-atp")
-//    @ResponseBody
-//    public Long cloneAtp(@RequestBody Map<String, Object> request) {
-//
-//        Long atpId = Long.valueOf(request.get("atpId").toString());
-//        Long networkId = Long.valueOf(request.get("networkId").toString());
-//        String tpName = request.get("tpName").toString();
-//
-//        return bundleService.cloneAtpData(atpId, networkId, tpName);
-//    }
+        String tpName = requestBody.get("tpName").toString();
 
+        logger.info("Clone request received tpName={}", tpName);
+
+        Map<String, Object> result = tariffApprovalService.clone(requestBody);
+
+        logger.info("Clone completed tpName={}", tpName);
+
+        return ResponseEntity.ok(result);
+    }
+
+    // ================= APPROVE / REJECT =================
 
     @ResponseBody
     @PostMapping("/approve/{tpName}")
@@ -552,5 +545,15 @@ public class BuilderController {
             desc = "Description not found";
         }
         return Map.of("description", desc);
+    }
+    
+    @GetMapping("/tariff-package-details")
+    public ResponseEntity<List<TariffPackageDetailsDto>> getTariffPackageDetails(
+            @RequestParam Integer networkId) {
+
+        List<TariffPackageDetailsDto> response =
+                tariffPackageService.getTariffPackageDetails(networkId);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,14 +1,22 @@
 [ {
   "name" : "Untitled Draft",
   "pkgType" : "PREPAID",
-  "pkgSubType" : null,
-  "savedOn" : "11 May 2026",
-  "savedTime" : "15:14",
+  "pkgSubType" : "NORMAL",
+  "savedOn" : "25 May 2026",
+  "savedTime" : "09:37",
   "username" : "USER1",
-  "selectedSvcs_s2" : null,
+  "selectedSvcs_s2" : "[]",
   "selectedSvcs_s3" : null,
   "selectedSvcs_s4" : null,
-  "state" : { }
+  "state" : {
+    "s2" : [ ],
+    "s3" : [ ],
+    "s4" : [ ],
+    "price" : "",
+    "publicityCode" : "",
+    "endDate" : "",
+    "isCorporate" : false
+  }
 }, {
   "name" : "Test_today",
   "pkgType" : "PREPAID",

@@ -797,7 +797,7 @@ async function saveConfiguration() {
             validity: item.validity,
 
             midnightExpiry: item.midnightExpiry,
-
+ 
             renewal: item.renewal,
 
             rental: item.rental || 0,

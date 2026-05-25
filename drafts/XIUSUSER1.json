@@ -1,0 +1,33 @@
+[ {
+  "name" : "Untitled Draft",
+  "pkgType" : "POSTPAID",
+  "pkgSubType" : "NORMAL",
+  "savedOn" : "25 May 2026",
+  "savedTime" : "11:09",
+  "username" : "XIUSUSER1",
+  "selectedSvcs_s2" : "[\"DATA\"]",
+  "selectedSvcs_s3" : "[\"VOICE\"]",
+  "selectedSvcs_s4" : null,
+  "state" : {
+    "s2" : [ {
+      "id" : "103303",
+      "name" : "DATA",
+      "networkId" : "196"
+    } ],
+    "s3" : [ {
+      "id" : "103315",
+      "name" : "VOICE",
+      "validity" : "Monthly",
+      "renewal" : "Yes",
+      "midnightExpiry" : "No",
+      "rental" : "",
+      "maxCount" : "",
+      "freeCycles" : "0"
+    } ],
+    "s4" : [ ],
+    "price" : "",
+    "publicityCode" : "",
+    "endDate" : "",
+    "isCorporate" : false
+  }
+} ]

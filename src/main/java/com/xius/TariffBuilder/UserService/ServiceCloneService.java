@@ -187,11 +187,7 @@ public class ServiceCloneService {
                     CA_SERVICE_PACKAGE_YN,
                     ATP_CATEGORY_BY_OFFER,
                     DESCRIPTION,
-                    CHARGE_ON_FIRST_USAGE_YN,
-                    ALLOW_MULTIPLE_ATP_YN,
-                    USER_DEFINED_1,
-                    USER_DEFINED_2,
-                    USER_DEFINED_3
+                    CHARGE_ON_FIRST_USAGE_YN
                 from CS_RAT_SERVICE_PACKAGE
                 where SERVICE_PACKAGE_ID = ?
                 """,
