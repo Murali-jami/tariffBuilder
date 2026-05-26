@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -552,6 +554,10 @@ public class TariffApprovalService {
 
 		Map<String, Object> atp = atps.get(0);
 
+		Object rentalPeriod = "O".equals(atp.get("validity"))
+				? atp.getOrDefault("validityDays", 1)
+				: 1;
+
 		jdbcTemplate.update("""
 				insert into CS_RAT_PERIODIC_CHARGE_INFO
 				(
@@ -561,6 +567,7 @@ public class TariffApprovalService {
 				    SERVICE_TYPE,
 				    RENTAL_TYPE,
 				    RENTAL_PERIOD,
+					ACTIVATION_FEE,
 				    RENTAL_FEE,
 				    RENTAL_FREE_CYCLES,
 				    AUTO_RENEWAL,
@@ -568,10 +575,10 @@ public class TariffApprovalService {
 				    MAX_RENEWAL_COUNT,
 				    CREATED_BY
 				)
-				values (?,?,?,?,?,?,?,?,?,?,?,?)
+				values (?,?,?,?,?,?,?,?,?,?,?,?,?)
 				""",
 				chargeId, chargeId, networkId, data.get("tariffPlanId"),
-				atp.get("validity"), 1, atp.get("rental"),
+				atp.get("validity"), rentalPeriod, data.get("charge"), atp.get("rental"),
 				atp.get("freeCycles"), convertYN(atp.get("renewal")),
 				convertYN(atp.get("midnightExpiry")), atp.get("maxCount"), username);
 	}
@@ -602,46 +609,58 @@ public class TariffApprovalService {
 		logger.info("TP removed from json storage tpName={}", tpName);
 	}
 
-	public Map<String, Object> getTariffPackageDetails(Long networkId, Long tariffPackageId) {
+	public Map<String, Object> getTariffPackageDetails(Long tariffPackageId, Long networkId) {
 
 		String sql = """
 				SELECT
-				       tp.TARIFF_PACKAGE_ID,
-				       tp.TARIFF_PACKAGE_DESC,
-				       tp.NETWORK_ID,
-				       tp.PACKAGE_TYPE,
-				       tp.TARIFF_PACK_CATEGORY,
-				       tp.PUBLICITY_ID,
-				       tp.END_DATE,
-				       tp.CHARGE_ID,
-				       tp.IS_CORPORATE_YN,
 
-				       tpid.RECORD_INSERTED_BY,
+				    /*
+				     * TP
+				     */
+				    tp.TARIFF_PACKAGE_ID        AS tariffPackageId,
+				    tp.TARIFF_PACKAGE_DESC      AS tariffPackageDesc,
+				    tp.PUBLICITY_ID             AS publicityId,
+				    tp.CHARGE_ID                AS chargeId,
+				    tp.DISCOUNT_ON_RENTAL_YN    AS discountOnRentalYn,
+				    tp.PACKAGE_TYPE             AS packageType,
+				    tp.IS_CORPORATE_YN          AS isCorporateYn,
+				    tp.TARIFF_PACK_CATEGORY     AS tariffPackCategory,
+				    tp.END_DATE                 AS endDate,
+				    tp.NETWORK_ID               AS networkId,
 
-				       tspm.SERVICE_PACKAGE_ID,
-				       tspm.TARIFF_PLAN_TYPE,
-				       tspm.SERVICE_DURATION,
-				       tspm.PRIORITY,
+				    /*
+				     * SERVICE PACKAGE MAPPING
+				     */
+				    tspm.SERVICE_PACKAGE_ID     AS servicePackageId,
+				    tspm.TARIFF_PLAN_TYPE       AS tariffPlanType,
+				    tspm.CHARGE_ID              AS spChargeId,
 
-				       sp.SERVICE_PACKAGE_DESC,
+				    /*
+				     * SERVICE PACKAGE
+				     */
+				    sp.SERVICE_PACKAGE_DESC     AS servicePackageDesc,
+				    sp.ACTIVATION_CHARGE        AS spActivationFee,
 
-				       pci.CHARGE_DESC,
-				       pci.CHARGE_ID,
-				       pci.RENTAL_TYPE,
-				       pci.RENTAL_FEE,
-				       pci.RENTAL_FREE_CYCLES,
-				       pci.AUTO_RENEWAL,
-				       pci.PLAN_EXP_MIDNIGHT_YN,
-				       pci.MAX_RENEWAL_COUNT,
-				       pci.SERVICE_TYPE,
+				    /*
+				     * SERVICE PLAN
+				     */
+				    spp.SERVICE_PLAN_ID         AS servicePlanId,
 
-				       spp.SERVICE_PLAN_ID
+				    /*
+				     * PERIODIC CHARGE
+				     */
+				    pci.CHARGE_DESC             AS chargeDesc,
+				    pci.RENTAL_TYPE             AS rentalType,
+				    pci.RENTAL_PERIOD           AS rentalPeriod,
+				    pci.ACTIVATION_FEE          AS activationFee,
+				    pci.RENTAL_FEE              AS rentalFee,
+				    pci.RENTAL_FREE_CYCLES      AS rentalFreeCycles,
+				    pci.AUTO_RENEWAL            AS autoRenewal,
+				    pci.PLAN_EXP_MIDNIGHT_YN    AS planExpMidnightYn,
+				    pci.MAX_RENEWAL_COUNT       AS maxRenewalCount,
+				    pci.CREATED_BY              AS createdBy
 
 				FROM CS_RAT_TARIFF_PACKAGE tp
-
-				LEFT JOIN CS_RAT_TPID_VS_PUBLICITYID tpid
-				       ON tp.TARIFF_PACKAGE_ID = tpid.TARIFF_PACKAGE_ID
-				      AND tp.NETWORK_ID = tpid.NETWORK_ID
 
 				LEFT JOIN CS_RAT_TARIFF_SERVICE_PACK_MAP tspm
 				       ON tp.TARIFF_PACKAGE_ID = tspm.TARIFF_PACKAGE_ID
@@ -649,24 +668,50 @@ public class TariffApprovalService {
 
 				LEFT JOIN CS_RAT_SERVICE_PACKAGE sp
 				       ON tspm.SERVICE_PACKAGE_ID = sp.SERVICE_PACKAGE_ID
-				      AND tspm.NETWORK_ID = sp.NETWORK_ID
-
-				LEFT JOIN CS_RAT_PERIODIC_CHARGE_INFO pci
-				       ON tspm.CHARGE_ID = pci.CHARGE_ID
-				      AND tspm.NETWORK_ID = pci.NETWORK_ID
+				      AND sp.NETWORK_ID = tp.NETWORK_ID
 
 				LEFT JOIN CS_RAT_SERVICE_PLAN_PACKAGE spp
 				       ON tspm.SERVICE_PACKAGE_ID = spp.SERVICE_PACKAGE_ID
-				      AND tspm.NETWORK_ID = spp.NETWORK_ID
+				      AND spp.NETWORK_ID = tp.NETWORK_ID
 
-				WHERE tp.NETWORK_ID = ?
-				  AND tp.TARIFF_PACKAGE_ID = ?
+				LEFT JOIN (
+				    SELECT
+				        CHARGE_ID,
+				        NETWORK_ID,
+				        CHARGE_DESC,
+				        RENTAL_TYPE,
+				        RENTAL_PERIOD,
+				        ACTIVATION_FEE,
+				        RENTAL_FEE,
+				        RENTAL_FREE_CYCLES,
+				        AUTO_RENEWAL,
+				        PLAN_EXP_MIDNIGHT_YN,
+				        MAX_RENEWAL_COUNT,
+				        CREATED_BY,
+				        ROW_NUMBER() OVER(
+				            PARTITION BY CHARGE_ID, NETWORK_ID
+				            ORDER BY ROWNUM
+				        ) rn
+				    FROM CS_RAT_PERIODIC_CHARGE_INFO
+				) pci
+				    ON tp.CHARGE_ID = pci.CHARGE_ID
+				   AND tp.NETWORK_ID = pci.NETWORK_ID
+				   AND pci.rn = 1
 
-				ORDER BY tspm.TARIFF_PLAN_TYPE
+				WHERE tp.TARIFF_PACKAGE_ID = ?
+				  AND tp.NETWORK_ID = ?
+
+				ORDER BY
+				    CASE tspm.TARIFF_PLAN_TYPE
+				        WHEN 'TP' THEN 1
+				        WHEN 'DATP' THEN 2
+				        WHEN 'AATP' THEN 3
+				        ELSE 4
+				    END
 				""";
 
 		List<TariffPackageDetails> list = jdbcTemplate.query(sql,
-				new BeanPropertyRowMapper<>(TariffPackageDetails.class), networkId, tariffPackageId);
+				new BeanPropertyRowMapper<>(TariffPackageDetails.class), tariffPackageId, networkId);
 
 		if (list == null || list.isEmpty()) {
 			return Collections.emptyMap();
@@ -678,17 +723,17 @@ public class TariffApprovalService {
 
 		response.put("tpName", first.getTariffPackageDesc());
 
-		response.put("username", first.getRecordInsertedBy());
+		response.put("username", first.getCreatedBy());
 
 		response.put("networkId", first.getNetworkId());
 
 		Map<String, Object> data = new LinkedHashMap<>();
 
-		data.put("username", first.getRecordInsertedBy());
+		data.put("username", first.getCreatedBy());
 
 		data.put("isUpdate", true);
 
-		data.put("submittedOn", "");
+		data.put("submittedOn", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy")));
 
 		data.put("packageType", first.getPackageType());
 
@@ -696,16 +741,19 @@ public class TariffApprovalService {
 
 		data.put("tariffPackageDesc", first.getTariffPackageDesc());
 
-		// data.put("charge", "");
+		data.put("charge", first.getActivationFee() != null ? String.valueOf(first.getActivationFee()) : "");
 
-		data.put("endDate", first.getEndDate() != null
-				? java.time.LocalDate.parse(first.getEndDate().toString().substring(0, 10))
-						.format(formatter)
-				: "");
+		data.put("endDate",
+				first.getEndDate() != null
+						? LocalDate.parse(first.getEndDate().toString().substring(0, 10))
+								.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+						: "");
 
 		data.put("publicityId", first.getPublicityId());
 
 		data.put("chargeId", first.getChargeId());
+
+		data.put("discountOnRentalYn", "Y".equalsIgnoreCase(first.getDiscountOnRentalYn()));
 
 		data.put("isCorporateYn", "Y".equalsIgnoreCase(first.getIsCorporateYn()));
 
@@ -713,71 +761,139 @@ public class TariffApprovalService {
 
 		List<Map<String, Object>> allowedAtps = new ArrayList<>();
 
+		Set<Long> seenDefaultAtpIds = new LinkedHashSet<>();
+
+		Set<Long> seenAllowedAtpIds = new LinkedHashSet<>();
+
+		Set<String> selectedSvcs_s2 = new LinkedHashSet<>();
+
+		Set<String> selectedSvcs_s3 = new LinkedHashSet<>();
+
+		Set<String> selectedSvcs_s4 = new LinkedHashSet<>();
+
 		for (TariffPackageDetails row : list) {
 
-			// TP
-			if ("TP".equalsIgnoreCase(row.getTariffPlanType())) {
+			String planType = row.getTariffPlanType();
 
-				data.put("tariffPlanId", row.getServicePlanId());
-
-				// data.put("tariffPlanName", row.getChargeDesc());
-				data.put("tariffPlanName", row.getTariffPackageDesc());
+			if (planType == null) {
+				continue;
 			}
 
-			// DATP
-			else if ("DATP".equalsIgnoreCase(row.getTariffPlanType())) {
+			Long servicePackageId = row.getServicePackageId();
 
-				Map<String, Object> atp = new LinkedHashMap<>();
+			/*
+			 * TP SERVICES
+			 */
+			if ("TP".equalsIgnoreCase(planType)) {
 
-				atp.put("servicePackageId", row.getServicePackageId());
+				List<String> tpServices = jdbcTemplate.queryForList("""
+						SELECT DISTINCT
+						    DECODE(
+						        c.TYPE_OF_SERVICE,
+						        1,'VOICE',
+						        2,'SMS',
+						        3,'DATA'
+						    )
+						FROM CS_RAT_TARIFF_SERVICE_PACK_MAP a
+						JOIN CS_RAT_SERVICE_PLAN_PACKAGE b
+						    ON a.SERVICE_PACKAGE_ID = b.SERVICE_PACKAGE_ID
+						JOIN CS_RAT_SERVICE_PLANS c
+						    ON b.SERVICE_PLAN_ID = c.SERVICE_PLAN_ID
+						WHERE a.NETWORK_ID = ?
+						  AND a.TARIFF_PLAN_TYPE = 'TP'
+						  AND a.SERVICE_PACKAGE_ID = ?
+						""", String.class, networkId, servicePackageId);
 
-				atp.put("chargeId", row.getChargeId());
-
-				atp.put("packageName", row.getServicePackageDesc());
-
-				atp.put("validity", row.getRentalType());
-
-				atp.put("midnightExpiry", "Y".equalsIgnoreCase(row.getPlanExpMidnightYn()) ? "Yes" : "No");
-
-				atp.put("renewal", "Y".equalsIgnoreCase(row.getAutoRenewal()) ? "Yes" : "No");
-
-				atp.put("rental", row.getRentalFee());
-
-				atp.put("maxCount", row.getMaxRenewalCount());
-
-				atp.put("freeCycles", String.valueOf(row.getRentalFreeCycles()));
-
-				defaultAtps.add(atp);
+				selectedSvcs_s2.addAll(tpServices);
 			}
 
-			// AATP
-			else if ("AATP".equalsIgnoreCase(row.getTariffPlanType())) {
+			/*
+			 * DATP SERVICES
+			 */
+			else if ("DATP".equalsIgnoreCase(planType)) {
 
-				Map<String, Object> atp = new LinkedHashMap<>();
+				List<String> datpServices = jdbcTemplate.queryForList("""
+						SELECT DISTINCT
+						    f.BALANCE_CATEGORY
+						FROM CS_RAT_TARIFF_SERVICE_PACK_MAP c
+						JOIN CS_ATP_ACCUMU_BON_DISC_MAP d
+						    ON c.SERVICE_PACKAGE_ID = d.ATP_ID
+						JOIN CS_BNDL_MT_BNDL_BUCKET_MAP e
+						    ON d.BUNDLE_OR_DISCOUNT_ID = e.BUNDLE_ID
+						JOIN BNDL_MT_BUCKETS f
+						    ON e.BUCKET_ID = f.BUCKET_ID
+						WHERE c.NETWORK_ID = ?
+						  AND c.TARIFF_PLAN_TYPE = 'DATP'
+						  AND c.SERVICE_PACKAGE_ID = ?
+						""", String.class, networkId, servicePackageId);
 
-				atp.put("servicePackageId", row.getServicePackageId());
+				selectedSvcs_s3.addAll(datpServices);
+			}
 
-				atp.put("chargeId", row.getChargeId());
+			/*
+			 * AATP SERVICES
+			 */
+			else if ("AATP".equalsIgnoreCase(planType)) {
 
-				atp.put("packageName", row.getServicePackageDesc());
+				List<String> aatpServices = jdbcTemplate.queryForList("""
+						SELECT DISTINCT
+						    f.BALANCE_CATEGORY
+						FROM CS_RAT_TARIFF_SERVICE_PACK_MAP c
+						JOIN CS_ATP_ACCUMU_BON_DISC_MAP d
+						    ON c.SERVICE_PACKAGE_ID = d.ATP_ID
+						JOIN CS_BNDL_MT_BNDL_BUCKET_MAP e
+						    ON d.BUNDLE_OR_DISCOUNT_ID = e.BUNDLE_ID
+						JOIN BNDL_MT_BUCKETS f
+						    ON e.BUCKET_ID = f.BUCKET_ID
+						WHERE c.NETWORK_ID = ?
+						  AND c.TARIFF_PLAN_TYPE = 'AATP'
+						  AND c.SERVICE_PACKAGE_ID = ?
+						""", String.class, networkId, servicePackageId);
 
-				atp.put("validity", row.getRentalType());
+				selectedSvcs_s4.addAll(aatpServices);
+			}
 
-				atp.put("midnightExpiry", "Y".equalsIgnoreCase(row.getPlanExpMidnightYn()) ? "Yes" : "No");
+			switch (planType.toUpperCase()) {
 
-				atp.put("renewal", "Y".equalsIgnoreCase(row.getAutoRenewal()) ? "Yes" : "No");
+				/*
+				 * TP
+				 */
+				case "TP" -> {
 
-				atp.put("rental", row.getRentalFee());
+					data.putIfAbsent("tariffPlanId", row.getServicePackageId());
 
-				atp.put("maxCount", row.getMaxRenewalCount());
+					data.putIfAbsent("tariffPlanName", row.getServicePackageDesc());
+				}
 
-				atp.put("freeCycles", String.valueOf(row.getRentalFreeCycles()));
+				/*
+				 * DATP
+				 */
+				case "DATP" -> {
 
-				allowedAtps.add(atp);
+					if (row.getServicePackageId() != null && seenDefaultAtpIds.add(row.getServicePackageId())) {
+
+						defaultAtps.add(buildAtpMap(row));
+					}
+				}
+
+				/*
+				 * AATP
+				 */
+				case "AATP" -> {
+
+					if (row.getServicePackageId() != null && seenAllowedAtpIds.add(row.getServicePackageId())) {
+
+						allowedAtps.add(buildAtpMap(row));
+					}
+				}
 			}
 		}
 
-		data.put("selectedSvcs_s4", "[]");
+		data.put("selectedSvcs_s2", new ArrayList<>(selectedSvcs_s2));
+
+		data.put("selectedSvcs_s3", new ArrayList<>(selectedSvcs_s3));
+
+		data.put("selectedSvcs_s4", new ArrayList<>(selectedSvcs_s4));
 
 		data.put("defaultAtps", defaultAtps);
 
@@ -787,4 +903,46 @@ public class TariffApprovalService {
 
 		return response;
 	}
+
+	private Map<String, Object> buildAtpMap(TariffPackageDetails row) {
+
+		Map<String, Object> atp = new LinkedHashMap<>();
+
+		atp.put("servicePackageId", row.getServicePackageId());
+
+		atp.put("chargeId", row.getSpChargeId());
+
+		atp.put("packageName", row.getServicePackageDesc());
+
+		atp.put("validity", row.getRentalType());
+
+		atp.put("midnightExpiry", "Y".equalsIgnoreCase(row.getPlanExpMidnightYn()) ? "Yes" : "No");
+
+		atp.put("activationFee", row.getSpActivationFee() != null ? row.getSpActivationFee() : 0);
+
+		atp.put("renewal", "Y".equalsIgnoreCase(row.getAutoRenewal()) ? "Yes" : "No");
+
+		atp.put("rental", row.getRentalFee() != null ? row.getRentalFee() : 0);
+
+		atp.put("maxCount", row.getMaxRenewalCount() != null ? row.getMaxRenewalCount() : 0);
+
+		atp.put("freeCycles", String.valueOf(row.getRentalFreeCycles() != null ? row.getRentalFreeCycles() : 0));
+
+		return atp;
+	}
+
+	// ── Helper: serializes List<String> to JSON array string ────────────────────
+
+	// private String toJsonArray(List<String> items) {
+	// if (items == null || items.isEmpty())
+	// return "[]";
+	// StringBuilder sb = new StringBuilder("[");
+	// for (int i = 0; i < items.size(); i++) {
+	// sb.append("\"").append(items.get(i)).append("\"");
+	// if (i < items.size() - 1)
+	// sb.append(",");
+	// }
+	// sb.append("]");
+	// return sb.toString();
+	// }
 }

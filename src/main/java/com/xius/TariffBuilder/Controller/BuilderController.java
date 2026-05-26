@@ -554,13 +554,8 @@ public class BuilderController {
     }
 
     @GetMapping("/details")
-    public ResponseEntity<?> getTariffPackageDetails(
-            @RequestParam Long networkId,
-            @RequestParam Long tariffPackageId) {
+    public ResponseEntity<?> getTariffPackageDetails(@RequestParam Long networkId, @RequestParam Long tariffPackageId) {
 
-        return ResponseEntity.ok(
-                tariffApprovalService.getTariffPackageDetails(
-                        networkId,
-                        tariffPackageId));
+        return ResponseEntity.ok(tariffApprovalService.getTariffPackageDetails(tariffPackageId, networkId));
     }
 }

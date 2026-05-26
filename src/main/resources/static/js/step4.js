@@ -166,7 +166,8 @@ function addToCenter(id, name) {
     const item = {
         id: String(id),
         name: name,
-        validity: "Monthly",
+        validity: "M",
+        validityDays: "",
         renewal: "No",
         midnightExpiry: "No",
         rental: "",
@@ -200,10 +201,22 @@ function renderCard(item) {
     <div class="card-grid">
         <div class="card-field">
             <label>VALIDITY</label>
-            <select onchange="updateField('${item.id}','validity',this.value)">
-                <option ${item.validity === 'Monthly' ? 'selected' : ''}>Monthly</option>
-                <option ${item.validity === 'Weekly' ? 'selected' : ''}>Weekly</option>
+            <select onchange="handleValidityChange('${item.id}', this.value)">
+                <option value="M"  ${item.validity === 'M' ? 'selected' : ''}>Monthly</option>
+                <option value="D"  ${item.validity === 'D' ? 'selected' : ''}>Daily</option>
+                <option value="W"  ${item.validity === 'W' ? 'selected' : ''}>Weekly</option>
+                <option value="Y"  ${item.validity === 'Y' ? 'selected' : ''}>Yearly</option>
+                <option value="F"  ${item.validity === 'F' ? 'selected' : ''}>Fixed</option>
+                <option value="U"  ${item.validity === 'U' ? 'selected' : ''}>Unlimited</option>
+                <option value="O"  ${item.validity === 'O' ? 'selected' : ''}>Others</option>
             </select>
+        </div>
+        <div class="card-field" id="validity-days-${item.id}" style="display:${item.validity === 'O' ? 'block' : 'none'};">
+            <label>NO. OF DAYS</label>
+            <input type="number" min="1"
+                value="${item.validityDays || ''}"
+                placeholder="Enter days"
+                oninput="updateField('${item.id}', 'validityDays', this.value)">
         </div>
  
         <div class="card-field">
@@ -260,6 +273,18 @@ function updateField(id, key, value) {
         item[key] = value;
         saveState(state);
     }
+}
+
+// ---------- VALIDITY ----------
+function handleValidityChange(id, value) {
+
+    updateField(id, 'validity', value);
+
+    const daysField = document.getElementById(`validity-days-${id}`);
+    if (daysField) daysField.style.display = value === 'O' ? 'block' : 'none';
+
+    // Clear days value when switching away from Others
+    if (value !== 'O') updateField(id, 'validityDays', '');
 }
 
 // ---------- RENEWAL ----------

@@ -60,9 +60,14 @@
                 Back
             </button>
 
-            <button class="btn-primary" th:if="${activeStep == 5}" onclick="saveConfiguration()">
+            <button class="btn-primary" id="saveConfigBtn" onclick="saveConfiguration()">
                 SAVE CONFIG
                 <span class="material-icons">check</span>
+            </button>
+
+            <button class="btn-primary btn-clone-package" id="clonePackageBtn" style="display:none;" onclick="clonePackageFromBuilder()">
+                <span class="material-icons">content_copy</span>
+                CLONE PACKAGE
             </button>
         </div>
 

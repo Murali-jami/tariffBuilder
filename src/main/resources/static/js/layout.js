@@ -387,11 +387,17 @@ function setModuleUI(module) {
     const configInput = document.getElementById('configName');
 
     // ── Active node highlight ──
+    const cloneNode = document.getElementById('mn-clone');
     if (builderNode) builderNode.classList.toggle('active', module === 'builder');
     if (approverNode) approverNode.classList.toggle('active', module === 'approver');
+    if (cloneNode) cloneNode.classList.toggle('active', module === 'clone');
 
-    if (module === 'builder') {
-        // Show step rail always for builder
+    if (module === 'clone') {
+        if (stepRail) stepRail.classList.add('collapsed');
+        if (sidebar) sidebar.classList.add('collapsed');
+        if (footerActions) footerActions.style.display = 'none';
+        if (configInput) configInput.style.display = 'none';
+    } else if (module === 'builder') {
         if (stepRail) stepRail.classList.remove('collapsed');
         if (footerActions) footerActions.style.display = 'flex';
         if (configInput) configInput.style.display = 'block';
@@ -785,6 +791,8 @@ async function saveConfiguration() {
 
             validity: item.validity,
 
+            validityDays: item.validityDays || "",
+
             midnightExpiry: item.midnightExpiry,
 
             renewal: item.renewal,
@@ -805,6 +813,8 @@ async function saveConfiguration() {
             packageName: item.name,
 
             validity: item.validity,
+
+            validityDays: item.validityDays || "",
 
             midnightExpiry: item.midnightExpiry,
 
@@ -876,6 +886,8 @@ function clearBuilderSession() {
     sessionStorage.removeItem('pkgSubType');
     sessionStorage.removeItem("isUpdate");
     sessionStorage.removeItem('loadedFromDraft');
+    sessionStorage.removeItem('cloneMode');
+    sessionStorage.removeItem('clonePayload');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -970,6 +982,15 @@ function selectPackage(cardElement) {
 
 function loadHierarchy(tpName) {
 
+    const VALIDITY_LABELS = {
+        'M': 'Monthly', 'O': 'Others', 'D': 'Daily',
+        'W': 'Weekly', 'F': 'Fixed', 'U': 'Unlimited', 'Y': 'Yearly'
+    };
+    function validityLabel(code) {
+        if (!code || code === '—') return code || '—';
+        return VALIDITY_LABELS[code] || code;
+    }
+
     fetch('/admin/hierarchy/' + tpName)
         .then(res => res.json())
         .then(tp => {
@@ -1024,7 +1045,8 @@ function loadHierarchy(tpName) {
                 <div class="component-box">
                     <div class="comp-name">${item.packageName}</div>
                     <div class="comp-details">
-                        <span class="pill"><strong>Validity:</strong> ${item.validity || '—'}</span>
+                        <span class="pill"><strong>Validity:</strong> ${validityLabel(item.validity)}</span>
+                        ${item.validity === 'O' && item.validityDays ? `<span class="pill"><strong>Validity Days:</strong> ${item.validityDays}</span>` : ''}
                         <span class="pill"><strong>Midnight Expiry:</strong> ${item.midnightExpiry || '—'}</span>
                         <span class="pill"><strong>Renewal:</strong> ${item.renewal || '—'}</span>
                         <span class="pill"><strong>Rental:</strong> ${item.rental || '0'}</span>
@@ -1043,7 +1065,8 @@ function loadHierarchy(tpName) {
                 <div class="component-box">
                     <div class="comp-name">${item.packageName}</div>
                     <div class="comp-details">
-                        <span class="pill"><strong>Validity:</strong> ${item.validity || '—'}</span>
+                        <span class="pill"><strong>Validity:</strong> ${validityLabel(item.validity)}</span>
+                        ${item.validity === 'O' && item.validityDays ? `<span class="pill"><strong>Validity Days:</strong> ${item.validityDays}</span>` : ''}
                         <span class="pill"><strong>Midnight Expiry:</strong> ${item.midnightExpiry || '—'}</span>
                         <span class="pill"><strong>Renewal:</strong> ${item.renewal || '—'}</span>
                         <span class="pill"><strong>Rental:</strong> ${item.rental || '0'}</span>
@@ -1231,7 +1254,6 @@ function loadSavedPackage(index) {
     const d =
         config.data;
 
-
     /*
        convert saved format → builder state
     */
@@ -1248,6 +1270,7 @@ function loadSavedPackage(index) {
             id: a.servicePackageId,
             name: a.packageName,
             validity: a.validity,
+            validityDays: a.validityDays || "",
             midnightExpiry: a.midnightExpiry,
             renewal: a.renewal,
             rental: a.rental,
@@ -1261,6 +1284,7 @@ function loadSavedPackage(index) {
             id: a.servicePackageId,
             name: a.packageName,
             validity: a.validity,
+            validityDays: a.validityDays || "",
             midnightExpiry: a.midnightExpiry,
             renewal: a.renewal,
             rental: a.rental,
@@ -1288,7 +1312,6 @@ function loadSavedPackage(index) {
         isCorporate: d.isCorporateYn
     };
 
-
     /*
        SAME keys as draft loader
     */
@@ -1312,7 +1335,6 @@ function loadSavedPackage(index) {
         "pkgSubType",
         d.tariffPackCategory
     );
-
 
     /*
        IMPORTANT for sidebar selections
@@ -1739,8 +1761,8 @@ function openClone() {
     if (headerPill) headerPill.style.display = 'none';
 
     // 2. Collapse step-rail & sidebar (clone page doesn't need them)
-    if (stepRail) stepRail.classList.add('collapsed');
-    if (sidebar) sidebar.classList.add('collapsed');
+    //    setModuleUI handles nav highlight + rail/sidebar state
+    setModuleUI('clone');
 
     // 3. Show the clone page container (flex, then animate in)
     _tpSelected.clear();
@@ -1785,13 +1807,12 @@ function closeClonePage() {
         if (workBody) workBody.style.display = '';
         if (headerPill) headerPill.style.display = '';
 
-        // Restore rails based on current module/step
+        // Restore rails + active nav node based on current module/step
         const step = getActiveStep();
         if (step > 0) {
-            if (stepRail) stepRail.classList.remove('collapsed');
-            if (sidebar && (step === 2 || step === 3 || step === 4)) {
-                sidebar.classList.remove('collapsed');
-            }
+            setModuleUI('builder');
+        } else if (window.location.pathname.startsWith('/builder/admin')) {
+            setModuleUI('approver');
         }
 
         _tpSelected.clear();
@@ -1799,6 +1820,52 @@ function closeClonePage() {
 }
 
 // ── Render cards ──────────────────────────────────────────
+// ── OTT name → asset lookup ──
+const _OTT_META = [
+    { keywords: ['netflix'], title: 'Netflix', src: '/images/ott/Netflix.avif', desc: 'Award-winning series | Movies | Documentaries' },
+    { keywords: ['prime', 'amazon'], title: 'Prime Video', src: '/images/ott/Prime.svg', desc: 'Amazon Originals | Movies | Live Sports' },
+    { keywords: ['hotstar', 'jiohotstar', 'disney'], title: 'JioHotstar', src: '/images/ott/Jiohotstar.svg', desc: 'TV Shows | Movies | Originals | Live Sports' },
+    { keywords: ['zee5', 'zee'], title: 'ZEE5', src: '/images/ott/Zee5.svg', desc: 'Web Series | Movies | Originals in 18 languages' },
+    { keywords: ['sony', 'sonyliv'], title: 'SonyLIV', src: '/images/ott/SonyLiv.svg', desc: 'Popular TV Shows | New Series | Movies' },
+    { keywords: ['mxplayer', 'mx player', 'mx'], title: 'MX Player', src: '/images/ott/MX_Player.webp', desc: 'Free Movies | Web Series | Music Videos' },
+    { keywords: ['saavn', 'jiosaavn', 'jio saavn'], title: 'JioSaavn', src: '/images/ott/jiosaavn.png', desc: 'Music | Podcasts | Radio | 80M+ Songs' },
+    { keywords: ['fancode', 'fan code'], title: 'FanCode', src: '/images/ott/FanCode.svg', desc: 'Live Cricket | Football | Sports Streaming' },
+    { keywords: ['facebook'], title: 'Facebook', src: null, desc: 'Social media & videos' },
+    { keywords: ['instagram'], title: 'Instagram', src: null, desc: 'Reels | Stories | Photos' },
+    { keywords: ['google'], title: 'Google', src: null, desc: 'Search | Maps | YouTube & more' },
+    { keywords: ['youtube'], title: 'YouTube', src: null, desc: 'Videos | Live | Shorts' },
+    { keywords: ['whatsapp'], title: 'WhatsApp', src: null, desc: 'Messaging | Calls | Status' },
+    { keywords: ['netflix prime'], title: 'Netflix Prime', src: '/images/ott/Netflix.avif', desc: 'Netflix | Prime bundle' },
+];
+_OTT_META.forEach(m => { if (!m.initial) m.initial = m.title.charAt(0); });
+
+function _ottLookup(name) {
+    const lower = (name || '').toLowerCase();
+    // Try longest keyword match first
+    const found = _OTT_META
+        .filter(m => m.keywords.some(k => lower.includes(k)))
+        .sort((a, b) => Math.max(...b.keywords.map(k => k.length)) - Math.max(...a.keywords.map(k => k.length)))[0];
+    if (found) return found;
+    return { title: name, src: null, desc: name, initial: name.charAt(0).toUpperCase() };
+}
+
+// Build OTT icon strip: show `max` icons then '...'
+function _buildOttStripHtml(rateGroupNames, max) {
+    if (!rateGroupNames || !rateGroupNames.length) return '';
+    const visible = rateGroupNames.slice(0, max);
+    const remaining = rateGroupNames.length - max;
+    let html = visible.map(name => {
+        const svc = _ottLookup(name);
+        if (svc.src) {
+            return `<img class="tp-ott-icon-img" src="${svc.src}" alt="${svc.title}" title="${svc.title}"
+                    onerror="this.onerror=null;this.style.display='none';"><span class="tp-ott-fallback-badge" style="display:none" title="${svc.title}">${svc.initial}</span>`;
+        }
+        return `<span class="tp-ott-fallback-badge" title="${svc.title}">${svc.initial}</span>`;
+    }).join('');
+    if (remaining > 0) html += `<span class="tp-ott-more">...</span>`;
+    return html;
+}
+
 async function _loadAndRenderTpCards() {
     const grid = document.getElementById('clonePlanGrid');
     const countBadge = document.getElementById('clonePlanCount');
@@ -1924,6 +1991,7 @@ function _groupPlansByDesc(plans) {
                 activationFee: p.activationFee,
                 rentalType: p.rentalType,
                 buckets: [],          // { balanceCategory, bucketUnitValue }
+                rateGroupNames: [],   // deduplicated OTT service names
                 _raw: [],             // all original rows, for modal
             });
         }
@@ -1933,6 +2001,12 @@ function _groupPlansByDesc(plans) {
             group.activationFee = p.activationFee;
         }
         group.buckets.push({ balanceCategory: p.balanceCategory, bucketUnitValue: p.bucketUnitValue });
+        // Merge rateGroupNames, deduplicating across rows of the same group
+        if (Array.isArray(p.rateGroupNames)) {
+            p.rateGroupNames.forEach(function (name) {
+                if (name && !group.rateGroupNames.includes(name)) group.rateGroupNames.push(name);
+            });
+        }
         group._raw.push(p);
     });
 
@@ -2002,13 +2076,8 @@ function _applyTpSearch(query) {
         return;
     }
 
-    // OTT icons strip — show first 5 + overflow badge
-    const _OTT_CARD_MAX = 5;
-    const visibleOtts = _OTT_ICONS.slice(0, _OTT_CARD_MAX);
-    const extraCount = _OTT_ICONS.length - _OTT_CARD_MAX;
-    const ottHtml = visibleOtts.map(o =>
-        `<img class="tp-ott-icon-img" src="${o.src}" alt="${o.title}" title="${o.title}" onerror="this.style.display='none'">`
-    ).join('') + (extraCount > 0 ? `<span class="tp-ott-more">+${extraCount}</span>` : '');
+    // OTT icons strip — built per-card from group.rateGroupNames
+    // (the static strip is computed inside the forEach below)
 
     groups.forEach((group, i) => {
         const planId = 'tp-grp-' + encodeURIComponent(group.tariffPackageDesc);
@@ -2052,7 +2121,7 @@ function _applyTpSearch(query) {
                 ${bucketsHtml}
             </div>
 
-            <div class="tp-ott-strip">${ottHtml}</div>
+            <div class="tp-ott-strip">${_buildOttStripHtml(group.rateGroupNames, 2)}</div>
 
             <div class="tp-card-actions">
                 <button
@@ -2153,7 +2222,8 @@ function _renderCloneTree(container, tpDesc, response) {
     function componentRow(r, index, type) {
         const name = r.packageName || r.chargeDesc || r.chargeId || type;
         const attrs = [
-            attrPill('Validity', r.validity || '—'),
+            attrPill('Validity', (r.validity ? ({ 'M': 'Monthly', 'O': 'Others', 'D': 'Daily', 'W': 'Weekly', 'F': 'Fixed', 'U': 'Unlimited', 'Y': 'Yearly' }[r.validity] || r.validity) : '—')),
+            (r.validity === 'O' && r.validityDays) ? attrPill('Validity Days', r.validityDays) : '',
             attrPill('Mid. Expiry', r.midnightExpiry || '—'),
             attrPill('Renewal', r.renewal || '—'),
             attrPill('Rental', r.rental ?? '0'),
@@ -2272,7 +2342,66 @@ async function _cloneTreeAction(action) {
         }
 
     } else if (action === 'modify') {
-        alert(`Modify: ${tpDesc}`);
+        const payload = _currentClonePayload;
+        if (!payload) {
+            alert('Plan data not available. Please close and try again.');
+            return;
+        }
+
+        const d = payload.data || payload;
+
+        // Build builder state from the plan data (same shape as loadSavedPackage)
+        const state = {
+            s2: [{ id: d.tariffPlanId, name: d.tariffPlanName }],
+            s3: (d.defaultAtps || []).map(a => ({
+                id: a.servicePackageId,
+                name: a.packageName,
+                validity: a.validity,
+                validityDays: a.validityDays || "",
+                midnightExpiry: a.midnightExpiry,
+                renewal: a.renewal,
+                rental: a.rental,
+                maxCount: a.maxCount,
+                freeCycles: a.freeCycles
+            })),
+            s4: (d.allowedAtps || []).map(a => ({
+                id: a.servicePackageId,
+                name: a.packageName,
+                validity: a.validity,
+                validityDays: a.validityDays || "",
+                midnightExpiry: a.midnightExpiry,
+                renewal: a.renewal,
+                rental: a.rental,
+                maxCount: a.maxCount,
+                freeCycles: a.freeCycles
+            })),
+            price: d.charge || '',
+            publicityCode: d.publicityId || '',
+            endDate: (function () {
+                if (!d.endDate) return '';
+                const p = d.endDate.split('/');
+                return p.length === 3 ? `${p[2]}-${p[0]}-${p[1]}` : d.endDate;
+            })(),
+            isCorporate: d.isCorporateYn || false
+        };
+
+        sessionStorage.setItem('state', JSON.stringify(state));
+        sessionStorage.setItem('configName', payload.tpName || d.tariffPackageDesc || '');
+        sessionStorage.setItem('pkgType', d.packageType || '');
+        sessionStorage.setItem('pkgSubType', d.tariffPackCategory || 'NORMAL');
+        sessionStorage.setItem('selectedSvcs_s2', d.selectedSvcs_s2 || '[]');
+        sessionStorage.setItem('selectedSvcs_s3', d.selectedSvcs_s3 || '[]');
+        sessionStorage.setItem('selectedSvcs_s4', d.selectedSvcs_s4 || '[]');
+
+        // Flag: step5 will show "Clone Package" instead of "Save Config"
+        sessionStorage.setItem('cloneMode', 'true');
+        // Store the original full payload so Clone button in step5 can POST it
+        sessionStorage.setItem('clonePayload', JSON.stringify(payload));
+
+        closeCloneTree();
+        window.isInternalNavigation = true;
+        window.location.href = '/builder/step1';
+
     } else {
         closeCloneTree();
     }
@@ -2316,23 +2445,26 @@ function openTpDetails(groupData) {
         </div>`).join('');
 
     // ── OTT strip (small icons beside notes) ──────────────
-    const ottStripHtml = _OTT_SERVICES.slice(0, 4).map(o =>
-        `<img class="tp-modal-ott-img" src="${o.src}"
-              alt="${o.title}"
-              onerror="this.src='${o.fallback}'">`
-    ).join('');
+    const rateNames = group.rateGroupNames || [];
+    const ottStripHtml = _buildOttStripHtml(rateNames, 4);
 
     // ── Full OTT benefit list ──────────────────────────────
-    const ottListHtml = _OTT_SERVICES.map(o => `
-        <div class="tp-modal-ott-item">
-            <img class="tp-modal-ott-item-img" src="${o.src}"
-                 alt="${o.title}"
-                 onerror="this.src='${o.fallback}'">
-            <div class="tp-modal-ott-item-info">
-                <span class="tp-modal-ott-item-name">${o.title}</span>
-                <span class="tp-modal-ott-item-desc">${o.desc}</span>
-            </div>
-        </div>`).join('');
+    const ottListHtml = rateNames.length
+        ? rateNames.map(name => {
+            const svc = _ottLookup(name);
+            const imgHtml = svc.src
+                ? `<img class="tp-modal-ott-item-img" src="${svc.src}" alt="${svc.title}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="tp-modal-ott-fallback-badge" style="display:none">${svc.initial}</span>`
+                : `<span class="tp-modal-ott-fallback-badge">${svc.initial}</span>`;
+            return `
+            <div class="tp-modal-ott-item">
+                ${imgHtml}
+                <div class="tp-modal-ott-item-info">
+                    <span class="tp-modal-ott-item-name">${svc.title}</span>
+                    <span class="tp-modal-ott-item-desc">${svc.desc}</span>
+                </div>
+            </div>`;
+        }).join('')
+        : '<div class="pd-empty-section" style="padding:16px;color:var(--text-muted,#888)">No OTT benefits included</div>';
 
     content.innerHTML = `
         <div class="tp-modal-title">${group.tariffPackageDesc || 'Pack Details'}</div>
@@ -2363,11 +2495,12 @@ function openTpDetails(groupData) {
             <div class="tp-modal-your-benefits">
                 <div class="tp-modal-your-benefits-title">your benefits</div>
                 <p class="tp-modal-your-benefits-text">
-                    Get JioHotstar Mobile + 7 more OTTs including ZEE5,
-                    SonyLIV, FanCode, Lionsgate Play &amp; more. Add-on
-                    ${hasData ? buckets.find(b => b.balanceCategory === 'DATA').bucketUnitValue + ' Data.' : 'No extra data.'}
-                    ${!hasSms ? 'No service validity.' : ''}
-                    Pack validity 28 days.
+                    ${rateNames.length > 0
+            ? 'Includes ' + rateNames.slice(0, 3).join(', ') + (rateNames.length > 3 ? ' &amp; ' + (rateNames.length - 3) + ' more OTT' + (rateNames.length - 3 > 1 ? 's' : '') + '.' : '.')
+            : 'No OTT benefits included.'}
+                    ${hasData ? buckets.find(b => b.balanceCategory === 'DATA').bucketUnitValue + ' Data.' : 'No Data included.'}
+                    ${!hasVoice ? 'No Voice calls.' : ''}
+                    ${!hasSms ? 'No SMS included.' : ''}
                 </p>
             </div>
         </div>
