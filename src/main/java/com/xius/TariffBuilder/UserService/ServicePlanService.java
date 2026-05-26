@@ -29,8 +29,8 @@ public class ServicePlanService {
 		logger.info("Fetching TP plans networkId={} types={}", networkId, types);
 
 		String sql = "SELECT * FROM CS_SERVICE_PLAN_PACK_MAP WHERE NETWORK_ID=? AND TARIFF_PLAN_TYPE='TP' AND SERVICE_TYPES=?";
-		List<ServicePlanPackMap> response=map(sql,networkId,types);
-		return response;
+
+		return map(sql, networkId, types);
 	}
 
 	public List<ServicePlanPackMap> getDAtpPlans(Long networkId, String types) {

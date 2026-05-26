@@ -2,6 +2,8 @@ window.addEventListener("pageshow", () => {
     window.isInternalNavigation = false;
 });
 
+let _currentClonePayload = null;
+
 window.isInternalNavigation = false;
 
 if (USERNAME) {
@@ -30,8 +32,8 @@ function saveDraftOnExit() {
     const savedTime = now.toLocaleTimeString('en-GB', {
         hour: '2-digit', minute: '2-digit'
     });
-	
-	const username = sessionStorage.getItem('username') || 'guest';
+
+    const username = sessionStorage.getItem('username') || 'guest';
 
     const payload = JSON.stringify({
         name: configName || 'Untitled Draft',
@@ -39,7 +41,7 @@ function saveDraftOnExit() {
         pkgSubType: sessionStorage.getItem('pkgSubType'),
         savedOn,
         savedTime,
-		username,
+        username,
         selectedSvcs_s2: sessionStorage.getItem('selectedSvcs_s2'),
         selectedSvcs_s3: sessionStorage.getItem('selectedSvcs_s3'),
         selectedSvcs_s4: sessionStorage.getItem('selectedSvcs_s4'),
@@ -81,7 +83,7 @@ function closeDrafts() {
     });
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target.id === 'draftOverlay') {
         closeDrafts();
     }
@@ -252,7 +254,7 @@ function manualSaveDraft() {
         .then(() => {
             alert('Draft saved — ' + configName);
         })
- 
+
         .catch(() => {
             alert('Failed to save draft — ' + configName);
         });
@@ -262,9 +264,11 @@ function applyPrivilege() {
 
     const builderNode = document.getElementById('mn-builder');
     const approverNode = document.getElementById('mn-approver');
+    const cloneNode = document.getElementById('mn-clone');
 
     const hasBuilder = PRIVILEGE_IDS.includes("P26125");
     const hasApprover = PRIVILEGE_IDS.includes("P26126");
+    const hasClone = PRIVILEGE_IDS.includes("P26127");
 
     // Hide nodes individually
     if (!hasBuilder && builderNode) {
@@ -274,6 +278,10 @@ function applyPrivilege() {
     if (!hasApprover && approverNode) {
         approverNode.style.display = "none";
     }
+
+    // if (!hasClone && cloneNode) {
+    //     cloneNode.style.display = "none";
+    // }
 }
 
 /*async function checkDraftsOnLogin() {
@@ -349,9 +357,11 @@ function activateModule(module, el) {
 
     const hasBuilder = PRIVILEGE_IDS.includes("P26125");
     const hasApprover = PRIVILEGE_IDS.includes("P26126");
+    const hasClone = PRIVILEGE_IDS.includes("P26127");
 
     if (module === 'builder' && !hasBuilder) return false;
     if (module === 'approver' && !hasApprover) return false;
+    if (module === 'clone' && !hasClone) return false;
 
     // RESTORE LIBRARY when switching back
     if (module === 'builder') {
@@ -460,7 +470,7 @@ function initLibrarySearch() {
         content.parentNode.insertBefore(searchWrapper, content);
     }
 
-    document.getElementById('librarySearchInput').addEventListener('input', function() {
+    document.getElementById('librarySearchInput').addEventListener('input', function () {
         filterLibraryItems(this.value.trim());
         const clearBtn = document.getElementById('librarySearchClear');
         if (clearBtn) clearBtn.style.opacity = this.value ? '1' : '0';
@@ -670,7 +680,7 @@ function toggleUserMenu() {
     dropdown.classList.toggle("active");
 }
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
     const menu = document.querySelector(".user-menu");
     if (menu && !menu.contains(e.target)) {
         const dd = document.getElementById("userDropdown");
@@ -695,7 +705,7 @@ async function saveConfiguration() {
     const isUpdate = sessionStorage.getItem("isUpdate") === "true";
 
     if (!state?.s2?.length) {
-       alert('Service Plan selection in Step 2 is required');
+        alert('Service Plan selection in Step 2 is required');
         return;
     }
 
@@ -797,7 +807,7 @@ async function saveConfiguration() {
             validity: item.validity,
 
             midnightExpiry: item.midnightExpiry,
- 
+
             renewal: item.renewal,
 
             rental: item.rental || 0,
@@ -865,7 +875,7 @@ function clearBuilderSession() {
     sessionStorage.removeItem('pkgType');
     sessionStorage.removeItem('pkgSubType');
     sessionStorage.removeItem("isUpdate");
-	sessionStorage.removeItem('loadedFromDraft');
+    sessionStorage.removeItem('loadedFromDraft');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -880,8 +890,36 @@ function viewTree() {
     document.getElementById('treeName').textContent = name;
     document.getElementById('treeMeta').textContent = `${type ? type + ' | ' : ''}${sub} | ${state.isCorporate ? 'Corporate' : 'Retail'}`;
     document.getElementById('treeMain').textContent = `📦 Main Service Plan: ${state.s2 && state.s2[0] ? state.s2[0].name : 'None'}`;
-    document.getElementById('treeDatp').textContent = `➕ DATP Components: ${(state.s3 || []).length} items`;
-    document.getElementById('treeAatp').textContent = `🛒 AATP Components: ${(state.s4 || []).length} items`;
+    const datpNames = (state.s3 || []).map(item => item.name).join(', ');
+    const aatpNames = (state.s4 || []).map(item => item.name).join(', ');
+
+    document.getElementById('treeDatp').innerHTML = `
+        <div class="tree-section">
+            <div class="tree-section-title">➕ DATP Components</div>
+            <div class="tree-tags">
+                ${(state.s3 || []).length
+            ? state.s3.map(item =>
+                `<span class="tree-tag">${item.name}</span>`
+            ).join('')
+            : '<span class="tree-empty">No DATP Components</span>'
+        }
+            </div>
+        </div>
+    `;
+
+    document.getElementById('treeAatp').innerHTML = `
+        <div class="tree-section">
+            <div class="tree-section-title">🛒 AATP Components</div>
+            <div class="tree-tags">
+                ${(state.s4 || []).length
+            ? state.s4.map(item =>
+                `<span class="tree-tag">${item.name}</span>`
+            ).join('')
+            : '<span class="tree-empty">No AATP Components</span>'
+        }
+            </div>
+        </div>
+    `;
     document.getElementById('treeCharge').innerHTML = `<b>Charge: RM ${state.price || '0.00'}</b> | <b>Ends: ${state.endDate || 'Permanent'}</b>`;
 
     document.getElementById('treeModal').classList.add('open');
@@ -1050,7 +1088,7 @@ function approvePackage(tpName, btn) {
 
             console.log("APPROVED", data);
 
-           alert(tpName + ' approved, ' + "Tariff Package Created with ID : "
+            alert(tpName + ' approved, ' + "Tariff Package Created with ID : "
                 + data.tariffPackageId);
 
             window.location.href = '/builder/admin';
@@ -1086,7 +1124,7 @@ function rejectPackage(tpName, btn) {
 
             console.log("REJECTED", data);
 
-           alert(tpName + ' rejected');
+            alert(tpName + ' rejected');
 
             window.location.href = '/builder/admin';
 
@@ -1235,7 +1273,7 @@ function loadSavedPackage(index) {
 
         publicityCode: d.publicityId,
 
-        endDate: (function() {
+        endDate: (function () {
 
             if (!d.endDate) return "";
 
@@ -1333,7 +1371,7 @@ function closeSaved() {
     });
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target.id === 'savedOverlay') {
         closeSaved();
     }
@@ -1365,7 +1403,7 @@ function goNext() {
 
 (function initPlanHoverTooltip() {
 
-	if (window.location.pathname.includes('/builder/step2')) return;
+    if (window.location.pathname.includes('/builder/step2')) return;
     // ── Create a single shared tooltip element ──
     const tooltip = document.createElement('div');
     tooltip.id = 'planHoverTooltip';
@@ -1422,7 +1460,7 @@ function goNext() {
     }
 
     // ── Delegate hover on #comp-list plan cards ──
-    document.addEventListener('mouseover', function(e) {
+    document.addEventListener('mouseover', function (e) {
         const card = e.target.closest('[data-network-id][data-package-id], [data-networkid][data-packageid]');
         if (!card) return;
 
@@ -1468,25 +1506,25 @@ function goNext() {
     });
 
     // ── Follow mouse while inside the card ──
-    document.addEventListener('mousemove', function(e) {
+    document.addEventListener('mousemove', function (e) {
         if (tooltip.style.opacity === '1') {
             positionTooltip(e.clientX, e.clientY);
         }
     });
 
     // ── Hide when leaving the card ──
-    document.addEventListener('mouseout', function(e) {
+    document.addEventListener('mouseout', function (e) {
         const card = e.target.closest('[data-network-id][data-package-id], [data-networkid][data-packageid]');
         if (!card) return;
         if (!card.contains(e.relatedTarget)) {
             hideTooltip();
         }
     });
-	document.addEventListener('mouseover', function (e) {
-	        if (!e.target.closest('[data-network-id][data-package-id], [data-networkid][data-packageid]')) {
-	            hideTooltip();
-	        }
-	    });
+    document.addEventListener('mouseover', function (e) {
+        if (!e.target.closest('[data-network-id][data-package-id], [data-networkid][data-packageid]')) {
+            hideTooltip();
+        }
+    });
 
 })();
 
@@ -1505,3 +1543,840 @@ function goNext() {
     setInterval(tick, 1000);
 })();
 
+/* ═══════════════════════════════════════════════════════════
+   CLONE TPS PAGE  —  append to bottom of layout.js
+   No overlay, no backdrop — replaces workspace content like admin mode
+════════════════════════════════════════════════════════════ */
+
+// ── Mock data (swap fetch() in when API is ready) ─────────
+const TP_PLANS_MOCK = [
+    {
+        id: 'tp-001',
+        tag: 'Individual plan',
+        price: '449',
+        currency: '₹',
+        period: '/m+GST',
+        data: 'unlimited',
+        dataLabel: '4G & 5G DATA',
+        calls: 'unlimited',
+        callsLabel: 'CALLS',
+        otts: [
+            { label: '⚡', bg: '#e63946' },
+            { label: 'G1', bg: '#4285f4' },
+            { label: 'LS', bg: '#6c47ff' },
+            { label: 'HP', bg: '#00b37e' },
+        ],
+        ottExtra: 4,
+    },
+    {
+        id: 'tp-002',
+        tag: 'Individual plan',
+        price: '549',
+        currency: '₹',
+        period: '/m+GST',
+        data: 'unlimited',
+        dataLabel: '4G & 5G DATA',
+        calls: 'unlimited',
+        callsLabel: 'CALLS',
+        otts: [
+            { label: '⚡', bg: '#e63946' },
+            { label: 'PV', bg: '#00a8e1' },
+            { label: 'G1', bg: '#4285f4' },
+            { label: 'LS', bg: '#6c47ff' },
+        ],
+        ottExtra: 5,
+    },
+    {
+        id: 'tp-003',
+        tag: '1 regular + 1 free add-on SIMs',
+        price: '699',
+        currency: '₹',
+        period: '/m+GST',
+        data: 'unlimited',
+        dataLabel: '4G & 5G DATA',
+        calls: 'unlimited',
+        callsLabel: 'CALLS',
+        otts: [
+            { label: '⚡', bg: '#e63946' },
+            { label: 'PV', bg: '#00a8e1' },
+            { label: 'G1', bg: '#4285f4' },
+            { label: 'LS', bg: '#6c47ff' },
+        ],
+        ottExtra: 5,
+    },
+    {
+        id: 'tp-004',
+        tag: '1 regular + 2 free add-on SIMs',
+        price: '999',
+        currency: '₹',
+        period: '/m+GST',
+        data: 'unlimited',
+        dataLabel: '4G & 5G DATA',
+        calls: 'unlimited',
+        callsLabel: 'CALLS',
+        otts: [
+            { label: '⚡', bg: '#e63946' },
+            { label: 'PV', bg: '#00a8e1' },
+            { label: 'G1', bg: '#4285f4' },
+            { label: 'TV', bg: '#111111' },
+        ],
+        ottExtra: 7,
+    },
+    {
+        id: 'tp-005',
+        tag: '1 regular + 3 free add-on SIMs',
+        price: '1199',
+        currency: '₹',
+        period: '/m+GST',
+        data: 'unlimited',
+        dataLabel: '4G & 5G DATA',
+        calls: 'unlimited',
+        callsLabel: 'CALLS',
+        otts: [
+            { label: '⚡', bg: '#e63946' },
+            { label: 'PV', bg: '#00a8e1' },
+            { label: 'G1', bg: '#4285f4' },
+            { label: 'TV', bg: '#111111' },
+        ],
+        ottExtra: 7,
+    },
+    {
+        id: 'tp-006',
+        tag: '1 regular + 3 free add-on SIMs',
+        price: '1399',
+        currency: '₹',
+        period: '/m+GST',
+        data: 'unlimited',
+        dataLabel: '4G & 5G DATA',
+        calls: 'unlimited',
+        callsLabel: 'CALLS',
+        otts: [
+            { label: '⚡', bg: '#e63946' },
+            { label: 'N', bg: '#e50914' },
+            { label: 'PV', bg: '#00a8e1' },
+            { label: 'G1', bg: '#4285f4' },
+        ],
+        ottExtra: 8,
+    },
+];
+
+// ── Filter state ──────────────────────────────────────────
+const _tpFilter = { category: null, validity: null, price: null };
+
+function openFilterModal() {
+    document.getElementById('tpFilterModal').classList.add('active');
+}
+
+function _filterOverlayClick(e) {
+    if (e.target === document.getElementById('tpFilterModal')) {
+        document.getElementById('tpFilterModal').classList.remove('active');
+    }
+}
+
+function _tpfChip(btn, group) {
+    // toggle within group (single-select per group)
+    const row = document.getElementById('tpf-' + group);
+    row.querySelectorAll('.tpf-chip').forEach(c => c.classList.remove('selected'));
+    const alreadySelected = _tpFilter[group] === btn.dataset.val;
+    if (alreadySelected) {
+        _tpFilter[group] = null;
+    } else {
+        btn.classList.add('selected');
+        _tpFilter[group] = btn.dataset.val;
+    }
+    _tpfUpdateFooter();
+}
+
+function _tpfUpdateFooter() {
+    const anyActive = _tpFilter.category || _tpFilter.validity || _tpFilter.price;
+    const showBtn = document.getElementById('tpfShowBtn');
+    showBtn.disabled = !anyActive;
+
+    // update badge on Filter button
+    const count = [_tpFilter.category, _tpFilter.validity, _tpFilter.price].filter(Boolean).length;
+    const badge = document.getElementById('cloneFilterBadge');
+    const filterBtn = document.getElementById('cloneFilterBtn');
+    if (count > 0) {
+        badge.textContent = count;
+        badge.style.display = 'inline-flex';
+        filterBtn.classList.add('active');
+    } else {
+        badge.style.display = 'none';
+        filterBtn.classList.remove('active');
+    }
+}
+
+function _tpfClearAll() {
+    _tpFilter.category = null;
+    _tpFilter.validity = null;
+    _tpFilter.price = null;
+    document.querySelectorAll('.tpf-chip').forEach(c => c.classList.remove('selected'));
+    _tpfUpdateFooter();
+    _applyTpSearch(document.getElementById('cloneSearchInput')?.value || '');
+    document.getElementById('tpFilterModal').classList.remove('active');
+}
+
+function _tpfApply() {
+    document.getElementById('tpFilterModal').classList.remove('active');
+    _applyTpSearch(document.getElementById('cloneSearchInput')?.value || '');
+}
+
+// ── Selection state ───────────────────────────────────────
+const _tpSelected = new Set();
+
+// ── Open ──────────────────────────────────────────────────
+function openClone() {
+    const page = document.getElementById('clonePage');
+    const workBody = document.getElementById('leftPane')?.parentElement; // .workspace-body
+    const headerPill = document.querySelector('.header-pill-bar');
+    const stepRail = document.getElementById('stepRail');
+    const sidebar = document.getElementById('sidebar');
+
+    if (!page) return;
+
+    // 1. Hide the normal workspace content (like admin mode does)
+    if (workBody) workBody.style.display = 'none';
+    if (headerPill) headerPill.style.display = 'none';
+
+    // 2. Collapse step-rail & sidebar (clone page doesn't need them)
+    if (stepRail) stepRail.classList.add('collapsed');
+    if (sidebar) sidebar.classList.add('collapsed');
+
+    // 3. Show the clone page container (flex, then animate in)
+    _tpSelected.clear();
+    _tpfClearAll();   // reset filters on every open
+    page.style.display = 'flex';
+
+    // Clear search input
+    const si = document.getElementById('cloneSearchInput');
+    if (si) si.value = '';
+
+    // Trigger CSS transition on next paint
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            page.classList.add('visible');
+        });
+    });
+
+    // 4. Fetch real data from API and render cards
+    _loadAndRenderTpCards();
+}
+
+// ── Close ─────────────────────────────────────────────────
+function closeClonePage() {
+    const page = document.getElementById('clonePage');
+    const workBody = document.getElementById('leftPane')?.parentElement;
+    const headerPill = document.querySelector('.header-pill-bar');
+    const stepRail = document.getElementById('stepRail');
+    const sidebar = document.getElementById('sidebar');
+
+    if (!page) return;
+
+    // Animate out
+    page.classList.remove('visible');
+
+    // After transition ends, restore workspace
+    page.addEventListener('transitionend', function _restore(e) {
+        if (e.propertyName !== 'opacity') return;
+        page.removeEventListener('transitionend', _restore);
+        page.style.display = 'none';
+
+        // Restore workspace body + header
+        if (workBody) workBody.style.display = '';
+        if (headerPill) headerPill.style.display = '';
+
+        // Restore rails based on current module/step
+        const step = getActiveStep();
+        if (step > 0) {
+            if (stepRail) stepRail.classList.remove('collapsed');
+            if (sidebar && (step === 2 || step === 3 || step === 4)) {
+                sidebar.classList.remove('collapsed');
+            }
+        }
+
+        _tpSelected.clear();
+    }, { once: false }); // we manually remove, so once:false is fine
+}
+
+// ── Render cards ──────────────────────────────────────────
+async function _loadAndRenderTpCards() {
+    const grid = document.getElementById('clonePlanGrid');
+    const countBadge = document.getElementById('clonePlanCount');
+    if (!grid) return;
+
+    grid.innerHTML = '<p style="padding:24px;color:var(--text-muted,#888)">Loading plans...</p>';
+
+    try {
+        const networkId = (typeof NETWORK_ID !== 'undefined' && NETWORK_ID) ? NETWORK_ID : '';
+        if (!networkId) {
+            grid.innerHTML = '<p style="padding:24px;color:var(--text-muted,#888)">Network ID not found in session.</p>';
+            return;
+        }
+
+        const res = await fetch('/tariff-package-details?networkId=' + networkId);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const plans = await res.json();
+
+        if (!plans || !plans.length) {
+            grid.innerHTML = '<p style="padding:24px;color:var(--text-muted,#888)">No tariff plans found for this network.</p>';
+            if (countBadge) countBadge.textContent = '0 plans';
+            return;
+        }
+
+        _renderTpCards(plans);
+    } catch (err) {
+        console.error('Failed to load tariff plans:', err);
+        grid.innerHTML = '<p style="padding:24px;color:#e63946">Failed to load plans. Please try again.</p>';
+    }
+}
+
+// ── OTT service master list (cards + modal share this) ────
+const _OTT_SERVICES = [
+    {
+        id: 'netflix',
+        title: 'Netflix',
+        src: '/images/ott/Netflix.avif',
+        // fallback: 'https://play-lh.googleusercontent.com/TBRwjS_qfJCSj1m7zZB93FnpJM5fSpMA_wUlFDLxWAb45T9RmwBvQd5cWR5viJJOhkI=s96',
+        bg: '#000000',
+        desc: 'Award-winning series | Movies | Documentaries',
+    },
+    {
+        id: 'prime',
+        title: 'Prime Video',
+        src: '/images/ott/Prime.svg',
+        fallback: 'https://play-lh.googleusercontent.com/7GeHvHSS4mPpgXgZbEcBnXPuqstCJSnXxN3HkJ1UXlW_cDiQ6wUnrMPP9UX3Lc5s-A=s96',
+        bg: '#00a8e1',
+        desc: 'Amazon Originals | Movies | Live Sports',
+    },
+    {
+        id: 'hotstar',
+        title: 'JioHotstar',
+        src: '/images/ott/Jiohotstar.svg',
+        fallback: 'https://play-lh.googleusercontent.com/N8wdJc9fXHWNFSHjFNBmMLBIsHTMVLvQWm0wAAOOVLvPz6jPE0O3hgGiHCBUaGnETQ=s96',
+        bg: '#1f80e0',
+        desc: 'TV Shows | Movies | Originals | Live Sports',
+    },
+    {
+        id: 'zee5',
+        title: 'ZEE5',
+        src: '/images/ott/Zee5.svg',
+        fallback: 'https://play-lh.googleusercontent.com/K2YZMc-arGqQrPjBT_BBORfTCNMvkVYi6hk1UHm7nzAE3-pjBYMBvZlRmFAZsXKlg7Y=s96',
+        bg: '#8b1fa9',
+        desc: 'Web Series | Movies | Originals in 18 languages',
+    },
+    {
+        id: 'sonyliv',
+        title: 'SonyLIV',
+        src: '/images/ott/SonyLiv.svg',
+        fallback: 'https://play-lh.googleusercontent.com/5kFbAj5LrFKKb42jDAfZ-rSR7nZ5kZSgd3xyRRn2OJUyFCxXU9V9pCvMWyGKWi2xSGM=s96',
+        bg: '#003087',
+        desc: 'Popular TV Shows | New Series | Movies',
+    },
+    {
+        id: 'mxplayer',
+        title: 'MX Player',
+        src: '/images/ott/MX_Player.webp',
+        fallback: 'https://play-lh.googleusercontent.com/qJ3jUspGE6OBkBEi1sWTBYggELSMCYLKZpLKB4FbHzQJJZBLWaZ0jL-nefcNfBzGXQ=s96',
+        bg: '#ff6c00',
+        desc: 'Free Movies | Web Series | Music Videos',
+    },
+    {
+        id: 'jiosaavn',
+        title: 'JioSaavn',
+        src: '/images/ott/JioSaavn.png',
+        fallback: 'https://play-lh.googleusercontent.com/YXF5WxFIGaE89K0K5C8fX2cV7RBBLxhI7HLlWv4rTVe1P0nIlTjy4eHT9iJqOKNitFoC=s96',
+        bg: '#1db954',
+        desc: 'Music | Podcasts | Radio | 80M+ Songs',
+    },
+    {
+        id: 'fancode',
+        title: 'FanCode',
+        src: '/images/ott/FanCode.svg',
+        fallback: 'https://play-lh.googleusercontent.com/8vFMcbQ9IuRPcJKz6lHt0W_FWu_pY4HUMqz-t7k-E1I4-GHUWbPXrVvjSSvF2EbIoQ=s96',
+        bg: '#e63946',
+        desc: 'Live Cricket | Football | Sports Streaming',
+    },
+];
+
+// ── Icons shown in plan cards (first 5 + "+N more" badge) ─
+const _OTT_ICONS = _OTT_SERVICES;
+
+// ── All loaded plans (for search filtering) ───────────────
+let _allTpPlans = [];
+
+// ── Category display order & icons ───────────────────────
+const _CAT_ORDER = ['VOICE', 'SMS', 'DATA', 'VOICE_SMS'];
+const _CAT_ICON = {
+    VOICE: '📞',
+    SMS: '💬',
+    DATA: '📶',
+    VOICE_SMS: '📱',
+};
+
+// ── Group flat plan array by tariffPackageDesc ────────────
+function _groupPlansByDesc(plans) {
+    const map = new Map();
+    plans.forEach(p => {
+        const key = p.tariffPackageDesc || '';
+        if (!map.has(key)) {
+            map.set(key, {
+                tariffPackageDesc: key,
+                activationFee: p.activationFee,
+                rentalType: p.rentalType,
+                buckets: [],          // { balanceCategory, bucketUnitValue }
+                _raw: [],             // all original rows, for modal
+            });
+        }
+        const group = map.get(key);
+        // Keep the highest activationFee as the representative price
+        if (Number(p.activationFee) > Number(group.activationFee)) {
+            group.activationFee = p.activationFee;
+        }
+        group.buckets.push({ balanceCategory: p.balanceCategory, bucketUnitValue: p.bucketUnitValue });
+        group._raw.push(p);
+    });
+
+    // Sort buckets within each group: VOICE → SMS → DATA → others
+    map.forEach(group => {
+        group.buckets.sort((a, b) => {
+            const ai = _CAT_ORDER.indexOf(a.balanceCategory);
+            const bi = _CAT_ORDER.indexOf(b.balanceCategory);
+            return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+        });
+    });
+
+    return Array.from(map.values());
+}
+
+function _renderTpCards(plans) {
+    _allTpPlans = plans;
+    _applyTpSearch('');
+}
+
+function _applyTpSearch(query) {
+    const grid = document.getElementById('clonePlanGrid');
+    const countBadge = document.getElementById('clonePlanCount');
+    if (!grid) return;
+
+    const q = query.trim().toLowerCase();
+
+    // 1. Text search filter on the flat list
+    let flatFiltered = q
+        ? _allTpPlans.filter(p => {
+            const fee = String(p.activationFee ?? '');
+            const cat = (p.balanceCategory || '').toLowerCase();
+            const desc = (p.tariffPackageDesc || '').toLowerCase();
+            return fee.includes(q) || cat.includes(q) || desc.includes(q);
+        })
+        : _allTpPlans;
+
+    // 2. Category filter — keep only rows that have the selected balanceCategory
+    if (_tpFilter.category && _tpFilter.category !== 'ALL') {
+        const cat = _tpFilter.category.toUpperCase();
+        // keep only groups that contain at least one row with this category
+        const matchingDescs = new Set(
+            flatFiltered.filter(p => (p.balanceCategory || '').toUpperCase() === cat)
+                .map(p => p.tariffPackageDesc)
+        );
+        flatFiltered = flatFiltered.filter(p => matchingDescs.has(p.tariffPackageDesc));
+    }
+
+    // 3. Group
+    let groups = _groupPlansByDesc(flatFiltered);
+
+    // 4. Price sort
+    if (_tpFilter.price === 'asc') {
+        groups.sort((a, b) => Number(a.activationFee) - Number(b.activationFee));
+    } else if (_tpFilter.price === 'desc') {
+        groups.sort((a, b) => Number(b.activationFee) - Number(a.activationFee));
+    }
+
+    // (validity filter: API doesn't return validity; stub for future use)
+
+    if (countBadge) countBadge.textContent = groups.length + ' plan' + (groups.length !== 1 ? 's' : '');
+
+    grid.innerHTML = '';
+
+    if (!groups.length) {
+        grid.innerHTML = '<p style="padding:24px;color:var(--text-muted,#888)">No plans match your search.</p>';
+        return;
+    }
+
+    // OTT icons strip — show first 5 + overflow badge
+    const _OTT_CARD_MAX = 5;
+    const visibleOtts = _OTT_ICONS.slice(0, _OTT_CARD_MAX);
+    const extraCount = _OTT_ICONS.length - _OTT_CARD_MAX;
+    const ottHtml = visibleOtts.map(o =>
+        `<img class="tp-ott-icon-img" src="${o.src}" alt="${o.title}" title="${o.title}" onerror="this.style.display='none'">`
+    ).join('') + (extraCount > 0 ? `<span class="tp-ott-more">+${extraCount}</span>` : '');
+
+    groups.forEach((group, i) => {
+        const planId = 'tp-grp-' + encodeURIComponent(group.tariffPackageDesc);
+        const selected = _tpSelected.has(planId);
+
+        const feeNum = Number(group.activationFee);
+        const priceHtml = `
+            <span class="tp-price-main">
+                <sup>₹</sup>${feeNum.toLocaleString('en-IN')}
+            </span>
+            <span class="tp-price-period">/m+GST</span>
+        `;
+
+        // Build one column per bucket (VOICE | SMS | DATA …)
+        const bucketsHtml = group.buckets.map(b => {
+            const icon = _CAT_ICON[b.balanceCategory] || '📦';
+            const val = b.bucketUnitValue || '-';
+            const cat = b.balanceCategory || '';
+            return `
+                <div class="tp-meta-col">
+                    <span class="tp-meta-val">${val}</span>
+                    <span class="tp-meta-key">${cat}</span>
+                </div>`;
+        }).join('<div class="tp-meta-sep"></div>');
+
+        const card = document.createElement('div');
+        card.className = 'tp-plan-card' + (selected ? ' selected' : '');
+        card.dataset.planId = planId;
+        card.style.setProperty('--card-i', i);
+
+        card.innerHTML = `
+            <div class="tp-check-badge"><span class="material-icons">check</span></div>
+
+            <div class="tp-tag">${group.rentalType || 'Individual plan'}</div>
+
+            <div class="tp-price-only">
+                ${priceHtml}
+            </div>
+
+            <div class="tp-buckets-row tp-buckets-row--multi">
+                ${bucketsHtml}
+            </div>
+
+            <div class="tp-ott-strip">${ottHtml}</div>
+
+            <div class="tp-card-actions">
+                <button
+                    class="tp-btn-details"
+                    onclick='event.stopPropagation();openTpDetails(${JSON.stringify(JSON.stringify(group))})'
+                >
+                    View Details
+                </button>
+
+                <button
+                    class="tp-btn-select"
+                    onclick="event.stopPropagation();openCloneTree('${encodeURIComponent(group.tariffPackageDesc)}', ${group._raw[0]?.tariff_package_id || 'null'})"
+                >
+                    Select
+                </button>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+function _toggleTpSelect(planId) {
+    if (_tpSelected.has(planId)) {
+        _tpSelected.delete(planId);
+    } else {
+        _tpSelected.add(planId);
+    }
+
+    const card = document.querySelector(`.tp-plan-card[data-plan-id="${planId}"]`);
+    if (card) {
+        const isSelected = _tpSelected.has(planId);
+        card.classList.toggle('selected', isSelected);
+        const btn = card.querySelector('.tp-btn-select');
+        if (btn) btn.textContent = isSelected ? 'Selected' : 'Select';
+    }
+}
+
+// ── Clone action stub ─────────────────────────────────────
+function handleCloneAction() {
+    const ids = Array.from(_tpSelected);
+    if (!ids.length) return;
+    alert(`Cloning ${ids.length} plan(s).\n(Wire to your POST /api/clone endpoint)`);
+}
+
+// ── Clone Tree Modal ──────────────────────────────────────
+async function openCloneTree(encodedDesc, tariffPackageId) {
+    const tpDesc = decodeURIComponent(encodedDesc);
+    const modal = document.getElementById('cloneTreeModal');
+    const body = document.getElementById('cloneTreeBody');
+
+    // Store for action buttons
+    modal.dataset.tpDesc = tpDesc;
+    modal.dataset.tpId = tariffPackageId || '';
+
+    // Store full plan object so Clone button can POST it directly
+
+    // Show modal with loading state
+    body.innerHTML = `<div class="ctm-loading">
+        <span class="material-icons ctm-spin">refresh</span>
+        Loading plan structure…
+    </div>`;
+    modal.classList.add('active');
+
+    // Fetch
+    try {
+        const networkId = (typeof NETWORK_ID !== 'undefined' && NETWORK_ID) ? NETWORK_ID : '';
+        const res = await fetch(`/details?networkId=${networkId}&tariffPackageId=${tariffPackageId}`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        _currentClonePayload = data;
+        _renderCloneTree(body, tpDesc, data);
+    } catch (err) {
+        console.error('Clone tree fetch error:', err);
+        body.innerHTML = `<div class="ctm-error">
+            <span class="material-icons">error_outline</span>
+            Failed to load plan details. Please try again.
+        </div>`;
+    }
+}
+
+function _renderCloneTree(container, tpDesc, response) {
+    // ── Unwrap: response is { tpName, username, networkId, data: {...} }
+    const d = response.data || response;
+
+    const tpName = d.tariffPlanName || d.tariffPackageDesc || '—';
+    const datpRows = d.defaultAtps || [];
+    const aatpRows = d.allowedAtps || [];
+
+    function attrPill(label, value) {
+        if (value === null || value === undefined || value === '') return '';
+        return `<span class="pd-attr">
+                    <span class="pd-attr-label">${label}</span>
+                    <span class="pd-attr-value">${value}</span>
+                </span>`;
+    }
+
+    function componentRow(r, index, type) {
+        const name = r.packageName || r.chargeDesc || r.chargeId || type;
+        const attrs = [
+            attrPill('Validity', r.validity || '—'),
+            attrPill('Mid. Expiry', r.midnightExpiry || '—'),
+            attrPill('Renewal', r.renewal || '—'),
+            attrPill('Rental', r.rental ?? '0'),
+            attrPill('Max Count', r.maxCount ?? '0'),
+            attrPill('Free Cycles', r.freeCycles ?? '0'),
+        ].join('');
+        const colorClass = type === 'DATP' ? 'pd-row--datp' : 'pd-row--aatp';
+        const badge = type === 'DATP' ? 'pd-badge--datp' : 'pd-badge--aatp';
+        return `
+        <div class="pd-component-row ${colorClass}">
+            <div class="pd-row-top">
+                <span class="pd-row-badge ${badge}">${type}</span>
+                <span class="pd-row-name">${name}</span>
+                <span class="pd-row-index">#${index + 1}</span>
+            </div>
+            <div class="pd-row-attrs">${attrs || '<span class="pd-no-attrs">No attributes</span>'}</div>
+        </div>`;
+    }
+
+    const datpHtml = datpRows.length
+        ? datpRows.map((r, i) => componentRow(r, i, 'DATP')).join('')
+        : '<div class="pd-empty-section">No DATP components</div>';
+
+    const aatpHtml = aatpRows.length
+        ? aatpRows.map((r, i) => componentRow(r, i, 'AATP')).join('')
+        : '<div class="pd-empty-section">No AATP components</div>';
+
+    container.innerHTML = `
+        <div class="pd-sheet">
+            <div class="pd-plan-band">
+                <div class="pd-plan-band-left">
+                    <span class="pd-plan-label">SERVICE PLAN</span>
+                    <span class="pd-plan-name">${tpName}</span>
+                </div>
+                <div class="pd-plan-band-right">
+                    <span class="pd-plan-label">PACKAGE</span>
+                    <span class="pd-plan-pkg">${tpDesc}</span>
+                </div>
+            </div>
+            <div class="pd-sections">
+                <div class="pd-section">
+                    <div class="pd-section-header pd-section-header--datp">
+                        <span class="material-icons pd-section-icon">add_circle_outline</span>
+                        <span class="pd-section-title">Default ATP</span>
+                        <span class="pd-section-count">${datpRows.length}</span>
+                    </div>
+                    <div class="pd-section-body">${datpHtml}</div>
+                </div>
+                <div class="pd-section">
+                    <div class="pd-section-header pd-section-header--aatp">
+                        <span class="material-icons pd-section-icon">shopping_cart</span>
+                        <span class="pd-section-title">Allowed ATP</span>
+                        <span class="pd-section-count">${aatpRows.length}</span>
+                    </div>
+                    <div class="pd-section-body">${aatpHtml}</div>
+                </div>
+            </div>
+        </div>`;
+}
+
+function closeCloneTree() {
+    document.getElementById('cloneTreeModal').classList.remove('active');
+}
+
+function _cloneTreeOverlayClick(e) {
+    if (e.target === document.getElementById('cloneTreeModal')) closeCloneTree();
+}
+
+document.addEventListener('click', function (e) {
+    if (e.target.id === 'tpDetailsModal') closeTpDetails();
+});
+
+// console.log("CLONE PAYLOAD:", JSON.stringify(payload, null, 2));
+
+async function _cloneTreeAction(action) {
+    const modal = document.getElementById('cloneTreeModal');
+    const tpDesc = modal.dataset.tpDesc;
+    const tpId = modal.dataset.tpId;
+
+    if (action === 'clone') {
+        const payload = _currentClonePayload;
+
+        console.log("CLONE PAYLOAD:", JSON.stringify(payload, null, 2));
+
+        if (payload == null) {
+            alert('Plan data not available. Please close and try again.');
+            return;
+        }
+
+        // Disable button to prevent double-submit
+        const cloneBtn = modal.querySelector('[onclick*="clone"]');
+        if (cloneBtn) { cloneBtn.disabled = true; cloneBtn.textContent = 'Cloning…'; }
+
+        try {
+            const res = await fetch('/clone', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await res.json();
+
+            if (!res.ok || result.error) {
+                alert(result.error || 'Clone failed. Please try again.');
+                return;
+            }
+
+            alert('✅ Cloned successfully!\nNew plan: ' + result.clonedTpName);
+            closeCloneTree();
+
+        } catch (err) {
+            console.error('Clone error:', err);
+            alert('Server error during clone. Please try again.');
+        } finally {
+            if (cloneBtn) { cloneBtn.disabled = false; cloneBtn.textContent = 'Clone'; }
+        }
+
+    } else if (action === 'modify') {
+        alert(`Modify: ${tpDesc}`);
+    } else {
+        closeCloneTree();
+    }
+}
+
+function openTpDetails(groupData) {
+
+    const group = JSON.parse(groupData);
+
+    const modal = document.getElementById('tpDetailsModal');
+    const content = document.getElementById('tpModalContent');
+
+    const fee = Number(group.activationFee || 0);
+
+    // ── Filter buckets: only VOICE, SMS, DATA ─────────────
+    const ALLOWED = ['VOICE', 'SMS', 'DATA'];
+    const buckets = (group.buckets || []).filter(b => ALLOWED.includes((b.balanceCategory || '').toUpperCase()));
+
+    const hasVoice = buckets.some(b => b.balanceCategory === 'VOICE');
+    const hasSms = buckets.some(b => b.balanceCategory === 'SMS');
+    const hasData = buckets.some(b => b.balanceCategory === 'DATA');
+
+    // ── Dynamic notes based on missing categories ──────────
+    const notes = [];
+    if (!hasSms) notes.push('No Outgoing SMS');
+    if (!hasVoice) notes.push('No Voice calls');
+    if (!hasData) notes.push('No Data included');
+    if (notes.length === 0) notes.push('All services included', 'Full voice, SMS & data access');
+    const notesHtml = notes.map(n => `<li>${n}</li>`).join('');
+
+    // ── Price block ────────────────────────────────────────
+    const priceSup = `
+        <div class="tp-modal-price"><sup>₹</sup>${fee.toLocaleString('en-IN')}</div>
+        <div class="tp-modal-price-gst">+GST</div>`;
+
+    // ── Buckets: value on top, label below, no dividers ───
+    const bucketsHtml = buckets.map(b => `
+        <div class="tp-modal-bucket">
+            <span class="tp-modal-bucket-val">${b.bucketUnitValue || '-'}</span>
+            <span class="tp-modal-bucket-key">${b.balanceCategory.toLowerCase()}</span>
+        </div>`).join('');
+
+    // ── OTT strip (small icons beside notes) ──────────────
+    const ottStripHtml = _OTT_SERVICES.slice(0, 4).map(o =>
+        `<img class="tp-modal-ott-img" src="${o.src}"
+              alt="${o.title}"
+              onerror="this.src='${o.fallback}'">`
+    ).join('');
+
+    // ── Full OTT benefit list ──────────────────────────────
+    const ottListHtml = _OTT_SERVICES.map(o => `
+        <div class="tp-modal-ott-item">
+            <img class="tp-modal-ott-item-img" src="${o.src}"
+                 alt="${o.title}"
+                 onerror="this.src='${o.fallback}'">
+            <div class="tp-modal-ott-item-info">
+                <span class="tp-modal-ott-item-name">${o.title}</span>
+                <span class="tp-modal-ott-item-desc">${o.desc}</span>
+            </div>
+        </div>`).join('');
+
+    content.innerHTML = `
+        <div class="tp-modal-title">${group.tariffPackageDesc || 'Pack Details'}</div>
+
+        <div class="tp-modal-badge">${group.rentalType || 'Individual plan'}</div>
+
+        <div class="tp-modal-hero">
+            <div class="tp-modal-price-block">
+                ${priceSup}
+            </div>
+            <div class="tp-modal-hero-divider"></div>
+            <div class="tp-modal-buckets">
+                ${bucketsHtml}
+            </div>
+        </div>
+
+        <div class="tp-modal-ott-row">
+            <div class="tp-modal-ott-icons">${ottStripHtml}</div>
+            <ul class="tp-modal-ott-notes">${notesHtml}</ul>
+        </div>
+
+        <div class="tp-modal-benefits-title">additional benefits</div>
+
+        <div class="tp-modal-scroll-body">
+            <div class="tp-modal-ott-list">
+                ${ottListHtml}
+            </div>
+            <div class="tp-modal-your-benefits">
+                <div class="tp-modal-your-benefits-title">your benefits</div>
+                <p class="tp-modal-your-benefits-text">
+                    Get JioHotstar Mobile + 7 more OTTs including ZEE5,
+                    SonyLIV, FanCode, Lionsgate Play &amp; more. Add-on
+                    ${hasData ? buckets.find(b => b.balanceCategory === 'DATA').bucketUnitValue + ' Data.' : 'No extra data.'}
+                    ${!hasSms ? 'No service validity.' : ''}
+                    Pack validity 28 days.
+                </p>
+            </div>
+        </div>
+    `;
+
+    modal.classList.add('active');
+}
+
+function closeTpDetails() {
+    document.getElementById('tpDetailsModal')
+        .classList.remove('active');
+}

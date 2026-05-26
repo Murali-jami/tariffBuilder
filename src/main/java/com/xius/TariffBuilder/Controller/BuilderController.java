@@ -63,19 +63,18 @@ public class BuilderController {
 
     @Autowired
     private ServicePackageService servicePackageService;
-    
+
     @Autowired
     private BundleService bundleService;
-    
 
     @Autowired
     private TariffApprovalService tariffApprovalService;
-    
-    @Autowired
-    private TariffPackageService tariffPackageService;
-    
+
     @Autowired
     private JsonStorage jsonStorage;
+
+    @Autowired
+    private TariffPackageService tariffPackageService;
 
     // ================= LOGIN =================
 
@@ -176,7 +175,7 @@ public class BuilderController {
 
     // ================= ADMIN =================
 
-	@GetMapping("/builder/admin")
+    @GetMapping("/builder/admin")
     public String adminPage(HttpSession session, Model model) {
 
         logger.info("Opening admin page");
@@ -444,8 +443,6 @@ public class BuilderController {
                 "message", "Tariff rejected successfully");
     }
 
- 
-
     @GetMapping("/saved/list")
     @ResponseBody
     public Map<String, Object> getSavedList(HttpSession session) {
@@ -477,15 +474,15 @@ public class BuilderController {
     public ResponseEntity<?> saveDraft(
             @RequestBody(required = false) String draftJson,
             HttpSession session) {
- 
+
         if (draftJson == null || draftJson.isBlank()) {
             return ResponseEntity.ok().build();
         }
- 
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> draft = mapper.readValue(draftJson, Map.class);
- 
+
             // prefer session username, fall back to payload username, then guest
             String username = (String) session.getAttribute("username");
             if (username == null) {
@@ -494,13 +491,13 @@ public class BuilderController {
             if (username == null) {
                 username = "guest";
             }
- 
+
             saveConfigService.saveDraft(draft, username);
- 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
- 
+
         return ResponseEntity.ok().build();
     }
 
@@ -546,14 +543,24 @@ public class BuilderController {
         }
         return Map.of("description", desc);
     }
-    
+
     @GetMapping("/tariff-package-details")
     public ResponseEntity<List<TariffPackageDetailsDto>> getTariffPackageDetails(
             @RequestParam Integer networkId) {
 
-        List<TariffPackageDetailsDto> response =
-                tariffPackageService.getTariffPackageDetails(networkId);
+        List<TariffPackageDetailsDto> response = tariffPackageService.getTariffPackageDetails(networkId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<?> getTariffPackageDetails(
+            @RequestParam Long networkId,
+            @RequestParam Long tariffPackageId) {
+
+        return ResponseEntity.ok(
+                tariffApprovalService.getTariffPackageDetails(
+                        networkId,
+                        tariffPackageId));
     }
 }
