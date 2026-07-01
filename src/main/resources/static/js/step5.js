@@ -8,10 +8,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // ── Clone mode: swap Save Config → Clone Package ──────────────
     if (sessionStorage.getItem('cloneMode') === 'true') {
-        const saveBtn = document.getElementById('saveConfigBtn');
+        const saveBtn  = document.getElementById('saveConfigBtn');
         const cloneBtn = document.getElementById('clonePackageBtn');
-        if (saveBtn) saveBtn.style.display = 'none';
+        if (saveBtn)  saveBtn.style.display  = 'none';
         if (cloneBtn) cloneBtn.style.display = 'inline-flex';
+        return;
+    }
+
+    // ── Approved edit mode: swap Save Config → Update Package ─────
+    if (sessionStorage.getItem('approvedMode') === 'true') {
+        const saveBtn     = document.getElementById('saveConfigBtn');
+        const updateBtn   = document.getElementById('updatePackageBtn');
+        if (saveBtn)   saveBtn.style.display   = 'none';
+        if (updateBtn) updateBtn.style.display = 'inline-flex';
     }
 });
 
@@ -40,7 +49,7 @@ function onCorporateChange(checked) {
     saveState(state);
 }
 
-// ── Clone Package — called from the Clone Package button in step5 ──
+// ── Clone Package — CHANGE 3: direct vs modify modes ─────────────
 async function clonePackageFromBuilder() {
     const state = getState();
 
@@ -61,18 +70,15 @@ async function clonePackageFromBuilder() {
         return;
     }
 
-    // Retrieve the original payload stored when Modify was clicked
-    const rawPayload = sessionStorage.getItem('clonePayload');
-    if (!rawPayload) {
-        alert('Clone payload missing. Please go back to the Clone page and try again.');
-        return;
-    }
+    const originalTpName    = sessionStorage.getItem('cloneTpName');
+    const networkId         = sessionStorage.getItem('cloneNetworkId');
+    const username          = sessionStorage.getItem('username') || (typeof USERNAME !== 'undefined' ? USERNAME : '');
+    const cloneType         = sessionStorage.getItem('cloneType') || 'direct';
+    const origPublicityId   = sessionStorage.getItem('cloneOriginalPublicityId');
+    const origTpName        = sessionStorage.getItem('cloneOriginalTpName');
 
-    let payload;
-    try {
-        payload = JSON.parse(rawPayload);
-    } catch (e) {
-        alert('Invalid clone payload. Please try again.');
+    if (!originalTpName || !networkId) {
+        alert('Clone context missing. Please go back to the Clone page and try again.');
         return;
     }
 
@@ -82,48 +88,83 @@ async function clonePackageFromBuilder() {
         return `${month}/${day}/${year}`;
     }
 
-    const chargeId = (payload.tpName || payload.data?.tariffPackageDesc || '') + '_PR';
+    // CHANGE 7: no chargeId in ATP objects
+    const atpMapper = item => ({
+        servicePackageId: Number(item.id),
+        packageName:      item.name,
+        validity:         item.validity,
+        rentalPeriod:     item.validity === 'O' ? (item.rentalPeriod || 1) : "",
+        midnightExpiry:   item.midnightExpiry,
+        renewal:          item.renewal,
+        rental:           item.rental    || 0,
+        maxCount:         item.maxCount  || 0,
+        freeCycles:       item.freeCycles || 0
+    });
 
-    // Merge builder's current step5 values into the payload's data block
-    payload.data = {
-        ...payload.data,
-        charge: state.price,
-        endDate: formatDateToMMDDYYYY(state.endDate),
-        publicityId: state.publicityCode,
-        isCorporateYn: state.isCorporate || false,
-        chargeId: chargeId,
-        packageType: sessionStorage.getItem('pkgType') || payload.data?.packageType,
-        tariffPackCategory: sessionStorage.getItem('pkgSubType') || payload.data?.tariffPackCategory || 'NORMAL',
-        tariffPlanId: Number(state.s2[0].id),
-        tariffPlanName: state.s2[0].name,
-        defaultAtps: (state.s3 || []).map(item => ({
-            servicePackageId: Number(item.id),
-            chargeId: chargeId,
-            packageName: item.name,
-            validity: item.validity,
-            midnightExpiry: item.midnightExpiry,
-            renewal: item.renewal,
-            rental: item.rental || 0,
-            maxCount: item.maxCount || 0,
-            freeCycles: item.freeCycles || 0
-        })),
-        allowedAtps: (state.s4 || []).map(item => ({
-            servicePackageId: Number(item.id),
-            chargeId: chargeId,
-            packageName: item.name,
-            validity: item.validity,
-            midnightExpiry: item.midnightExpiry,
-            renewal: item.renewal,
-            rental: item.rental || 0,
-            maxCount: item.maxCount || 0,
-            freeCycles: item.freeCycles || 0
-        }))
+    const dataPayload = {
+        tariffPackageDesc:  originalTpName,
+        packageType:        sessionStorage.getItem('pkgType') || '',
+        tariffPackCategory: sessionStorage.getItem('pkgSubType') || 'NORMAL',
+        charge:             state.price,
+        endDate:            formatDateToMMDDYYYY(state.endDate),
+        publicityId:        state.publicityCode,
+        isCorporateYn:      state.isCorporate || false,
+        tariffPlanId:       Number(state.s2[0].id),
+        tariffPlanName:     state.s2[0].name,
+        periodicChargeID:   sessionStorage.getItem('periodicChargeID') || '',
+        selectedSvcs_s2:    sessionStorage.getItem('selectedSvcs_s2') || '[]',
+        selectedSvcs_s3:    sessionStorage.getItem('selectedSvcs_s3') || '[]',
+        selectedSvcs_s4:    sessionStorage.getItem('selectedSvcs_s4') || '[]',
+        defaultAtps:        (state.s3 || []).map(atpMapper),
+        allowedAtps:        (state.s4 || []).map(atpMapper)
     };
+
+    // Detect if user changed tpName or publicityId
+    const userEnteredTpName     = state.publicityCode ? originalTpName : origTpName;
+    const userEnteredPublicityId = state.publicityCode;
+
+    const tpNameChanged     = userEnteredTpName !== origTpName;
+    const publicityChanged  = userEnteredPublicityId !== origPublicityId;
+    const isModify          = cloneType === 'modify' && (tpNameChanged || publicityChanged);
 
     const cloneBtn = document.getElementById('clonePackageBtn');
     if (cloneBtn) { cloneBtn.disabled = true; cloneBtn.textContent = 'Cloning…'; }
 
     try {
+        // CHANGE 3: if modify mode with changed values, validate first
+        if (isModify) {
+            const validateRes = await fetch('/clone/validate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    networkId: Number(networkId),
+                    tpName:    userEnteredTpName,
+                    publicityId: userEnteredPublicityId
+                })
+            });
+            const validateResult = await validateRes.json();
+            if (validateResult.status === 'error') {
+                alert(validateResult.message || 'Validation failed. Please try again.');
+                return;
+            }
+        }
+
+        // Build clone payload
+        const payload = {
+            tpName:    originalTpName,
+            networkId: Number(networkId),
+            username:  username,
+            data:      dataPayload
+        };
+
+        if (isModify) {
+            payload.cloneMode           = 'modify';
+            payload.overrideTpName      = userEnteredTpName;
+            payload.overridePublicityId = userEnteredPublicityId;
+        } else {
+            payload.cloneMode = 'direct';
+        }
+
         const res = await fetch('/clone', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -132,8 +173,8 @@ async function clonePackageFromBuilder() {
 
         const result = await res.json();
 
-        if (!res.ok || result.error) {
-            alert(result.error || 'Clone failed. Please try again.');
+        if (result.status === 'error') {
+            alert(result.message || 'Clone failed. Please try again.');
             return;
         }
 
@@ -141,7 +182,11 @@ async function clonePackageFromBuilder() {
 
         // Clean up clone-specific session keys
         sessionStorage.removeItem('cloneMode');
-        sessionStorage.removeItem('clonePayload');
+        sessionStorage.removeItem('cloneType');
+        sessionStorage.removeItem('cloneTpName');
+        sessionStorage.removeItem('cloneNetworkId');
+        sessionStorage.removeItem('cloneOriginalPublicityId');
+        sessionStorage.removeItem('cloneOriginalTpName');
         clearBuilderSession();
 
         window.isInternalNavigation = true;
@@ -152,5 +197,115 @@ async function clonePackageFromBuilder() {
         alert('Server error during clone. Please try again.');
     } finally {
         if (cloneBtn) { cloneBtn.disabled = false; cloneBtn.textContent = 'CLONE PACKAGE'; }
+    }
+}
+// ── Update Package (approved-edit flow) ─────────────────────────
+async function updatePackage() {
+    const state = getState();
+
+    if (!state?.s2?.length) {
+        alert('Service Plan selection in Step 2 is required');
+        return;
+    }
+    if (!state.price) {
+        alert('Enter charge amount');
+        return;
+    }
+    if (!state.endDate) {
+        alert('Select end date');
+        return;
+    }
+    if (!state.publicityCode) {
+        alert('Enter publicity code');
+        return;
+    }
+
+    const tariffPackageId = sessionStorage.getItem('approvedTariffPackageId');
+    const networkId       = sessionStorage.getItem('networkId') ||
+                            (typeof NETWORK_ID !== 'undefined' ? NETWORK_ID : '');
+
+    if (!tariffPackageId || !networkId) {
+        alert('Update context missing. Please reload the package from the Approved list.');
+        return;
+    }
+
+    function formatDateToMMDDYYYY(dateStr) {
+        if (!dateStr) return '12/31/2030';
+        const [year, month, day] = dateStr.split('-');
+        return `${month}/${day}/${year}`;
+    }
+
+    const atpMapper = item => ({
+        servicePackageId: Number(item.id),
+        packageName:      item.name,
+        chargeId:         item.chargeId || '',
+        validity:         item.validity,
+        rentalPeriod:     item.validity === 'O' ? (item.rentalPeriod || 1) : '',
+        midnightExpiry:   item.midnightExpiry,
+        renewal:          item.renewal,
+        rental:           item.rental    || 0,
+        maxCount:         item.maxCount  || 0,
+        freeCycles:       item.freeCycles || 0
+    });
+
+    const payload = {
+        tpName:    sessionStorage.getItem('approvedTpName') || '',
+        username:  USERNAME,
+        networkId: Number(networkId),
+        data: {
+            username:          USERNAME,
+            isUpdate:          true,
+            submittedOn:       new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+            packageType:       sessionStorage.getItem('pkgType') || '',
+            tariffPackCategory: sessionStorage.getItem('pkgSubType') || 'NORMAL',
+            tariffPackageDesc: sessionStorage.getItem('configName') || '',
+            periodicChargeID:  sessionStorage.getItem('periodicChargeID') || '',
+            charge:            state.price,
+            endDate:           formatDateToMMDDYYYY(state.endDate),
+            publicityId:       state.publicityCode,
+            isCorporateYn:     state.isCorporate || false,
+            tariffPlanId:      Number(state.s2[0].id),
+            tariffPlanName:    state.s2[0].name,
+            selectedSvcs_s2:   sessionStorage.getItem('selectedSvcs_s2') || '[]',
+            selectedSvcs_s3:   sessionStorage.getItem('selectedSvcs_s3') || '[]',
+            selectedSvcs_s4:   sessionStorage.getItem('selectedSvcs_s4') || '[]',
+            defaultAtps:       (state.s3 || []).map(atpMapper),
+            allowedAtps:       (state.s4 || []).map(atpMapper)
+        }
+    };
+
+    const updateBtn = document.getElementById('updatePackageBtn');
+    if (updateBtn) { updateBtn.disabled = true; updateBtn.textContent = 'Updating…'; }
+
+    try {
+        const res = await fetch(
+            `/update/${tariffPackageId}?networkId=${networkId}`,
+            {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const result = await res.json();
+
+        if (result.status === 'error') {
+            alert(result.message || 'Update failed. Please try again.');
+            return;
+        }
+
+        alert('✅ Package updated successfully!\nPlan: ' + (sessionStorage.getItem('configName') || ''));
+        clearBuilderSession();
+        window.isInternalNavigation = true;
+        window.location.href = '/builder/step1';
+
+    } catch (err) {
+        console.error('Update package error:', err);
+        alert('Server error during update. Please try again.');
+    } finally {
+        if (updateBtn) {
+            updateBtn.disabled = false;
+            updateBtn.innerHTML = '<span class="material-icons">save</span> UPDATE PACKAGE';
+        }
     }
 }

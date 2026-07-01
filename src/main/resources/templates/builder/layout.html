@@ -45,7 +45,6 @@
                 <span class="main-node-label">BUILDER</span>
             </a>
 
-            <div class="main-rail-divider"></div>
 
             <!-- Approver node — hidden until privilege allows -->
             <a href="/builder/admin" class="main-node" id="mn-approver" title="Tariff Approver"
@@ -54,7 +53,6 @@
                 <span class="main-node-label">APPROVER</span>
             </a>
 
-            <div class="main-rail-divider"></div>
 
             <a href="#" class="main-node" id="mn-clone" title="Clone TPs" onclick="openClone(); return false;">
                 <span class="main-node-icon material-icons">copy_all</span>
@@ -62,6 +60,20 @@
             </a>
 
             <div style="margin-top:auto;"></div>
+
+            <!-- Approved TPs node -->
+            <a href="#" class="main-node" id="mn-approved" title="Approved TPs"
+                th:classappend="${activeStep != 0} ? ' hidden'" onclick="openApproved(); return false;">
+                <span class="main-node-icon material-icons">check_circle</span>
+                <span class="main-node-label">APPROVED</span>
+            </a>
+
+            <!-- Rejected TPs node -->
+            <a href="#" class="main-node" id="mn-rejected" title="Rejected TPs"
+                th:classappend="${activeStep != 0} ? ' hidden'" onclick="openRejected(); return false;">
+                <span class="main-node-icon material-icons">cancel</span>
+                <span class="main-node-label">REJECTED</span>
+            </a>
 
             <a href="#" class="main-node" id="mn-saved" title="Drafts" th:classappend="${activeStep == 0} ? ' hidden'"
                 onclick="openSaved(); return false;">
@@ -221,8 +233,16 @@
                 <span>Drafts</span>
                 <span class="material-icons close-btn" onclick="closeDrafts()">close</span>
             </div>
-
-            <div class="draft-content" id="draftOverlayList">
+            <div style="padding: 10px 15px 0;">
+                <div class="library-search-box">
+                    <span class="material-icons library-search-icon">search</span>
+                    <input type="text" id="draftSearchInput" class="library-search-input"
+                           placeholder="Search drafts…" oninput="filterDrafts(this.value)">
+                    <span class="material-icons library-search-clear" id="draftSearchClear"
+                          onclick="clearDraftSearch()" style="opacity:0;">close</span>
+                </div>
+            </div>
+            <div class="draft-content" id="draftOverlayList" style="height: calc(100% - 115px);">
                 <!-- drafts will render here -->
             </div>
         </div>
@@ -231,9 +251,19 @@
     <div id="savedOverlay" class="draft-overlay">
         <div class="draft-panel">
             <div class="draft-header">
-                <span>Saved Configs</span> <span class="material-icons close-btn" onclick="closeSaved()"> close </span>
+                <span>Saved Configs</span>
+                <span class="material-icons close-btn" onclick="closeSaved()">close</span>
             </div>
-            <div class="draft-content" id="savedOverlayList"></div>
+            <div style="padding: 10px 15px 0;">
+                <div class="library-search-box">
+                    <span class="material-icons library-search-icon">search</span>
+                    <input type="text" id="savedSearchInput" class="library-search-input"
+                           placeholder="Search saved configs…" oninput="filterSaved(this.value)">
+                    <span class="material-icons library-search-clear" id="savedSearchClear"
+                          onclick="clearSavedSearch()" style="opacity:0;">close</span>
+                </div>
+            </div>
+            <div class="draft-content" id="savedOverlayList" style="height: calc(100% - 115px);"></div>
         </div>
     </div>
 
@@ -250,10 +280,12 @@
             <div class="ctm-actions">
                 <button class="ctm-btn ctm-btn--cancel" onclick="_cloneTreeAction('cancel')">Cancel</button>
                 <button class="ctm-btn ctm-btn--modify" onclick="_cloneTreeAction('modify')">
-                    <span class="material-icons" style="font-size:16px;vertical-align:middle;margin-right:4px;">edit</span>Modify
+                    <span class="material-icons"
+                        style="font-size:16px;vertical-align:middle;margin-right:4px;">edit</span>Modify
                 </button>
                 <button class="ctm-btn ctm-btn--clone" onclick="_cloneTreeAction('clone')">
-                    <span class="material-icons" style="font-size:16px;vertical-align:middle;margin-right:4px;">file_copy</span>Clone
+                    <span class="material-icons"
+                        style="font-size:16px;vertical-align:middle;margin-right:4px;">file_copy</span>Clone
                 </button>
             </div>
 
@@ -312,6 +344,47 @@
             </button>
 
             <div id="tpModalContent"></div>
+        </div>
+    </div>
+
+    <!-- APPROVED TPs OVERLAY -->
+    <div id="approvedOverlay" class="draft-overlay">
+        <div class="draft-panel">
+            <div class="draft-header">
+                <span>Approved TPs</span>
+                <span class="material-icons close-btn" onclick="closeApproved()">close</span>
+            </div>
+            <div style="padding: 10px 15px 0;">
+                <div class="library-search-box">
+                    <span class="material-icons library-search-icon">search</span>
+                    <input type="text" id="approvedSearchInput" class="library-search-input"
+                           placeholder="Search approved TPs…"
+                           oninput="filterApproved(this.value)">
+                    <span class="material-icons library-search-clear" id="approvedSearchClear"
+                          onclick="clearApprovedSearch()" style="opacity:0;">close</span>
+                </div>
+            </div>
+            <div class="draft-content" id="approvedOverlayList" style="height: calc(100% - 115px);"></div>
+        </div>
+    </div>
+
+    <!-- REJECTED TPs OVERLAY -->
+    <div id="rejectedOverlay" class="draft-overlay">
+        <div class="draft-panel">
+            <div class="draft-header">
+                <span>Rejected TPs</span>
+                <span class="material-icons close-btn" onclick="closeRejected()">close</span>
+            </div>
+            <div style="padding: 10px 15px 0;">
+                <div class="library-search-box">
+                    <span class="material-icons library-search-icon">search</span>
+                    <input type="text" id="rejectedSearchInput" class="library-search-input"
+                           placeholder="Search rejected TPs…" oninput="filterRejected(this.value)">
+                    <span class="material-icons library-search-clear" id="rejectedSearchClear"
+                          onclick="clearRejectedSearch()" style="opacity:0;">close</span>
+                </div>
+            </div>
+            <div class="draft-content" id="rejectedOverlayList" style="height: calc(100% - 115px);"></div>
         </div>
     </div>
 

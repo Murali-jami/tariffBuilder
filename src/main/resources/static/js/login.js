@@ -1,6 +1,3 @@
-
-
-
 function clearForm() {
 
     // clear all input fields
@@ -47,9 +44,43 @@ window.addEventListener("pageshow", function (event) {
             error.innerText = "";
         }
     }
+
+    // Always reset the submit button — covers the case where the user
+    // hit Submit, then navigated back via the browser (bfcache can
+    // restore the page mid-spinner otherwise).
+    resetLoginButton();
+});
+
+function resetLoginButton() {
+    const btn = document.getElementById("loginSubmitBtn");
+    const spinner = document.getElementById("loginSubmitSpinner");
+    const label = document.getElementById("loginSubmitLabel");
+    if (!btn) return;
+
+    btn.disabled = false;
+    if (spinner) spinner.style.display = "none";
+    if (label) label.textContent = "Login";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".login-shell form");
+    if (!form) return;
+
+    form.addEventListener("submit", function () {
+        const btn = document.getElementById("loginSubmitBtn");
+        const spinner = document.getElementById("loginSubmitSpinner");
+        const label = document.getElementById("loginSubmitLabel");
+        if (!btn) return;
+
+        btn.disabled = true;
+        if (spinner) spinner.style.display = "inline-block";
+        if (label) label.textContent = "Logging in…";
+        // No preventDefault — this is a normal form POST; the button
+        // stays disabled until the page navigates away (success) or
+        // reloads with an error message (handled by pageshow above).
+    });
 });
 
 window.onload = function () {
     sessionStorage.clear();
 }
-

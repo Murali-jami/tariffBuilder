@@ -39,6 +39,7 @@ function saveDraftOnExit() {
         name: configName || 'Untitled Draft',
         pkgType,
         pkgSubType: sessionStorage.getItem('pkgSubType'),
+        periodicChargeID: sessionStorage.getItem('periodicChargeID') || '',
         savedOn,
         savedTime,
         username,
@@ -55,19 +56,17 @@ window.addEventListener("beforeunload", saveDraftOnExit);
 
 function openDrafts() {
     const overlay = document.getElementById('draftOverlay');
-
-    // Step 1: make it display:block but panel still off-screen (no 'active' yet)
     overlay.style.display = 'block';
-
-    // Step 2: double rAF so browser paints the display:block frame first,
-    // then adds 'active' — this lets the CSS transition actually animate
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             overlay.classList.add('active');
         });
     });
-
     loadDrafts('draftOverlayList');
+    const inp = document.getElementById('draftSearchInput');
+    if (inp) inp.value = '';
+    const clr = document.getElementById('draftSearchClear');
+    if (clr) clr.style.opacity = '0';
 }
 
 function closeDrafts() {
@@ -140,6 +139,7 @@ function loadDraft(index) {
     sessionStorage.setItem('configName', draft.name || '');
     sessionStorage.setItem('pkgType', draft.pkgType || '');
     sessionStorage.setItem('pkgSubType', draft.pkgSubType || '');
+    sessionStorage.setItem('periodicChargeID', draft.periodicChargeID || '');
 
     sessionStorage.setItem('selectedSvcs_s2', draft.selectedSvcs_s2 || '[]');
     sessionStorage.setItem('selectedSvcs_s3', draft.selectedSvcs_s3 || '[]');
@@ -231,6 +231,8 @@ function manualSaveDraft() {
 
         pkgSubType: sessionStorage.getItem('pkgSubType'),
 
+        periodicChargeID: sessionStorage.getItem('periodicChargeID') || '',
+
         savedOn,
 
         savedTime,
@@ -279,9 +281,9 @@ function applyPrivilege() {
         approverNode.style.display = "none";
     }
 
-    // if (!hasClone && cloneNode) {
-    //     cloneNode.style.display = "none";
-    // }
+    if (!hasClone && cloneNode) {
+        cloneNode.style.display = "none";
+    }
 }
 
 /*async function checkDraftsOnLogin() {
@@ -320,6 +322,12 @@ window.addEventListener('DOMContentLoaded', () => {
             window.isInternalNavigation = true;
         });
     });
+
+    // Auto-open Created TPs overlay after a rejected TP is re-submitted and saved
+    if (new URLSearchParams(window.location.search).get('openSaved') === '1') {
+        history.replaceState(null, '', window.location.pathname);
+        openSaved();
+    }
 });
 
 // ── Restore active module based on current URL ──
@@ -343,12 +351,17 @@ function restoreActiveModule() {
     }
 
     // FIRST LOAD DECISION
+    const hasClone = PRIVILEGE_IDS.includes("P26127");
+
     if (!hasBuilder && hasApprover) {
         window.isInternalNavigation = true;
         window.location.href = "/builder/admin";
     } else if (hasBuilder) {
         window.isInternalNavigation = true;
         window.location.href = "/builder/step1";
+    } else if (!hasBuilder && !hasApprover && hasClone) {
+        // Clone-only user: land directly on the Clone TP's page
+        openClone();
     }
 }
 
@@ -663,9 +676,16 @@ function checkStepAccess(targetStep) {
     const pkgType = sessionStorage.getItem('pkgType');
     const state = JSON.parse(sessionStorage.getItem('state') || '{}');
 
+    // const periodicCharge = document.getElementById("periodicCharge").value;
+    const periodicCharge = sessionStorage.getItem("periodicChargeID");
+
     if (!pkgType) {
         alert("Please select PREPAID or POSTPAID in Step 1");
         return false;
+    }
+    if (!periodicCharge) {
+        alert("Please select a Periodic Charge");
+        return;
     }
 
     const hasStep2Data = state.s2 && Array.isArray(state.s2) && state.s2.length > 0;
@@ -757,9 +777,10 @@ async function saveConfiguration() {
         packageType: sessionStorage.getItem("pkgType"),
 
         tariffPackCategory: sessionStorage.getItem("pkgSubType") ||
-            "NORMAL",
+            "GENERAL",
 
         tariffPackageDesc: configName,
+        periodicChargeID: sessionStorage.getItem("periodicChargeID") || "",
 
         charge: state.price,
 
@@ -791,7 +812,7 @@ async function saveConfiguration() {
 
             validity: item.validity,
 
-            validityDays: item.validityDays || "",
+            rentalPeriod: item.validity === 'O' ? (item.rentalPeriod || 1) : "",
 
             midnightExpiry: item.midnightExpiry,
 
@@ -801,7 +822,9 @@ async function saveConfiguration() {
 
             maxCount: item.maxCount || 0,
 
-            freeCycles: item.freeCycles || 0
+            freeCycles: item.freeCycles || 0,
+
+            priority: (item.priority !== "" && Number(item.priority) > 0) ? Number(item.priority) : 0
         })),
 
         allowedAtps: (state.s4 || []).map(item => ({
@@ -814,7 +837,7 @@ async function saveConfiguration() {
 
             validity: item.validity,
 
-            validityDays: item.validityDays || "",
+            rentalPeriod: item.validity === 'O' ? (item.rentalPeriod || 1) : "",
 
             midnightExpiry: item.midnightExpiry,
 
@@ -824,7 +847,9 @@ async function saveConfiguration() {
 
             maxCount: item.maxCount || 0,
 
-            freeCycles: item.freeCycles || 0
+            freeCycles: item.freeCycles || 0,
+
+            priority: (item.priority !== "" && Number(item.priority) > 0) ? Number(item.priority) : 0
         }))
     };
 
@@ -865,11 +890,25 @@ async function saveConfiguration() {
             }
         }
 
+        // If re-submitting a rejected TP, delete it from rejected-tariffs.json
+        // using the ORIGINAL tpName (rejectedTpName) — even if user renamed it
+        const rejectedTpName = sessionStorage.getItem('rejectedTpName');
+        if (rejectedTpName) {
+            await fetch('/rejected/delete/' + encodeURIComponent(rejectedTpName), { method: 'POST' })
+                .catch(err => console.warn('Could not remove from rejected list:', err));
+        }
+
+        const wasRejected = !!rejectedTpName;
+
         clearBuilderSession();
 
         window.isInternalNavigation = true;
 
-        window.location.href = "/builder/step1";
+        if (wasRejected) {
+            window.location.href = "/builder/step1?openSaved=1";
+        } else {
+            window.location.href = "/builder/step1";
+        }
     } catch (error) {
         console.error(error);
         alert("Server error — please try again");
@@ -884,10 +923,16 @@ function clearBuilderSession() {
     sessionStorage.removeItem('configName');
     sessionStorage.removeItem('pkgType');
     sessionStorage.removeItem('pkgSubType');
+    sessionStorage.removeItem('periodicChargeID');
     sessionStorage.removeItem("isUpdate");
     sessionStorage.removeItem('loadedFromDraft');
     sessionStorage.removeItem('cloneMode');
-    sessionStorage.removeItem('clonePayload');
+    sessionStorage.removeItem('cloneTpName');
+    sessionStorage.removeItem('cloneNetworkId');
+    sessionStorage.removeItem('rejectedTpName');
+    sessionStorage.removeItem('approvedMode');
+    sessionStorage.removeItem('approvedTpName');
+    sessionStorage.removeItem('approvedTariffPackageId');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -897,7 +942,7 @@ function viewTree() {
     const state = getState();
     const name = document.getElementById('configName').value || 'Unnamed Package';
     const type = sessionStorage.getItem('pkgType') || '';
-    const sub = sessionStorage.getItem('pkgSubType') || 'NORMAL';
+    const sub = sessionStorage.getItem('pkgSubType') || 'GENERAL';
 
     document.getElementById('treeName').textContent = name;
     document.getElementById('treeMeta').textContent = `${type ? type + ' | ' : ''}${sub} | ${state.isCorporate ? 'Corporate' : 'Retail'}`;
@@ -1017,7 +1062,7 @@ function loadHierarchy(tpName) {
 			    </span>
 			    <span class="meta-pill">
 			        <span class="pill-label">Category</span>
-			        <span class="pill-value">${data.tariffPackCategory || 'Normal'}</span>
+			        <span class="pill-value">${data.tariffPackCategory || 'General'}</span>
 			    </span>
 			    <span class="meta-pill">
 			        <span class="pill-label">Segment</span>
@@ -1046,12 +1091,13 @@ function loadHierarchy(tpName) {
                     <div class="comp-name">${item.packageName}</div>
                     <div class="comp-details">
                         <span class="pill"><strong>Validity:</strong> ${validityLabel(item.validity)}</span>
-                        ${item.validity === 'O' && item.validityDays ? `<span class="pill"><strong>Validity Days:</strong> ${item.validityDays}</span>` : ''}
+                        ${item.validity === 'O' && item.rentalPeriod != null ? `<span class="pill"><strong>Rental Period:</strong> ${item.rentalPeriod} Days</span>` : ''}
                         <span class="pill"><strong>Midnight Expiry:</strong> ${item.midnightExpiry || '—'}</span>
                         <span class="pill"><strong>Renewal:</strong> ${item.renewal || '—'}</span>
                         <span class="pill"><strong>Rental:</strong> ${item.rental || '0'}</span>
                         <span class="pill"><strong>Max Count:</strong> ${item.maxCount || '0'}</span>
                         <span class="pill"><strong>Free Cycles:</strong> ${item.freeCycles || '0'}</span>
+                        <span class="pill"><strong>Priority:</strong> ${item.priority ?? 0}</span>
                     </div>
                 </div>
             `).join('');
@@ -1066,12 +1112,13 @@ function loadHierarchy(tpName) {
                     <div class="comp-name">${item.packageName}</div>
                     <div class="comp-details">
                         <span class="pill"><strong>Validity:</strong> ${validityLabel(item.validity)}</span>
-                        ${item.validity === 'O' && item.validityDays ? `<span class="pill"><strong>Validity Days:</strong> ${item.validityDays}</span>` : ''}
+                        ${item.validity === 'O' && item.rentalPeriod != null ? `<span class="pill"><strong>Rental Period:</strong> ${item.rentalPeriod} Days</span>` : ''}
                         <span class="pill"><strong>Midnight Expiry:</strong> ${item.midnightExpiry || '—'}</span>
                         <span class="pill"><strong>Renewal:</strong> ${item.renewal || '—'}</span>
                         <span class="pill"><strong>Rental:</strong> ${item.rental || '0'}</span>
                         <span class="pill"><strong>Max Count:</strong> ${item.maxCount || '0'}</span>
                         <span class="pill"><strong>Free Cycles:</strong> ${item.freeCycles || '0'}</span>
+						<span class="pill"><strong>Priority:</strong> ${item.priority ?? 0}</span>
                     </div>
                 </div>
             `).join('');
@@ -1097,6 +1144,12 @@ function approvePackage(tpName, btn) {
     if (!confirm("Approve " + tpName + " ?"))
         return;
 
+    const originalHTML = btn ? btn.innerHTML : null;
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="btn-spinner"></span>Approving…';
+    }
+
     fetch("/approve/" + tpName, {
         method: "POST"
     })
@@ -1111,30 +1164,97 @@ function approvePackage(tpName, btn) {
 
             console.log("APPROVED", data);
 
-            alert(tpName + ' approved, ' + "Tariff Package Created with ID : "
-                + data.tariffPackageId);
+            if (data.status === 'error') {
+                if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
+                const detail = data.failedTable ? '\nFailed at: ' + data.failedStep + ' -> ' + data.failedTable : '';
+                alert(' Approve failed:\n' + (data.message || 'Unknown error') + detail);
+                return;
+            }
 
+            alert(tpName + ' approved. Tariff Package Created with ID: ' + data.tariffPackageId);
             window.location.href = '/builder/admin';
 
         })
         .catch(err => {
 
+            if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
             console.error(err);
 
-            alert("Error approving tariff");
+            alert(' Error approving tariff package.');
         });
 }
 
-/* REJECT */
+/* REJECT — shows remarks modal first */
 function rejectPackage(tpName, btn) {
 
     event.stopImmediatePropagation();
 
-    if (!confirm("Reject " + tpName + " ?"))
+    // Build modal if it doesn't exist yet
+    if (!document.getElementById('rejectRemarksModal')) {
+        const modal = document.createElement('div');
+        modal.id = 'rejectRemarksModal';
+        modal.style.cssText = [
+            'display:none', 'position:fixed', 'inset:0', 'z-index:9999',
+            'background:rgba(0,0,0,0.45)', 'align-items:center', 'justify-content:center'
+        ].join(';');
+        modal.innerHTML = `
+            <div style="background:#fff;border-radius:12px;padding:32px 28px;width:440px;max-width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+                <h3 style="margin:0 0 6px;font-size:18px;color:#1e293b;">Reject Tariff Package</h3>
+                <p id="rejectModalTpName" style="margin:0 0 18px;font-size:13px;color:#64748b;font-weight:600;"></p>
+                <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">
+                    Remarks <span style="color:#ef4444;">*</span>
+                </label>
+                <textarea id="rejectRemarksInput"
+                    placeholder="Enter reason for rejection..."
+                    rows="4"
+                    style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;resize:vertical;outline:none;font-family:inherit;"
+                    oninput="document.getElementById('rejectRemarksError').style.display='none'">
+                </textarea>
+                <p id="rejectRemarksError" style="display:none;color:#ef4444;font-size:12px;margin:4px 0 0;">Please enter remarks before rejecting.</p>
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+                    <button onclick="closeRejectModal()"
+                        style="padding:9px 20px;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:14px;color:#374151;">
+                        Cancel
+                    </button>
+                    <button onclick="submitReject()"
+                        style="padding:9px 20px;border:none;border-radius:8px;background:#ef4444;color:#fff;cursor:pointer;font-size:14px;font-weight:600;">
+                        Confirm Reject
+                    </button>
+                </div>
+            </div>`;
+        document.body.appendChild(modal);
+    }
+
+    // Store tpName on the modal for submitReject to use
+    const modal = document.getElementById('rejectRemarksModal');
+    modal.dataset.tpName = tpName;
+    document.getElementById('rejectModalTpName').textContent = tpName;
+    document.getElementById('rejectRemarksInput').value = '';
+    document.getElementById('rejectRemarksError').style.display = 'none';
+    modal.style.display = 'flex';
+}
+
+function closeRejectModal() {
+    const modal = document.getElementById('rejectRemarksModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function submitReject() {
+    const modal = document.getElementById('rejectRemarksModal');
+    const tpName = modal.dataset.tpName;
+    const remarks = document.getElementById('rejectRemarksInput').value.trim();
+
+    if (!remarks) {
+        document.getElementById('rejectRemarksError').style.display = 'block';
         return;
+    }
+
+    closeRejectModal();
 
     fetch("/reject/" + tpName, {
-        method: "POST"
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ remarks: remarks })
     })
         .then(res => {
 
@@ -1161,19 +1281,18 @@ function rejectPackage(tpName, btn) {
 }
 
 function openSaved() {
-
-    const overlay =
-        document.getElementById('savedOverlay');
-
+    const overlay = document.getElementById('savedOverlay');
     overlay.style.display = 'block';
-
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             overlay.classList.add('active');
         });
     });
-
     loadSaved();
+    const inp = document.getElementById('savedSearchInput');
+    if (inp) inp.value = '';
+    const clr = document.getElementById('savedSearchClear');
+    if (clr) clr.style.opacity = '0';
 }
 
 function loadSaved() {
@@ -1248,11 +1367,9 @@ function loadSaved() {
 
 function loadSavedPackage(index) {
 
-    const config =
-        window.ALL_SAVED[index];
+    const config = window.ALL_SAVED[index];
 
-    const d =
-        config.data;
+    const d = config.data;
 
     /*
        convert saved format → builder state
@@ -1270,12 +1387,13 @@ function loadSavedPackage(index) {
             id: a.servicePackageId,
             name: a.packageName,
             validity: a.validity,
-            validityDays: a.validityDays || "",
+            rentalPeriod: a.rentalPeriod || "",
             midnightExpiry: a.midnightExpiry,
             renewal: a.renewal,
             rental: a.rental,
             maxCount: a.maxCount,
-            freeCycles: a.freeCycles
+            freeCycles: a.freeCycles,
+            priority: a.priority
 
         })),
 
@@ -1284,12 +1402,13 @@ function loadSavedPackage(index) {
             id: a.servicePackageId,
             name: a.packageName,
             validity: a.validity,
-            validityDays: a.validityDays || "",
+            rentalPeriod: a.rentalPeriod || "",
             midnightExpiry: a.midnightExpiry,
             renewal: a.renewal,
             rental: a.rental,
             maxCount: a.maxCount,
-            freeCycles: a.freeCycles
+            freeCycles: a.freeCycles,
+            priority: a.priority
 
         })),
 
@@ -1334,6 +1453,11 @@ function loadSavedPackage(index) {
     sessionStorage.setItem(
         "pkgSubType",
         d.tariffPackCategory
+    );
+
+    sessionStorage.setItem(
+        "periodicChargeID",
+        d.periodicChargeID || ""
     );
 
     /*
@@ -1398,6 +1522,348 @@ document.addEventListener('click', function (e) {
         closeSaved();
     }
 });
+
+// ── APPROVED TPs OVERLAY ─────────────────────────────────────────
+
+function openApproved() {
+    const overlay = document.getElementById('approvedOverlay');
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
+        });
+    });
+    loadApproved();
+    const inp = document.getElementById('approvedSearchInput');
+    if (inp) { inp.value = ''; }
+    const clr = document.getElementById('approvedSearchClear');
+    if (clr) { clr.style.opacity = '0'; }
+}
+
+function closeApproved() {
+    const overlay = document.getElementById('approvedOverlay');
+    overlay.classList.remove('active');
+    overlay.addEventListener('transitionend', function handler() {
+        if (!overlay.classList.contains('active')) {
+            overlay.style.display = 'none';
+        }
+        overlay.removeEventListener('transitionend', handler);
+    });
+}
+
+document.addEventListener('click', function (e) {
+    if (e.target.id === 'approvedOverlay') closeApproved();
+});
+
+function loadApproved() {
+    const container = document.getElementById('approvedOverlayList');
+    container.innerHTML = '<p class="sidebar-text">Loading...</p>';
+
+    const networkId = (typeof NETWORK_ID !== 'undefined' && NETWORK_ID) ? NETWORK_ID : '';
+    if (!networkId) {
+        container.innerHTML = '<p class="sidebar-text">Network ID not found in session.</p>';
+        return;
+    }
+
+    fetch('/tariff-package-details?networkId=' + networkId)
+        .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+        .then(plans => {
+            if (!plans || !plans.length) {
+                container.innerHTML = `
+                    <div class="drafts-empty">
+                        <span class="material-icons">check_circle</span>
+                        <p class="drafts-empty-title">No approved TPs yet</p>
+                    </div>`;
+                return;
+            }
+
+            window.ALL_APPROVED = plans;
+
+            container.innerHTML = plans.map((p, i) => `
+                <div class="draft-item saved" style="--i:${i}">
+                    <div class="draft-info" onclick="loadApprovedPackage(${i})" style="cursor:pointer;">
+                        <span class="material-icons draft-icon" style="color:#22c55e;">check_circle</span>
+                        <div class="draft-text">
+                            <span class="draft-name">${p.tariffPackageDesc}</span>
+                            <span class="draft-meta">${p.rentalType || ''} · ${p.rentalPeriod != null ? p.rentalPeriod + ' days' : ''}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            container.innerHTML = '<p class="sidebar-text">Error loading approved TPs</p>';
+        });
+}
+
+function filterApproved(query) {
+    const clr = document.getElementById('approvedSearchClear');
+    if (clr) clr.style.opacity = query ? '1' : '0';
+
+    const plans = window.ALL_APPROVED || [];
+    const container = document.getElementById('approvedOverlayList');
+    if (!plans.length) return;
+
+    const q = query.toLowerCase().trim();
+
+    const filtered = q ? plans.filter(p => {
+        const name = (p.tariffPackageDesc || '').toLowerCase();
+        const rental = (p.rentalType || '').toLowerCase();
+        const fee = Number(p.activationFee || 0).toLocaleString('en-IN');
+        return name.includes(q) || rental.includes(q) || fee.includes(q);
+    }) : plans;
+
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="drafts-empty">
+                <span class="material-icons">search_off</span>
+                <p class="drafts-empty-title">No results for "${query}"</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map((p, i) => {
+        const isOthers = (p.rentalType || '').toLowerCase() === 'others';
+        const meta = isOthers
+            ? (p.rentalPeriod != null ? p.rentalPeriod + ' days' : 'Others')
+            : (p.rentalType || '');
+        const fee = Number(p.activationFee || 0).toLocaleString('en-IN');
+        const originalIndex = plans.indexOf(p);
+        return `
+        <div class="draft-item saved" style="--i:${i}">
+            <div class="draft-info" onclick="loadApprovedPackage(${originalIndex})" style="cursor:pointer;">
+                <span class="material-icons draft-icon" style="color:#22c55e;">check_circle</span>
+                <div class="draft-text">
+                    <span class="draft-name">${p.tariffPackageDesc}</span>
+                    <span class="draft-meta">${meta}</span>
+                </div>
+            </div>
+            <span class="draft-delete" style="cursor:default;font-style:normal;font-size:13px;font-weight:600;color:var(--text-muted,#888);">₹${fee}</span>
+        </div>`;
+    }).join('');
+}
+
+function clearApprovedSearch() {
+    const inp = document.getElementById('approvedSearchInput');
+    if (inp) { inp.value = ''; }
+    const clr = document.getElementById('approvedSearchClear');
+    if (clr) { clr.style.opacity = '0'; }
+    filterApproved('');
+}
+
+async function loadApprovedPackage(index) {
+    const plan = window.ALL_APPROVED[index];
+    const container = document.getElementById('approvedOverlayList');
+    container.innerHTML = '<p class="sidebar-text">Loading details…</p>';
+
+    try {
+        const networkId = (typeof NETWORK_ID !== 'undefined' && NETWORK_ID) ? NETWORK_ID : '';
+        const res = await fetch('/details?networkId=' + networkId + '&tariffPackageId=' + plan.tariff_package_id);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        const d = data.data || data;
+
+        const svcsToJson = (val) => {
+            if (Array.isArray(val)) return JSON.stringify(val);
+            if (typeof val === 'string') return val || '[]';
+            return '[]';
+        };
+
+        const state = {
+            s2: [{ id: d.tariffPlanId, name: d.tariffPlanName }],
+            s3: (d.defaultAtps || []).map(a => ({
+                id: a.servicePackageId,
+                name: a.packageName,
+                chargeId: a.chargeId || '',
+                validity: a.validity,
+                rentalPeriod: a.rentalPeriod || '',
+                midnightExpiry: a.midnightExpiry,
+                renewal: a.renewal,
+                rental: a.rental,
+                maxCount: a.maxCount,
+                freeCycles: a.freeCycles
+            })),
+            s4: (d.allowedAtps || []).map(a => ({
+                id: a.servicePackageId,
+                name: a.packageName,
+                chargeId: a.chargeId || '',
+                validity: a.validity,
+                rentalPeriod: a.rentalPeriod || '',
+                midnightExpiry: a.midnightExpiry,
+                renewal: a.renewal,
+                rental: a.rental,
+                maxCount: a.maxCount,
+                freeCycles: a.freeCycles
+            })),
+            price: d.charge || '',
+            publicityCode: d.publicityId || '',
+            endDate: (function () {
+                if (!d.endDate) return '';
+                const p = d.endDate.split('/');
+                return p.length === 3 ? p[2] + '-' + p[0] + '-' + p[1] : d.endDate;
+            })(),
+            isCorporate: d.isCorporateYn || false
+        };
+
+        sessionStorage.setItem('state', JSON.stringify(state));
+        sessionStorage.setItem('configName', data.tpName || d.tariffPackageDesc || plan.tariffPackageDesc);
+        sessionStorage.setItem('pkgType', d.packageType || '');
+        sessionStorage.setItem('pkgSubType', d.tariffPackCategory || 'GENERAL');
+        sessionStorage.setItem('periodicChargeID', d.periodicChargeID || '');
+        sessionStorage.setItem('selectedSvcs_s2', svcsToJson(d.selectedSvcs_s2));
+        sessionStorage.setItem('selectedSvcs_s3', svcsToJson(d.selectedSvcs_s3));
+        sessionStorage.setItem('selectedSvcs_s4', svcsToJson(d.selectedSvcs_s4));
+        sessionStorage.setItem('isUpdate', 'true');
+        sessionStorage.setItem('approvedMode', 'true');
+        sessionStorage.setItem('approvedTpName', data.tpName || plan.tariffPackageDesc);
+        sessionStorage.setItem('approvedTariffPackageId', String(plan.tariff_package_id || ''));
+
+        closeApproved();
+        window.isInternalNavigation = true;
+        window.location.href = '/builder/step1';
+
+    } catch (err) {
+        console.error('Approved package load error:', err);
+        container.innerHTML = '<p class="sidebar-text" style="color:#e63946;">Failed to load plan details. Please try again.</p>';
+    }
+}
+
+// ── REJECTED TPs OVERLAY ─────────────────────────────────────────
+
+function openRejected() {
+    const overlay = document.getElementById('rejectedOverlay');
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
+        });
+    });
+    loadRejected();
+    const inp = document.getElementById('rejectedSearchInput');
+    if (inp) inp.value = '';
+    const clr = document.getElementById('rejectedSearchClear');
+    if (clr) clr.style.opacity = '0';
+}
+
+function closeRejected() {
+    const overlay = document.getElementById('rejectedOverlay');
+    overlay.classList.remove('active');
+    overlay.addEventListener('transitionend', function handler() {
+        if (!overlay.classList.contains('active')) {
+            overlay.style.display = 'none';
+        }
+        overlay.removeEventListener('transitionend', handler);
+    });
+}
+
+document.addEventListener('click', function (e) {
+    if (e.target.id === 'rejectedOverlay') closeRejected();
+});
+
+function loadRejected() {
+    const container = document.getElementById('rejectedOverlayList');
+    container.innerHTML = '<p class="sidebar-text">Loading...</p>';
+
+    fetch('/rejected/list')
+        .then(res => res.json())
+        .then(data => {
+            const items = Object.values(data);
+            if (!items.length) {
+                container.innerHTML = `
+                    <div class="drafts-empty">
+                        <span class="material-icons">cancel</span>
+                        <p class="drafts-empty-title">No rejected TPs</p>
+                    </div>`;
+                return;
+            }
+
+            window.ALL_REJECTED = items;
+
+            container.innerHTML = items.map((c, i) => `
+                <div class="draft-item saved" style="--i:${i}">
+                    <div class="draft-info" onclick="loadRejectedPackage(${i})" style="cursor:pointer;">
+                        <div class="draft-text">
+                            <span class="draft-name">${c.tpName}</span>
+                            <span class="draft-meta">${c.username || ''} · ${c.rejectedOn ? c.rejectedOn.substring(0, 10) : ''}</span>
+                            <span class="draft-meta" style="color:#ef4444; margin-top:3px;">
+                                <b>Remarks:</b> ${c.remarks || '—'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            container.innerHTML = '<p class="sidebar-text">Error loading rejected TPs</p>';
+        });
+}
+
+function loadRejectedPackage(index) {
+    const config = window.ALL_REJECTED[index];
+    const d = config.data;
+
+    // Convert rejected TP format → builder state (same shape as loadSavedPackage)
+    const state = {
+        s2: [{
+            id: d.tariffPlanId,
+            name: d.tariffPlanName
+        }],
+
+        s3: (d.defaultAtps || []).map(a => ({
+            id: a.servicePackageId,
+            name: a.packageName,
+            validity: a.validity,
+            rentalPeriod: a.rentalPeriod || "",
+            midnightExpiry: a.midnightExpiry,
+            renewal: a.renewal,
+            rental: a.rental,
+            maxCount: a.maxCount,
+            freeCycles: a.freeCycles,
+            priority: a.priority
+        })),
+
+        s4: (d.allowedAtps || d.additionalAtps || []).map(a => ({
+            id: a.servicePackageId,
+            name: a.packageName,
+            validity: a.validity,
+            rentalPeriod: a.rentalPeriod || "",
+            midnightExpiry: a.midnightExpiry,
+            renewal: a.renewal,
+            rental: a.rental,
+            maxCount: a.maxCount,
+            freeCycles: a.freeCycles,
+            priority: a.priority
+        })),
+
+        price: d.charge,
+        publicityCode: d.publicityId,
+        endDate: (function () {
+            if (!d.endDate) return "";
+            var p = d.endDate.split("/");
+            if (p.length === 3) return p[2] + "-" + p[0] + "-" + p[1];
+            return d.endDate;
+        })(),
+        isCorporate: d.isCorporateYn
+    };
+
+    sessionStorage.setItem("state", JSON.stringify(state));
+    sessionStorage.setItem("configName", config.tpName);
+    sessionStorage.setItem("pkgType", d.packageType || "");
+    sessionStorage.setItem("pkgSubType", d.tariffPackCategory || "");
+    sessionStorage.setItem("periodicChargeID", d.periodicChargeID || "");
+
+    sessionStorage.setItem("selectedSvcs_s2", d.selectedSvcs_s2 || '[]');
+    sessionStorage.setItem("selectedSvcs_s3", d.selectedSvcs_s3 || '[]');
+    sessionStorage.setItem("selectedSvcs_s4", d.selectedSvcs_s4 || '[]');
+
+    // Mark as coming from rejected so step5 can remove it after save
+    sessionStorage.setItem("rejectedTpName", config.tpName);
+    sessionStorage.setItem("isUpdate", "true");
+
+    window.isInternalNavigation = true;
+    window.location.href = "/builder/step1";
+}
 
 function goBack() {
     const step = getActiveStep();
@@ -1570,117 +2036,6 @@ function goNext() {
    No overlay, no backdrop — replaces workspace content like admin mode
 ════════════════════════════════════════════════════════════ */
 
-// ── Mock data (swap fetch() in when API is ready) ─────────
-const TP_PLANS_MOCK = [
-    {
-        id: 'tp-001',
-        tag: 'Individual plan',
-        price: '449',
-        currency: '₹',
-        period: '/m+GST',
-        data: 'unlimited',
-        dataLabel: '4G & 5G DATA',
-        calls: 'unlimited',
-        callsLabel: 'CALLS',
-        otts: [
-            { label: '⚡', bg: '#e63946' },
-            { label: 'G1', bg: '#4285f4' },
-            { label: 'LS', bg: '#6c47ff' },
-            { label: 'HP', bg: '#00b37e' },
-        ],
-        ottExtra: 4,
-    },
-    {
-        id: 'tp-002',
-        tag: 'Individual plan',
-        price: '549',
-        currency: '₹',
-        period: '/m+GST',
-        data: 'unlimited',
-        dataLabel: '4G & 5G DATA',
-        calls: 'unlimited',
-        callsLabel: 'CALLS',
-        otts: [
-            { label: '⚡', bg: '#e63946' },
-            { label: 'PV', bg: '#00a8e1' },
-            { label: 'G1', bg: '#4285f4' },
-            { label: 'LS', bg: '#6c47ff' },
-        ],
-        ottExtra: 5,
-    },
-    {
-        id: 'tp-003',
-        tag: '1 regular + 1 free add-on SIMs',
-        price: '699',
-        currency: '₹',
-        period: '/m+GST',
-        data: 'unlimited',
-        dataLabel: '4G & 5G DATA',
-        calls: 'unlimited',
-        callsLabel: 'CALLS',
-        otts: [
-            { label: '⚡', bg: '#e63946' },
-            { label: 'PV', bg: '#00a8e1' },
-            { label: 'G1', bg: '#4285f4' },
-            { label: 'LS', bg: '#6c47ff' },
-        ],
-        ottExtra: 5,
-    },
-    {
-        id: 'tp-004',
-        tag: '1 regular + 2 free add-on SIMs',
-        price: '999',
-        currency: '₹',
-        period: '/m+GST',
-        data: 'unlimited',
-        dataLabel: '4G & 5G DATA',
-        calls: 'unlimited',
-        callsLabel: 'CALLS',
-        otts: [
-            { label: '⚡', bg: '#e63946' },
-            { label: 'PV', bg: '#00a8e1' },
-            { label: 'G1', bg: '#4285f4' },
-            { label: 'TV', bg: '#111111' },
-        ],
-        ottExtra: 7,
-    },
-    {
-        id: 'tp-005',
-        tag: '1 regular + 3 free add-on SIMs',
-        price: '1199',
-        currency: '₹',
-        period: '/m+GST',
-        data: 'unlimited',
-        dataLabel: '4G & 5G DATA',
-        calls: 'unlimited',
-        callsLabel: 'CALLS',
-        otts: [
-            { label: '⚡', bg: '#e63946' },
-            { label: 'PV', bg: '#00a8e1' },
-            { label: 'G1', bg: '#4285f4' },
-            { label: 'TV', bg: '#111111' },
-        ],
-        ottExtra: 7,
-    },
-    {
-        id: 'tp-006',
-        tag: '1 regular + 3 free add-on SIMs',
-        price: '1399',
-        currency: '₹',
-        period: '/m+GST',
-        data: 'unlimited',
-        dataLabel: '4G & 5G DATA',
-        calls: 'unlimited',
-        callsLabel: 'CALLS',
-        otts: [
-            { label: '⚡', bg: '#e63946' },
-            { label: 'N', bg: '#e50914' },
-            { label: 'PV', bg: '#00a8e1' },
-            { label: 'G1', bg: '#4285f4' },
-        ],
-        ottExtra: 8,
-    },
-];
 
 // ── Filter state ──────────────────────────────────────────
 const _tpFilter = { category: null, validity: null, price: null };
@@ -1769,6 +2124,12 @@ function openClone() {
     _tpfClearAll();   // reset filters on every open
     page.style.display = 'flex';
 
+    // Hide bottom rail nodes — clone page has no context for them
+    ['mn-approved', 'mn-rejected', 'mn-saved', 'mn-drafts'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+
     // Clear search input
     const si = document.getElementById('cloneSearchInput');
     if (si) si.value = '';
@@ -1807,6 +2168,12 @@ function closeClonePage() {
         if (workBody) workBody.style.display = '';
         if (headerPill) headerPill.style.display = '';
 
+        // Restore bottom rail nodes — only show ones not hidden by Thymeleaf (activeStep)
+        ['mn-approved', 'mn-rejected', 'mn-saved', 'mn-drafts'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && !el.classList.contains('hidden')) el.style.display = '';
+        });
+
         // Restore rails + active nav node based on current module/step
         const step = getActiveStep();
         if (step > 0) {
@@ -1821,7 +2188,21 @@ function closeClonePage() {
 
 // ── Render cards ──────────────────────────────────────────
 // ── OTT name → asset lookup ──
+// srcs[] = multiple icons for combo bundles (e.g. Netflix Prime shows both icons).
+// Combo entries MUST come before their component keywords so exact match wins.
 const _OTT_META = [
+    // ── Combo bundles (before individual keywords) ──────────────────────────
+    {
+        keywords: ['netflix prime'],
+        title: 'Netflix + Prime',
+        srcs: [
+            { src: '/images/ott/Netflix.avif', title: 'Netflix' },
+            { src: '/images/ott/Prime.svg', title: 'Prime Video' }
+        ],
+        src: '/images/ott/Netflix.avif',
+        desc: 'Netflix + Prime Video bundle'
+    },
+    // ── Individual OTT platforms ─────────────────────────────────────────────
     { keywords: ['netflix'], title: 'Netflix', src: '/images/ott/Netflix.avif', desc: 'Award-winning series | Movies | Documentaries' },
     { keywords: ['prime', 'amazon'], title: 'Prime Video', src: '/images/ott/Prime.svg', desc: 'Amazon Originals | Movies | Live Sports' },
     { keywords: ['hotstar', 'jiohotstar', 'disney'], title: 'JioHotstar', src: '/images/ott/Jiohotstar.svg', desc: 'TV Shows | Movies | Originals | Live Sports' },
@@ -1830,39 +2211,98 @@ const _OTT_META = [
     { keywords: ['mxplayer', 'mx player', 'mx'], title: 'MX Player', src: '/images/ott/MX_Player.webp', desc: 'Free Movies | Web Series | Music Videos' },
     { keywords: ['saavn', 'jiosaavn', 'jio saavn'], title: 'JioSaavn', src: '/images/ott/jiosaavn.png', desc: 'Music | Podcasts | Radio | 80M+ Songs' },
     { keywords: ['fancode', 'fan code'], title: 'FanCode', src: '/images/ott/FanCode.svg', desc: 'Live Cricket | Football | Sports Streaming' },
-    { keywords: ['facebook'], title: 'Facebook', src: null, desc: 'Social media & videos' },
-    { keywords: ['instagram'], title: 'Instagram', src: null, desc: 'Reels | Stories | Photos' },
-    { keywords: ['google'], title: 'Google', src: null, desc: 'Search | Maps | YouTube & more' },
-    { keywords: ['youtube'], title: 'YouTube', src: null, desc: 'Videos | Live | Shorts' },
-    { keywords: ['whatsapp'], title: 'WhatsApp', src: null, desc: 'Messaging | Calls | Status' },
-    { keywords: ['netflix prime'], title: 'Netflix Prime', src: '/images/ott/Netflix.avif', desc: 'Netflix | Prime bundle' },
+    // ── Social / Internet services ───────────────────────────────────────────
+    {
+        keywords: ['facebook'],
+        title: 'Facebook',
+        src: '/images/ott/facebook.png',
+        desc: 'Social media | Videos | Marketplace'
+    },
+    {
+        keywords: ['instagram'],
+        title: 'Instagram',
+        src: '/images/ott/instagram.png',
+        desc: 'Reels | Stories | Photos'
+    },
+    {
+        keywords: ['google'],
+        title: 'Google',
+        src: '/images/ott/google.png',
+        desc: 'Search | Maps | YouTube & more'
+    },
+    {
+        keywords: ['twitter', 'x.com'],
+        title: 'Twitter / X',
+        src: '/images/ott/twitter.png',
+        desc: 'News | Trends | Live conversations'
+    },
+    {
+        keywords: ['chatgpt', 'openai', 'chat gpt'],
+        title: 'ChatGPT',
+        src: '/images/ott/chat-gpt.png',
+        desc: 'AI assistant | Chat | Code | Writing'
+    },
+    {
+        keywords: ['youtube'],
+        title: 'YouTube',
+        src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/240px-YouTube_full-color_icon_%282017%29.svg.png',
+        desc: 'Videos | Live | Shorts'
+    },
+    {
+        keywords: ['whatsapp'],
+        title: 'WhatsApp',
+        src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/240px-WhatsApp.svg.png',
+        desc: 'Messaging | Calls | Status'
+    },
 ];
 _OTT_META.forEach(m => { if (!m.initial) m.initial = m.title.charAt(0); });
 
 function _ottLookup(name) {
-    const lower = (name || '').toLowerCase();
-    // Try longest keyword match first
+    const lower = (name || '').toLowerCase().trim();
+    // 1. Exact keyword match (e.g. "netflix prime" matches the combo entry exactly)
+    const exact = _OTT_META.find(m => m.keywords.some(k => k === lower));
+    if (exact) return exact;
+    // 2. Longest keyword substring match so specific beats general
     const found = _OTT_META
         .filter(m => m.keywords.some(k => lower.includes(k)))
         .sort((a, b) => Math.max(...b.keywords.map(k => k.length)) - Math.max(...a.keywords.map(k => k.length)))[0];
     if (found) return found;
-    return { title: name, src: null, desc: name, initial: name.charAt(0).toUpperCase() };
+    return { title: name, src: null, srcs: null, desc: name, initial: name.charAt(0).toUpperCase() };
 }
 
 // Build OTT icon strip: show `max` icons then '...'
+// For combo entries (srcs[]), each sub-icon counts as one slot.
 function _buildOttStripHtml(rateGroupNames, max) {
     if (!rateGroupNames || !rateGroupNames.length) return '';
-    const visible = rateGroupNames.slice(0, max);
-    const remaining = rateGroupNames.length - max;
-    let html = visible.map(name => {
+    let html = '';
+    let shown = 0;
+    for (const name of rateGroupNames) {
+        if (shown >= max) break;
         const svc = _ottLookup(name);
-        if (svc.src) {
-            return `<img class="tp-ott-icon-img" src="${svc.src}" alt="${svc.title}" title="${svc.title}"
-                    onerror="this.onerror=null;this.style.display='none';"><span class="tp-ott-fallback-badge" style="display:none" title="${svc.title}">${svc.initial}</span>`;
+        // Combo: render each sub-icon individually
+        if (svc.srcs && svc.srcs.length) {
+            for (const sub of svc.srcs) {
+                if (shown >= max) break;
+                html += `<img class="tp-ott-icon-img" src="${sub.src}" alt="${sub.title}" title="${sub.title}"
+                         onerror="this.onerror=null;this.style.display='none';">`;
+                shown++;
+            }
+        } else if (svc.src) {
+            html += `<img class="tp-ott-icon-img" src="${svc.src}" alt="${svc.title}" title="${svc.title}"
+                     onerror="this.onerror=null;this.style.display='none';">`;
+            shown++;
+        } else {
+            html += `<span class="tp-ott-fallback-badge" title="${svc.title}">${svc.initial}</span>`;
+            shown++;
         }
-        return `<span class="tp-ott-fallback-badge" title="${svc.title}">${svc.initial}</span>`;
-    }).join('');
-    if (remaining > 0) html += `<span class="tp-ott-more">...</span>`;
+    }
+    const remaining = rateGroupNames.length - rateGroupNames.slice(0, rateGroupNames.findIndex((_, i) => i >= rateGroupNames.length)).length;
+    // Count total logical slots used vs total
+    const totalSlots = rateGroupNames.reduce((acc, n) => {
+        const s = _ottLookup(n);
+        return acc + (s.srcs ? s.srcs.length : 1);
+    }, 0);
+    if (totalSlots > max) html += `<span class="tp-ott-more">+${totalSlots - max}</span>`;
     return html;
 }
 
@@ -1981,42 +2421,44 @@ const _CAT_ICON = {
 };
 
 // ── Group flat plan array by tariffPackageDesc ────────────
+// New query returns one row per tariffPackageId with separate dataBenefit /
+// smsBenefit / voiceBenefit columns, so grouping is now a simple normalisation
+// pass that builds the same {buckets, rateGroupNames, _raw} shape the rest of
+// the rendering code expects.
 function _groupPlansByDesc(plans) {
     const map = new Map();
     plans.forEach(p => {
         const key = p.tariffPackageDesc || '';
         if (!map.has(key)) {
+            // Build ordered buckets from the three flat benefit columns
+            const buckets = [];
+            if (p.voiceBenefit) buckets.push({ balanceCategory: 'VOICE', bucketUnitValue: p.voiceBenefit });
+            if (p.smsBenefit) buckets.push({ balanceCategory: 'SMS', bucketUnitValue: p.smsBenefit });
+            if (p.dataBenefit) buckets.push({ balanceCategory: 'DATA', bucketUnitValue: p.dataBenefit });
+
             map.set(key, {
                 tariffPackageDesc: key,
+                tariff_package_id: p.tariff_package_id,
                 activationFee: p.activationFee,
                 rentalType: p.rentalType,
-                buckets: [],          // { balanceCategory, bucketUnitValue }
-                rateGroupNames: [],   // deduplicated OTT service names
-                _raw: [],             // all original rows, for modal
+                rentalPeriod: p.rentalPeriod,
+                buckets,
+                rateGroupNames: Array.isArray(p.rateGroupNames) ? [...p.rateGroupNames] : [],
+                _raw: [p],
             });
+        } else {
+            // Duplicate desc (shouldn't happen with the new query, but handle safely)
+            const group = map.get(key);
+            if (Number(p.activationFee) > Number(group.activationFee)) {
+                group.activationFee = p.activationFee;
+            }
+            if (Array.isArray(p.rateGroupNames)) {
+                p.rateGroupNames.forEach(function (name) {
+                    if (name && !group.rateGroupNames.includes(name)) group.rateGroupNames.push(name);
+                });
+            }
+            group._raw.push(p);
         }
-        const group = map.get(key);
-        // Keep the highest activationFee as the representative price
-        if (Number(p.activationFee) > Number(group.activationFee)) {
-            group.activationFee = p.activationFee;
-        }
-        group.buckets.push({ balanceCategory: p.balanceCategory, bucketUnitValue: p.bucketUnitValue });
-        // Merge rateGroupNames, deduplicating across rows of the same group
-        if (Array.isArray(p.rateGroupNames)) {
-            p.rateGroupNames.forEach(function (name) {
-                if (name && !group.rateGroupNames.includes(name)) group.rateGroupNames.push(name);
-            });
-        }
-        group._raw.push(p);
-    });
-
-    // Sort buckets within each group: VOICE → SMS → DATA → others
-    map.forEach(group => {
-        group.buckets.sort((a, b) => {
-            const ai = _CAT_ORDER.indexOf(a.balanceCategory);
-            const bi = _CAT_ORDER.indexOf(b.balanceCategory);
-            return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-        });
     });
 
     return Array.from(map.values());
@@ -2034,25 +2476,28 @@ function _applyTpSearch(query) {
 
     const q = query.trim().toLowerCase();
 
-    // 1. Text search filter on the flat list
+    // 1. Text search filter — include benefit columns in search scope
     let flatFiltered = q
         ? _allTpPlans.filter(p => {
             const fee = String(p.activationFee ?? '');
-            const cat = (p.balanceCategory || '').toLowerCase();
             const desc = (p.tariffPackageDesc || '').toLowerCase();
-            return fee.includes(q) || cat.includes(q) || desc.includes(q);
+            const data = (p.dataBenefit || '').toLowerCase();
+            const sms = (p.smsBenefit || '').toLowerCase();
+            const voice = (p.voiceBenefit || '').toLowerCase();
+            return fee.includes(q) || desc.includes(q) ||
+                data.includes(q) || sms.includes(q) || voice.includes(q);
         })
         : _allTpPlans;
 
-    // 2. Category filter — keep only rows that have the selected balanceCategory
+    // 2. Category filter — check the flat benefit columns from the new query
     if (_tpFilter.category && _tpFilter.category !== 'ALL') {
         const cat = _tpFilter.category.toUpperCase();
-        // keep only groups that contain at least one row with this category
-        const matchingDescs = new Set(
-            flatFiltered.filter(p => (p.balanceCategory || '').toUpperCase() === cat)
-                .map(p => p.tariffPackageDesc)
-        );
-        flatFiltered = flatFiltered.filter(p => matchingDescs.has(p.tariffPackageDesc));
+        flatFiltered = flatFiltered.filter(p => {
+            if (cat === 'DATA') return !!p.dataBenefit;
+            if (cat === 'SMS') return !!p.smsBenefit;
+            if (cat === 'VOICE') return !!p.voiceBenefit;
+            return true;
+        });
     }
 
     // 3. Group
@@ -2091,15 +2536,16 @@ function _applyTpSearch(query) {
             <span class="tp-price-period">/m+GST</span>
         `;
 
-        // Build one column per bucket (VOICE | SMS | DATA …)
+        // Build benefit chips: one per non-null bucket (VOICE | SMS | DATA)
         const bucketsHtml = group.buckets.map(b => {
             const icon = _CAT_ICON[b.balanceCategory] || '📦';
             const val = b.bucketUnitValue || '-';
             const cat = b.balanceCategory || '';
+            const mod = cat.toLowerCase(); // 'voice' | 'sms' | 'data'
             return `
-                <div class="tp-meta-col">
+                <div class="tp-meta-col tp-meta-col--${mod}">
                     <span class="tp-meta-val">${val}</span>
-                    <span class="tp-meta-key">${cat}</span>
+                    <span class="tp-meta-key">${icon} ${cat}</span>
                 </div>`;
         }).join('<div class="tp-meta-sep"></div>');
 
@@ -2111,7 +2557,10 @@ function _applyTpSearch(query) {
         card.innerHTML = `
             <div class="tp-check-badge"><span class="material-icons">check</span></div>
 
-            <div class="tp-tag">${group.rentalType || 'Individual plan'}</div>
+            <div class="tp-tag">${(group.rentalType || '').toLowerCase() === 'others'
+                ? (group.rentalPeriod != null ? group.rentalPeriod + ' Day' + (group.rentalPeriod !== 1 ? 's' : '') : 'Others')
+                : (group.rentalType || 'Individual plan')
+            }</div>
 
             <div class="tp-price-only">
                 ${priceHtml}
@@ -2133,7 +2582,7 @@ function _applyTpSearch(query) {
 
                 <button
                     class="tp-btn-select"
-                    onclick="event.stopPropagation();openCloneTree('${encodeURIComponent(group.tariffPackageDesc)}', ${group._raw[0]?.tariff_package_id || 'null'})"
+                    onclick="event.stopPropagation();openCloneTree('${encodeURIComponent(group.tariffPackageDesc)}', ${group.tariff_package_id || group._raw[0]?.tariff_package_id || 'null'})"
                 >
                     Select
                 </button>
@@ -2223,7 +2672,7 @@ function _renderCloneTree(container, tpDesc, response) {
         const name = r.packageName || r.chargeDesc || r.chargeId || type;
         const attrs = [
             attrPill('Validity', (r.validity ? ({ 'M': 'Monthly', 'O': 'Others', 'D': 'Daily', 'W': 'Weekly', 'F': 'Fixed', 'U': 'Unlimited', 'Y': 'Yearly' }[r.validity] || r.validity) : '—')),
-            (r.validity === 'O' && r.validityDays) ? attrPill('Validity Days', r.validityDays) : '',
+            (r.validity === 'O' && r.rentalPeriod) ? attrPill('Validity Days', r.rentalPeriod) : '',
             attrPill('Mid. Expiry', r.midnightExpiry || '—'),
             attrPill('Renewal', r.renewal || '—'),
             attrPill('Rental', r.rental ?? '0'),
@@ -2306,11 +2755,15 @@ async function _cloneTreeAction(action) {
     if (action === 'clone') {
         const payload = _currentClonePayload;
 
-        console.log("CLONE PAYLOAD:", JSON.stringify(payload, null, 2));
-
         if (payload == null) {
             alert('Plan data not available. Please close and try again.');
             return;
+        }
+
+        // Inject username from sessionStorage (handles old DB records where createdBy is null)
+        payload.username = sessionStorage.getItem('username') || (typeof USERNAME !== 'undefined' ? USERNAME : '');
+        if (payload.data) {
+            payload.data.username = payload.username;
         }
 
         // Disable button to prevent double-submit
@@ -2326,13 +2779,21 @@ async function _cloneTreeAction(action) {
 
             const result = await res.json();
 
-            if (!res.ok || result.error) {
-                alert(result.error || 'Clone failed. Please try again.');
+            if (!res.ok || result.status === 'error') {
+                const reason = result.message || result.error || 'Clone failed. Please try again.';
+                const detail = result.failedTable ? '\nFailed at: ' + result.failedStep + ' -> ' + result.failedTable : '';
+                alert(' Clone failed:\n' + reason + detail);
+                return;
+            }
+
+            if (!result.clonedTpName) {
+                alert(' Clone failed: server did not return a cloned plan name.');
                 return;
             }
 
             alert('✅ Cloned successfully!\nNew plan: ' + result.clonedTpName);
             closeCloneTree();
+            await _loadAndRenderTpCards();
 
         } catch (err) {
             console.error('Clone error:', err);
@@ -2357,7 +2818,7 @@ async function _cloneTreeAction(action) {
                 id: a.servicePackageId,
                 name: a.packageName,
                 validity: a.validity,
-                validityDays: a.validityDays || "",
+                rentalPeriod: a.rentalPeriod || "",
                 midnightExpiry: a.midnightExpiry,
                 renewal: a.renewal,
                 rental: a.rental,
@@ -2368,7 +2829,7 @@ async function _cloneTreeAction(action) {
                 id: a.servicePackageId,
                 name: a.packageName,
                 validity: a.validity,
-                validityDays: a.validityDays || "",
+                rentalPeriod: a.rentalPeriod || "",
                 midnightExpiry: a.midnightExpiry,
                 renewal: a.renewal,
                 rental: a.rental,
@@ -2385,18 +2846,28 @@ async function _cloneTreeAction(action) {
             isCorporate: d.isCorporateYn || false
         };
 
+        // Helper: JSON.stringify array or fallback to '[]'
+        const svcsToJson = (val) => {
+            if (Array.isArray(val)) return JSON.stringify(val);
+            if (typeof val === 'string') return val || '[]';
+            return '[]';
+        };
+
         sessionStorage.setItem('state', JSON.stringify(state));
         sessionStorage.setItem('configName', payload.tpName || d.tariffPackageDesc || '');
         sessionStorage.setItem('pkgType', d.packageType || '');
-        sessionStorage.setItem('pkgSubType', d.tariffPackCategory || 'NORMAL');
-        sessionStorage.setItem('selectedSvcs_s2', d.selectedSvcs_s2 || '[]');
-        sessionStorage.setItem('selectedSvcs_s3', d.selectedSvcs_s3 || '[]');
-        sessionStorage.setItem('selectedSvcs_s4', d.selectedSvcs_s4 || '[]');
+        sessionStorage.setItem('pkgSubType', d.tariffPackCategory || 'GENERAL');
+        sessionStorage.setItem('periodicChargeID', d.periodicChargeID || '');
+        sessionStorage.setItem('selectedSvcs_s2', svcsToJson(d.selectedSvcs_s2));
+        sessionStorage.setItem('selectedSvcs_s3', svcsToJson(d.selectedSvcs_s3));
+        sessionStorage.setItem('selectedSvcs_s4', svcsToJson(d.selectedSvcs_s4));
 
         // Flag: step5 will show "Clone Package" instead of "Save Config"
         sessionStorage.setItem('cloneMode', 'true');
-        // Store the original full payload so Clone button in step5 can POST it
-        sessionStorage.setItem('clonePayload', JSON.stringify(payload));
+        // Store original tpName and networkId for the clone POST
+        sessionStorage.setItem('cloneTpName', payload.tpName || d.tariffPackageDesc || '');
+        sessionStorage.setItem('cloneNetworkId', String(payload.networkId || ''));
+        // username is read from sessionStorage directly in step5 — no need to re-store it
 
         closeCloneTree();
         window.isInternalNavigation = true;
@@ -2444,6 +2915,11 @@ function openTpDetails(groupData) {
             <span class="tp-modal-bucket-key">${b.balanceCategory.toLowerCase()}</span>
         </div>`).join('');
 
+    // ── Modal badge label ──────────────────────────────────
+    const badgeLabel = (group.rentalType || '').toLowerCase() === 'others'
+        ? (group.rentalPeriod != null ? group.rentalPeriod + ' Day' + (group.rentalPeriod !== 1 ? 's' : '') + ' Plan' : 'Others')
+        : (group.rentalType || 'Individual plan');
+
     // ── OTT strip (small icons beside notes) ──────────────
     const rateNames = group.rateGroupNames || [];
     const ottStripHtml = _buildOttStripHtml(rateNames, 4);
@@ -2452,24 +2928,35 @@ function openTpDetails(groupData) {
     const ottListHtml = rateNames.length
         ? rateNames.map(name => {
             const svc = _ottLookup(name);
-            const imgHtml = svc.src
-                ? `<img class="tp-modal-ott-item-img" src="${svc.src}" alt="${svc.title}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="tp-modal-ott-fallback-badge" style="display:none">${svc.initial}</span>`
-                : `<span class="tp-modal-ott-fallback-badge">${svc.initial}</span>`;
+            // Combo entry: show stacked icons side by side
+            const imgHtml = svc.srcs && svc.srcs.length
+                ? svc.srcs.map(sub =>
+                    `<img class="tp-modal-ott-item-img" src="${sub.src}" alt="${sub.title}"
+                          style="margin-right:4px"
+                          onerror="this.onerror=null;this.style.display='none';">`
+                ).join('')
+                : svc.src
+                    ? `<img class="tp-modal-ott-item-img" src="${svc.src}" alt="${svc.title}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="tp-modal-ott-fallback-badge" style="display:none">${svc.initial}</span>`
+                    : `<span class="tp-modal-ott-fallback-badge">${svc.initial}</span>`;
             return `
             <div class="tp-modal-ott-item">
-                ${imgHtml}
+                <div style="display:flex;align-items:center;gap:2px">${imgHtml}</div>
                 <div class="tp-modal-ott-item-info">
                     <span class="tp-modal-ott-item-name">${svc.title}</span>
                     <span class="tp-modal-ott-item-desc">${svc.desc}</span>
                 </div>
             </div>`;
         }).join('')
-        : '<div class="pd-empty-section" style="padding:16px;color:var(--text-muted,#888)">No OTT benefits included</div>';
+        : `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;gap:6px;text-align:center">
+               <span class="material-icons" style="font-size:32px;color:red">tv_off</span>
+               <span style="font-size:13px;font-weight:600;color:var(--text-secondary,#777)">No OTT benefits included</span>
+               <span style="font-size:11.5px;color:var(--text-muted,#aaa)">This plan does not include any streaming services</span>
+           </div>`;
 
     content.innerHTML = `
         <div class="tp-modal-title">${group.tariffPackageDesc || 'Pack Details'}</div>
 
-        <div class="tp-modal-badge">${group.rentalType || 'Individual plan'}</div>
+        <div class="tp-modal-badge">${badgeLabel}</div>
 
         <div class="tp-modal-hero">
             <div class="tp-modal-price-block">
@@ -2481,10 +2968,10 @@ function openTpDetails(groupData) {
             </div>
         </div>
 
-        <div class="tp-modal-ott-row">
+        ${rateNames.length ? `<div class="tp-modal-ott-row">
             <div class="tp-modal-ott-icons">${ottStripHtml}</div>
             <ul class="tp-modal-ott-notes">${notesHtml}</ul>
-        </div>
+        </div>` : `<ul class="tp-modal-ott-notes" style="margin:12px 0 4px 0">${notesHtml}</ul>`}
 
         <div class="tp-modal-benefits-title">additional benefits</div>
 
@@ -2512,4 +2999,156 @@ function openTpDetails(groupData) {
 function closeTpDetails() {
     document.getElementById('tpDetailsModal')
         .classList.remove('active');
+}
+
+// ── DRAFTS SEARCH ─────────────────────────────────────────────────
+function filterDrafts(query) {
+    const clr = document.getElementById('draftSearchClear');
+    if (clr) clr.style.opacity = query ? '1' : '0';
+
+    const drafts = window.ALL_DRAFTS || [];
+    const container = document.getElementById('draftOverlayList');
+    if (!drafts.length) return;
+
+    const q = query.toLowerCase().trim();
+    const filtered = q ? drafts.filter(d =>
+        (d.name || '').toLowerCase().includes(q) ||
+        (d.savedOn || '').toLowerCase().includes(q) ||
+        (d.pkgType || '').toLowerCase().includes(q)
+    ) : drafts;
+
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="drafts-empty">
+                <span class="material-icons">search_off</span>
+                <p class="drafts-empty-title">No results for "${query}"</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map((d, i) => {
+        const originalIndex = drafts.indexOf(d);
+        return `
+        <div class="draft-item" style="--i:${i}">
+            <div class="draft-info" onclick="loadDraft(${originalIndex})">
+                <span class="material-icons draft-icon">description</span>
+                <div class="draft-text">
+                    <span class="draft-name">${d.name || 'Untitled'}</span>
+                    <span class="draft-meta">${d.savedOn} · ${d.savedTime}</span>
+                </div>
+            </div>
+            <span class="material-icons draft-delete"
+                  onclick="deleteDraft(${originalIndex}, event)">delete_outline</span>
+        </div>`;
+    }).join('');
+}
+
+function clearDraftSearch() {
+    const inp = document.getElementById('draftSearchInput');
+    if (inp) inp.value = '';
+    const clr = document.getElementById('draftSearchClear');
+    if (clr) clr.style.opacity = '0';
+    filterDrafts('');
+}
+
+// ── SAVED SEARCH ──────────────────────────────────────────────────
+function filterSaved(query) {
+    const clr = document.getElementById('savedSearchClear');
+    if (clr) clr.style.opacity = query ? '1' : '0';
+
+    const configs = window.ALL_SAVED || [];
+    const container = document.getElementById('savedOverlayList');
+    if (!configs.length) return;
+
+    const q = query.toLowerCase().trim();
+    const filtered = q ? configs.filter(c =>
+        (c.tpName || '').toLowerCase().includes(q) ||
+        (c.username || '').toLowerCase().includes(q) ||
+        (c.data?.submittedOn || '').toLowerCase().includes(q)
+    ) : configs;
+
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="drafts-empty">
+                <span class="material-icons">search_off</span>
+                <p class="drafts-empty-title">No results for "${query}"</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map((c, i) => {
+        const originalIndex = configs.indexOf(c);
+        return `
+        <div class="draft-item saved">
+            <div class="draft-info" onclick="loadSavedPackage(${originalIndex})">
+                <span class="material-icons draft-icon">inventory_2</span>
+                <div class="draft-text">
+                    <span class="draft-name">${c.tpName}</span>
+                    <span class="draft-meta">${c.username} · ${c.data?.submittedOn || ''}</span>
+                </div>
+            </div>
+            <span class="material-icons draft-delete"
+                  onclick="deleteSaved('${c.tpName}', event)">delete_outline</span>
+        </div>`;
+    }).join('');
+}
+
+function clearSavedSearch() {
+    const inp = document.getElementById('savedSearchInput');
+    if (inp) inp.value = '';
+    const clr = document.getElementById('savedSearchClear');
+    if (clr) clr.style.opacity = '0';
+    filterSaved('');
+}
+
+// ── REJECTED SEARCH ───────────────────────────────────────────────
+function filterRejected(query) {
+    const clr = document.getElementById('rejectedSearchClear');
+    if (clr) clr.style.opacity = query ? '1' : '0';
+
+    const items = window.ALL_REJECTED || [];
+    const container = document.getElementById('rejectedOverlayList');
+    if (!items.length) return;
+
+    const q = query.toLowerCase().trim();
+    const filtered = q ? items.filter(c =>
+        (c.tpName || '').toLowerCase().includes(q) ||
+        (c.username || '').toLowerCase().includes(q) ||
+        (c.remarks || '').toLowerCase().includes(q) ||
+        (c.rejectedOn || '').substring(0, 10).includes(q)
+    ) : items;
+
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="drafts-empty">
+                <span class="material-icons">search_off</span>
+                <p class="drafts-empty-title">No results for "${query}"</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map((c, i) => {
+        const originalIndex = items.indexOf(c);
+        return `
+        <div class="draft-item saved" style="--i:${i}">
+            <div class="draft-info" onclick="loadRejectedPackage(${originalIndex})" style="cursor:pointer;">
+                <span class="material-icons draft-icon" style="color:#ef4444;">cancel</span>
+                <div class="draft-text">
+                    <span class="draft-name">${c.tpName}</span>
+                    <span class="draft-meta">${c.username || ''} · ${c.rejectedOn ? c.rejectedOn.substring(0, 10) : ''}</span>
+                    <span class="draft-meta" style="color:#ef4444; margin-top:3px;">
+                        <b>Remarks:</b> ${c.remarks || '—'}
+                    </span>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function clearRejectedSearch() {
+    const inp = document.getElementById('rejectedSearchInput');
+    if (inp) inp.value = '';
+    const clr = document.getElementById('rejectedSearchClear');
+    if (clr) clr.style.opacity = '0';
+    filterRejected('');
 }

@@ -15,10 +15,14 @@ public class TariffPackageDetailsDto {
 
 	private String rentalType;
 
-	private String balanceCategory;
-
-	private String bucketUnitValue;
 	private Long rentalPeriod;
+
+	private String dataBenefit;
+
+	private String smsBenefit;
+
+	private String voiceBenefit;
+	private String packageType;
 
 	private List<String> rateGroupNames;
 }

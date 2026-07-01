@@ -1891,3 +1891,806 @@ https://docs.oracle.com/error-help/db/ora-17900/). Possibly consider using a sho
 [2026-05-26T14:58:35.076] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"activationFee":999.0,"balanceCategory":"DATA","bucketUnitValue":"10 MB","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Yearly","tariffPackageDesc":"VOICE","tariff_package_id":1790},{"activationFee":899.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Instagram","Twitter","Netflix Prime","Google","Facebook","chatgpt"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"DATA","tariff_package_id":1791},{"activationFee":799.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":799.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":666.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"sms_plan","tariff_package_id":1786},{"activationFee":599.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":599.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":499.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"SMS_PLAN1","tariff_package_id":1785}]
 [2026-05-26T14:58:35.076] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 547 ms
 [2026-05-26T14:58:35.077] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T15:03:05.526] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-05-26T15:03:05.943] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 17.0.12 with PID 11064 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-05-26T15:03:05.945] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-05-26T15:03:06.207] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-05-26T15:03:06.825] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-05-26T15:03:06.860] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+[2026-05-26T15:03:07.625] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8089 (http)
+[2026-05-26T15:03:07.647] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8089"]
+[2026-05-26T15:03:07.650] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-05-26T15:03:07.650] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-05-26T15:03:07.726] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1728 ms
+[2026-05-26T15:03:08.077] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-05-26T15:03:08.086] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-05-26T15:03:11.216] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@27e199ce
+[2026-05-26T15:03:11.216] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-05-26T15:03:11.249] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-05-26T15:03:11.314] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-05-26T15:03:11.718] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-05-26T15:03:13.654] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-05-26T15:03:13.658] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-05-26T15:03:14.311] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-05-26T15:03:14.316] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-05-26T15:03:14.440] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-05-26T15:03:14.827] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8089"]
+[2026-05-26T15:03:14.853] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8089 (http) with context path '/'
+[2026-05-26T15:03:14.862] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 9.25 seconds (process running for 9.929)
+[2026-05-26T15:03:14.867] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-05-26T15:03:19.411] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log] Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2026-05-26T15:03:19.411] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Initializing Servlet 'dispatcherServlet'
+[2026-05-26T15:03:19.411] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Completed initialization in 0 ms
+[2026-05-26T15:03:19.534] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-05-26T15:03:19.534] [TarrifBuilder] [WARN ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Unauthorized step1 access
+[2026-05-26T15:03:28.629] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-05-26T15:03:28.629] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-05-26T15:03:28.629] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /login
+[2026-05-26T15:03:28.629] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-05-26T15:03:28.629] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login request received for user=XIUSUSER1
+[2026-05-26T15:03:28.629] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication started for loginId=XIUSUSER1 networkName=Demo
+[2026-05-26T15:03:28.640] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getUserPrivileges] Fetching user privileges for loginId=XIUSUSER1 networkName=Demo
+[2026-05-26T15:03:28.647] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-2 - Starting...
+[2026-05-26T15:03:30.603] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@2926a0d1
+[2026-05-26T15:03:30.603] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-2 - Start completed.
+[2026-05-26T15:03:30.829] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getNetworkId] Fetching networkId for networkName=Demo
+[2026-05-26T15:03:31.074] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication successful loginId=XIUSUSER1 networkId=196
+[2026-05-26T15:03:31.074] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login successful user=XIUSUSER1 networkId=196 privilegesCount=24
+[2026-05-26T15:03:31.074] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload networkLoginName=Demo&loginId=XIUSUSER1&password=12345678
+[2026-05-26T15:03:31.074] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 302
+[2026-05-26T15:03:31.083] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 2461 ms
+[2026-05-26T15:03:31.083] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T15:03:31.095] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.builderHome] Opening builder home
+[2026-05-26T15:03:31.302] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-05-26T15:03:32.698] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-05-26T15:03:32.698] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-05-26T15:03:32.698] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /tariff-package-details
+[2026-05-26T15:03:32.698] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-05-26T15:03:33.307] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-05-26T15:03:33.308] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"activationFee":999.0,"balanceCategory":"DATA","bucketUnitValue":"10 MB","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Yearly","tariffPackageDesc":"VOICE","tariff_package_id":1790},{"activationFee":899.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Instagram","Twitter","Netflix Prime","Google","Facebook","chatgpt"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"DATA","tariff_package_id":1791},{"activationFee":799.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":799.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":666.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"sms_plan","tariff_package_id":1786},{"activationFee":599.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":599.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":499.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"SMS_PLAN1","tariff_package_id":1785}]
+[2026-05-26T15:03:33.309] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 602 ms
+[2026-05-26T15:03:33.309] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T15:03:39.821] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-05-26T15:03:42.646] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-05-26T15:03:42.652] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-05-26T15:03:42.652] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /tariff-package-details
+[2026-05-26T15:03:42.652] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-05-26T15:03:43.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-05-26T15:03:43.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"activationFee":999.0,"balanceCategory":"DATA","bucketUnitValue":"10 MB","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Yearly","tariffPackageDesc":"VOICE","tariff_package_id":1790},{"activationFee":899.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Instagram","Twitter","Netflix Prime","Google","Facebook","chatgpt"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"DATA","tariff_package_id":1791},{"activationFee":799.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":799.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":666.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"sms_plan","tariff_package_id":1786},{"activationFee":599.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":599.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":499.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"SMS_PLAN1","tariff_package_id":1785}]
+[2026-05-26T15:03:43.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 798 ms
+[2026-05-26T15:03:43.444] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T15:03:48.623] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-05-26T15:03:54.059] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-05-26T15:03:54.059] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-05-26T15:03:54.060] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /tariff-package-details
+[2026-05-26T15:03:54.060] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-05-26T15:03:55.001] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-05-26T15:03:55.001] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"activationFee":999.0,"balanceCategory":"DATA","bucketUnitValue":"10 MB","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Yearly","tariffPackageDesc":"VOICE","tariff_package_id":1790},{"activationFee":899.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Instagram","Twitter","Netflix Prime","Google","Facebook","chatgpt"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"DATA","tariff_package_id":1791},{"activationFee":799.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":799.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":666.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"sms_plan","tariff_package_id":1786},{"activationFee":599.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":599.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":499.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"SMS_PLAN1","tariff_package_id":1785}]
+[2026-05-26T15:03:55.010] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 956 ms
+[2026-05-26T15:03:55.010] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T15:06:19.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-05-26T15:06:19.782] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getTariffPackages] Fetching Tariff Package names from JSON
+[2026-05-26T15:06:19.808] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Fetching TP list for admin user=XIUSUSER1 networkId=196
+[2026-05-26T15:06:19.809] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] TP list response size=0
+[2026-05-26T15:06:21.191] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-05-26T15:06:25.193] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-05-26T15:06:25.193] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-05-26T15:06:25.193] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /tariff-package-details
+[2026-05-26T15:06:25.193] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-05-26T15:06:26.380] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-05-26T15:06:26.380] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"activationFee":999.0,"balanceCategory":"DATA","bucketUnitValue":"10 MB","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":["Facebook","Instagram","Google","Netflix Prime"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS_DATA","tariff_package_id":1789},{"activationFee":999.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Yearly","tariffPackageDesc":"VOICE","tariff_package_id":1790},{"activationFee":899.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Instagram","Twitter","Netflix Prime","Google","Facebook","chatgpt"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"DATA","tariff_package_id":1791},{"activationFee":799.0,"balanceCategory":"SMS","bucketUnitValue":"100 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":799.0,"balanceCategory":"VOICE","bucketUnitValue":"1000 Sec","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_SMS","tariff_package_id":1787},{"activationFee":666.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"sms_plan","tariff_package_id":1786},{"activationFee":599.0,"balanceCategory":"VOICE","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":599.0,"balanceCategory":"DATA","bucketUnitValue":"UNLIMITED","rateGroupNames":["Google","Instagram","Netflix Prime","chatgpt","Twitter","Facebook"],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"VOICE_DATA","tariff_package_id":1788},{"activationFee":499.0,"balanceCategory":"SMS","bucketUnitValue":"50 SMS","rateGroupNames":[],"rentalPeriod":1,"rentalType":"Monthly","tariffPackageDesc":"SMS_PLAN1","tariff_package_id":1785}]
+[2026-05-26T15:06:26.380] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 1187 ms
+[2026-05-26T15:06:26.380] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T15:14:08.350] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-05-26T15:14:08.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 17.0.12 with PID 23248 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-05-26T15:14:08.772] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-05-26T15:14:09.017] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-05-26T15:14:09.702] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-05-26T15:14:09.731] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 24 ms. Found 0 JPA repository interfaces.
+[2026-05-26T15:14:10.520] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8089 (http)
+[2026-05-26T15:14:10.534] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8089"]
+[2026-05-26T15:14:10.534] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-05-26T15:14:10.534] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-05-26T15:14:10.599] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1777 ms
+[2026-05-26T15:14:10.900] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-05-26T15:14:10.911] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-05-26T15:14:13.929] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@20256a0b
+[2026-05-26T15:14:13.932] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-05-26T15:14:13.954] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-05-26T15:14:14.018] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-05-26T15:14:14.391] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-05-26T15:14:15.640] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-05-26T15:14:15.643] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-05-26T15:14:16.365] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-05-26T15:14:16.367] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-05-26T15:14:16.493] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-05-26T15:14:16.898] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8089"]
+[2026-05-26T15:14:16.925] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8089 (http) with context path '/'
+[2026-05-26T15:14:16.935] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 8.514 seconds (process running for 9.2)
+[2026-05-26T15:14:16.941] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-05-26T15:14:23.778] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log] Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2026-05-26T15:14:23.779] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Initializing Servlet 'dispatcherServlet'
+[2026-05-26T15:14:23.781] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Completed initialization in 2 ms
+[2026-05-26T15:14:23.794] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-05-26T15:14:23.795] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-05-26T15:14:23.795] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /details
+[2026-05-26T15:14:23.796] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-05-26T15:14:25.011] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-05-26T15:14:25.011] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {"tpName":"VOICE_DATA","username":"XIUSUSER1","networkId":196,"data":{"username":"XIUSUSER1","isUpdate":true,"submittedOn":"26 May 2026","packageType":"PREPAID","tariffPackCategory":"NORMAL","tariffPackageDesc":"VOICE_DATA","charge":"599.0","endDate":"05/21/2027","publicityId":"21082003","chargeId":"VOICE_DATA_PR","discountOnRentalYn":false,"isCorporateYn":false,"tariffPlanId":103326,"tariffPlanName":"PLAN_VD_VOICE_DATA","selectedSvcs_s2":["VOICE","DATA"],"selectedSvcs_s3":["VOICE","DATA"],"selectedSvcs_s4":[],"defaultAtps":[{"servicePackageId":103327,"chargeId":"VOICE_DATA_PR","packageName":"VD_PLAN_VOICE_DATA","validity":"M","rentalPeriod":1,"midnightExpiry":"Yes","activationFee":0.0,"renewal":"Yes","rental":359.0,"maxCount":11,"freeCycles":"10"}],"allowedAtps":[]}}
+[2026-05-26T15:14:25.011] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 1223 ms
+[2026-05-26T15:14:25.011] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-05-26T18:20:56.266] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-05-26T18:20:56.686] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 17.0.12 with PID 20828 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-05-26T18:20:56.690] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-05-26T18:20:56.903] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-05-26T18:20:57.502] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-05-26T18:20:57.533] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 17 ms. Found 0 JPA repository interfaces.
+[2026-05-26T18:20:58.081] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8089 (http)
+[2026-05-26T18:20:58.093] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8089"]
+[2026-05-26T18:20:58.094] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-05-26T18:20:58.094] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-05-26T18:20:58.151] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1419 ms
+[2026-05-26T18:20:58.444] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-05-26T18:20:58.454] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-05-26T18:20:58.994] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@106c988
+[2026-05-26T18:20:58.995] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-05-26T18:20:59.019] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-05-26T18:20:59.073] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-05-26T18:20:59.477] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-05-26T18:20:59.759] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-05-26T18:20:59.762] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-05-26T18:21:00.550] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-05-26T18:21:00.557] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-05-26T18:21:00.748] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-05-26T18:21:01.205] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8089"]
+[2026-05-26T18:21:01.236] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8089 (http) with context path '/'
+[2026-05-26T18:21:01.246] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 4.907 seconds (process running for 5.612)
+[2026-05-26T18:21:01.253] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-05-26T18:40:34.309] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m4s991ms162µs900ns).
+[2026-06-03T17:05:44.542] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-06-03T17:05:44.980] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 17.0.12 with PID 13692 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-03T17:05:44.983] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-03T17:05:45.207] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-03T17:05:45.678] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-03T17:05:45.704] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+[2026-06-03T17:05:46.256] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8089 (http)
+[2026-06-03T17:05:46.267] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8089"]
+[2026-06-03T17:05:46.268] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-06-03T17:05:46.269] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-06-03T17:05:46.326] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1301 ms
+[2026-06-03T17:05:46.573] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-03T17:05:46.582] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-03T17:05:47.294] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@106c988
+[2026-06-03T17:05:47.296] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-03T17:05:47.326] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-03T17:05:47.377] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-03T17:05:47.749] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-03T17:05:48.021] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-03T17:05:48.024] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-03T17:05:48.815] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-03T17:05:48.822] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-03T17:05:48.984] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-03T17:05:49.523] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8089"]
+[2026-06-03T17:05:49.532] [TarrifBuilder] [WARN ]  [org.springframework.boot.web.server.servlet.context.AnnotationConfigServletWebServerApplicationContext.refresh] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+[2026-06-03T17:05:49.535] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-03T17:05:49.538] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-03T17:05:49.767] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-03T17:05:49.789] [TarrifBuilder] [INFO ]  [org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger.logMessage] 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2026-06-03T17:05:49.799] [TarrifBuilder] [ERROR]  [org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter.report] 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8089 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8089 or configure this application to listen on another port.
+
+[2026-06-03T17:06:41.843] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-06-03T17:06:42.258] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication using Java 17.0.12 with PID 7628 (D:\XIUS\TariffBuilder\target\classes started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-03T17:06:42.261] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-03T17:06:42.507] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-03T17:06:43.114] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-03T17:06:43.170] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 24 ms. Found 0 JPA repository interfaces.
+[2026-06-03T17:06:43.951] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8090 (http)
+[2026-06-03T17:06:43.972] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8090"]
+[2026-06-03T17:06:43.976] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-06-03T17:06:43.976] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-06-03T17:06:44.074] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1768 ms
+[2026-06-03T17:06:44.402] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-03T17:06:44.411] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-03T17:06:44.933] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@106c988
+[2026-06-03T17:06:44.936] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-03T17:06:44.972] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-03T17:06:45.046] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-03T17:06:45.525] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-03T17:06:46.056] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-03T17:06:46.061] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-03T17:06:46.765] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-03T17:06:46.770] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-03T17:06:46.901] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-03T17:06:47.250] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8090"]
+[2026-06-03T17:06:47.289] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8090 (http) with context path '/'
+[2026-06-03T17:06:47.301] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 5.402 seconds (process running for 6.042)
+[2026-06-03T17:06:47.304] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-06-03T17:07:15.975] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log] Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2026-06-03T17:07:15.977] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Initializing Servlet 'dispatcherServlet'
+[2026-06-03T17:07:15.979] [TarrifBuilder] [INFO ]  [org.springframework.web.servlet.DispatcherServlet.initServletBean] Completed initialization in 2 ms
+[2026-06-03T17:07:27.082] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-06-03T17:07:27.083] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-06-03T17:07:27.083] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /login
+[2026-06-03T17:07:27.083] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-06-03T17:07:27.090] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login request received for user=USR1
+[2026-06-03T17:07:27.090] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication started for loginId=USR1 networkName=MUNDO
+[2026-06-03T17:07:27.092] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getUserPrivileges] Fetching user privileges for loginId=USR1 networkName=MUNDO
+[2026-06-03T17:07:27.096] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-2 - Starting...
+[2026-06-03T17:07:27.306] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@6220daf0
+[2026-06-03T17:07:27.307] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-2 - Start completed.
+[2026-06-03T17:07:27.322] [TarrifBuilder] [ERROR]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication failed for loginId=USR1 - no privileges found
+[2026-06-03T17:07:27.322] [TarrifBuilder] [ERROR]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login failed user=USR1 error=Invalid User Credentials
+java.lang.RuntimeException: Invalid User Credentials
+	at com.xius.TariffBuilder.UserService.UserLoginService.authenticate(UserLoginService.java:37)
+	at com.xius.TariffBuilder.Controller.BuilderController.login(BuilderController.java:128)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at com.xius.TariffBuilder.config.ApiLogger.doFilterInternal(ApiLogger.java:61)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1779)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+[2026-06-03T17:07:27.332] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload networkLoginName=MUNDO&loginId=USR1&password=12345678
+[2026-06-03T17:07:27.333] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-06-03T17:07:27.333] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] HTML response returned (status=200)
+[2026-06-03T17:07:27.333] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 254 ms
+[2026-06-03T17:07:27.333] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-06-03T17:07:37.027] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-06-03T17:07:37.027] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] POST
+[2026-06-03T17:07:37.027] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /login
+[2026-06-03T17:07:37.027] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-06-03T17:07:37.028] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login request received for user=USER1
+[2026-06-03T17:07:37.028] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication started for loginId=USER1 networkName=MUNDO
+[2026-06-03T17:07:37.029] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getUserPrivileges] Fetching user privileges for loginId=USER1 networkName=MUNDO
+[2026-06-03T17:07:38.634] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserAuthRepository.getNetworkId] Fetching networkId for networkName=MUNDO
+[2026-06-03T17:07:38.812] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.UserLoginService.authenticate] Authentication successful loginId=USER1 networkId=16
+[2026-06-03T17:07:38.813] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.login] Login successful user=USER1 networkId=16 privilegesCount=8
+[2026-06-03T17:07:38.817] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Request Payload networkLoginName=MUNDO&loginId=USER1&password=12345678
+[2026-06-03T17:07:38.818] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 302
+[2026-06-03T17:07:38.818] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 1790 ms
+[2026-06-03T17:07:38.819] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-06-03T17:07:38.828] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.builderHome] Opening builder home
+[2026-06-03T17:07:39.004] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-06-03T17:07:46.462] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-06-03T17:07:46.463] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-06-03T17:07:46.463] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /tariff-package-details
+[2026-06-03T17:07:46.463] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-06-03T17:07:46.587] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-06-03T17:07:46.587] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload []
+[2026-06-03T17:07:46.588] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 125 ms
+[2026-06-03T17:07:46.588] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-06-03T17:07:48.288] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Opening admin page
+[2026-06-03T17:07:48.289] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.UserService.TariffService.getTariffPackages] Fetching Tariff Package names from JSON
+[2026-06-03T17:07:48.313] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] Fetching TP list for admin user=USER1 networkId=16
+[2026-06-03T17:07:48.314] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.adminPage] TP list response size=0
+[2026-06-03T17:07:50.507] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.Controller.BuilderController.step1] Opening step1
+[2026-06-03T17:07:53.051] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-06-03T17:07:53.051] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-06-03T17:07:53.051] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /saved/list
+[2026-06-03T17:07:53.052] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-06-03T17:07:53.060] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-06-03T17:07:53.060] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload {}
+[2026-06-03T17:07:53.061] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 9 ms
+[2026-06-03T17:07:53.061] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-06-03T17:07:54.805] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleRequest ------------
+[2026-06-03T17:07:54.805] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] GET
+[2026-06-03T17:07:54.805] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] /draft/list
+[2026-06-03T17:07:54.805] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 10.10.21.49
+[2026-06-03T17:07:54.816] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] 200
+[2026-06-03T17:07:54.816] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Response Payload [{"name":"Untitled Draft","pkgType":"PREPAID","pkgSubType":"NORMAL","savedOn":"25 May 2026","savedTime":"09:37","username":"USER1","selectedSvcs_s2":"[]","selectedSvcs_s3":null,"selectedSvcs_s4":null,"state":{"s2":[],"s3":[],"s4":[],"price":"","publicityCode":"","endDate":"","isCorporate":false}},{"name":"Test_today","pkgType":"PREPAID","pkgSubType":"COMMERCIAL","savedOn":"07 May 2026","savedTime":"14:27","username":"USER1","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[]","state":{"s2":[{"id":1743,"name":"MI MUNDO S_V"}],"s3":[],"s4":[],"price":"0","publicityCode":"testD","endDate":"2027-04-04","isCorporate":false}},{"name":"tp_test","pkgType":"PREPAID","pkgSubType":"COMMERCIAL","savedOn":"27 Apr 2026","savedTime":"10:58","username":"USER1","selectedSvcs_s2":"[\"SMS\",\"DATA\",\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":"[\"VOICE\",\"SMS\",\"DATA\"]","state":{"s2":[{"id":"2069","name":"\tMI MUNDO_SD2","networkId":"16"}],"s3":[{"id":1750,"name":"MI MUNDO M_VO","validity":"Monthly","midnightExpiry":"No","renewal":"No","rental":0,"maxCount":0,"freeCycles":"0"},{"id":"1973","name":"xius_atp","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"},{"id":"1750","name":"MI MUNDO M_VO","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"},{"id":"1985","name":"xius_tpt","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"},{"id":"1758","name":"MI MUNDO L_Vo","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"},{"id":"1925","name":"test_builder","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"s4":[{"id":1765,"name":"DYNAMIC_DATP","validity":"Monthly","midnightExpiry":"No","renewal":"No","rental":0,"maxCount":0,"freeCycles":"0"},{"id":"2001","name":"MI MUNDO_VSD1","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"price":"4","publicityCode":"tester","endDate":"2026-04-21","isCorporate":true}},{"name":"MI","pkgType":"PREPAID","pkgSubType":"NORMAL","savedOn":"23 Apr 2026","savedTime":"16:14","username":"USER1","selectedSvcs_s2":"[\"VOICE\"]","selectedSvcs_s3":"[\"VOICE\"]","selectedSvcs_s4":null,"state":{"s2":[{"id":"1743","name":"MI MUNDO S_V","networkId":"16"}],"s3":[{"id":"2173","name":"MI MUNDO M_VO_TP_939","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"},{"id":"1985","name":"xius_tpt","validity":"Monthly","renewal":"No","midnightExpiry":"No","rental":"","maxCount":"","freeCycles":"0"}],"s4":[],"price":"","publicityCode":"","endDate":"","isCorporate":false}}]
+[2026-06-03T17:07:54.817] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] Execution time 11 ms
+[2026-06-03T17:07:54.817] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.config.ApiLogger.doFilterInternal] ------------ handleResponse ------------
+[2026-06-03T17:40:31.872] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@71f6c944 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:41:04.731] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@29891abf (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:41:06.228] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@4f660e32 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:52:42.518] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@3bf93c55 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:53:07.715] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@386f7d09 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:53:42.462] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@35ee7489 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:53:57.533] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@83b8b2d (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:54:21.124] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@36d55b8f (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:54:44.770] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@502d70a6 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:54:46.936] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@7541263f (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:55:24.795] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@2e8e8555 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:55:39.342] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@5c8dfab1 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:57:05.806] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@7a7fd2a9 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:57:05.885] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@3734c1a4 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:57:05.901] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m8s129ms830µs400ns).
+[2026-06-03T17:57:06.014] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@1d616fc4 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:57:07.890] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52s483ms487µs300ns).
+[2026-06-03T17:57:23.375] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@198f1c5b (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:57:24.827] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@73dc5086 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:58:52.310] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@65d51e76 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:58:55.350] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@42cf9729 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:58:55.634] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@5386b796 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:59:02.024] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@1eed253e (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T17:59:21.290] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.PoolBase.isConnectionDead] HikariPool-2 - Failed to validate connection org.postgresql.jdbc.PgConnection@69ef3591 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+[2026-06-03T18:00:26.257] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m20s221ms417µs300ns).
+[2026-06-03T18:00:28.109] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m20s221ms655µs400ns).
+[2026-06-03T18:03:46.051] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m19s795ms413µs900ns).
+[2026-06-03T18:03:47.916] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s781ms158µs200ns).
+[2026-06-03T18:07:05.870] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m19s794ms804µs700ns).
+[2026-06-03T18:07:07.704] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s794ms954µs100ns).
+[2026-06-03T18:10:26.719] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m20s850ms783µs900ns).
+[2026-06-03T18:10:28.546] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m20s840ms14µs400ns).
+[2026-06-03T18:13:48.109] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s567ms342µs).
+[2026-06-03T18:13:56.500] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=59s682ms263µs700ns).
+[2026-06-03T18:16:48.380] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m274ms211µs100ns).
+[2026-06-03T18:16:56.786] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m281ms501µs500ns).
+[2026-06-03T18:20:27.987] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m39s609ms923µs700ns).
+[2026-06-03T18:20:32.961] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m36s147ms872µs800ns).
+[2026-06-03T18:23:46.736] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m18s752ms640µs300ns).
+[2026-06-03T18:23:49.805] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m16s846ms936µs800ns).
+[2026-06-03T18:27:07.448] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m20s639ms683µs800ns).
+[2026-06-03T18:27:10.460] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m20s643ms184µs600ns).
+[2026-06-03T18:30:26.732] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s283ms48µs200ns).
+[2026-06-03T18:30:29.762] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m19s282ms604µs900ns).
+[2026-06-03T18:33:46.082] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s237ms291µs400ns).
+[2026-06-03T18:33:48.099] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.pool.HikariPool.run] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=1m18s335ms328µs700ns).
+[2026-06-18T17:09:47.741] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 9672 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:09:47.757] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:09:48.168] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:09:48.747] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:09:48.779] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 20 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:09:49.384] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:09:49.398] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:09:50.534] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4bfa5eb9
+[2026-06-18T17:09:50.536] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:09:50.580] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:09:50.731] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:09:51.238] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:09:51.963] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:09:51.971] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:09:52.741] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:09:52.747] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:09:52.949] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:09:53.617] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 6.194 seconds (process running for 7.891)
+[2026-06-18T17:09:54.073] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:09:54.078] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:09:54.171] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:12:04.822] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 26452 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:12:04.840] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:12:05.189] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:12:05.703] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:12:05.733] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:12:06.320] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:12:06.333] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:12:07.412] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4bfa5eb9
+[2026-06-18T17:12:07.414] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:12:07.456] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:12:07.567] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:12:08.052] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:12:08.387] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:12:08.392] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:12:09.292] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:12:09.302] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:12:09.628] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:12:10.423] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 5.86 seconds (process running for 7.402)
+[2026-06-18T17:12:10.880] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:12:10.883] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:12:11.572] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:14:59.178] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 19056 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:14:59.191] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:14:59.588] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:15:00.245] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:15:00.288] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 23 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:15:00.954] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:15:00.968] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:15:02.142] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4bfa5eb9
+[2026-06-18T17:15:02.146] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:15:02.173] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:15:02.252] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:15:02.737] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:15:03.197] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:15:03.201] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:15:04.031] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:15:04.037] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:15:04.408] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:15:05.125] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 6.304 seconds (process running for 7.962)
+[2026-06-18T17:15:05.668] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:15:05.672] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:15:05.807] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:21:19.650] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 9372 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:21:19.662] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:21:20.070] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:21:20.600] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:21:20.631] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:21:21.221] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:21:21.234] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:21:21.753] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4bfa5eb9
+[2026-06-18T17:21:21.754] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:21:21.791] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:21:21.901] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:21:22.386] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:21:22.703] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:21:22.706] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:21:23.491] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:21:23.498] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:21:23.732] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:21:24.442] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 5.056 seconds (process running for 6.696)
+[2026-06-18T17:21:25.003] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:21:25.007] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:21:25.088] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:24:44.938] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 15556 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:24:44.950] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:24:45.400] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:24:46.084] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:24:46.118] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 19 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:24:46.781] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:24:46.792] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:24:47.644] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@2a2b7a35
+[2026-06-18T17:24:47.650] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:24:47.709] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:24:47.881] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:24:48.657] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:24:49.019] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:24:49.028] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:24:49.907] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:24:49.919] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:24:50.102] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:24:50.680] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 6.09 seconds (process running for 7.922)
+[2026-06-18T17:24:51.164] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:24:51.169] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:24:51.205] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:29:11.458] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 18444 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:29:11.472] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:29:11.811] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:29:12.356] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:29:12.386] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 18 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:29:13.029] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:29:13.039] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:29:13.714] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@1da745a2
+[2026-06-18T17:29:13.716] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:29:13.752] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:29:13.857] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:29:14.312] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:29:14.837] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:29:14.845] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:29:15.761] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:29:15.767] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:29:16.003] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:29:16.681] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 5.517 seconds (process running for 7.142)
+[2026-06-18T17:29:17.249] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:29:17.252] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:29:17.347] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:33:15.920] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] Starting TariffBuilderApplication...
+[2026-06-18T17:33:16.422] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarting] Starting TariffBuilderApplication v1.0.0.0 using Java 17.0.12 with PID 27328 (D:\XIUS\TariffBuilder\target\TarrifBuilder-1.0.0.0.jar started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:33:16.427] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:33:16.774] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:33:17.342] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:33:17.381] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 22 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:33:18.086] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.initialize] Tomcat initialized with port 8090 (http)
+[2026-06-18T17:33:18.106] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Initializing ProtocolHandler ["http-nio-8090"]
+[2026-06-18T17:33:18.110] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardService.log] Starting service [Tomcat]
+[2026-06-18T17:33:18.110] [TarrifBuilder] [INFO ]  [org.apache.catalina.core.StandardEngine.log] Starting Servlet engine: [Apache Tomcat/11.0.20]
+[2026-06-18T17:33:18.155] [TarrifBuilder] [INFO ]  [org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.prepareWebApplicationContext] Root WebApplicationContext: initialization completed in 1677 ms
+[2026-06-18T17:33:18.556] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:33:18.569] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:33:19.451] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@7d484fcd
+[2026-06-18T17:33:19.453] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:33:19.482] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:33:19.555] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:33:20.087] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:33:20.947] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:33:20.951] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:33:21.800] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:33:21.806] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:33:21.966] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:33:22.553] [TarrifBuilder] [INFO ]  [org.apache.coyote.http11.Http11NioProtocol.log] Starting ProtocolHandler ["http-nio-8090"]
+[2026-06-18T17:33:22.591] [TarrifBuilder] [INFO ]  [org.springframework.boot.tomcat.TomcatWebServer.start] Tomcat started on port 8090 (http) with context path '/'
+[2026-06-18T17:33:22.602] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.logStarted] Started TariffBuilderApplication in 6.552 seconds (process running for 7.793)
+[2026-06-18T17:33:22.608] [TarrifBuilder] [INFO ]  [com.xius.TariffBuilder.TariffBuilderApplication.main] TariffBuilderApplication started successfully
+[2026-06-18T17:35:05.823] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 25688 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:35:05.856] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:35:06.212] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:35:06.692] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:35:06.723] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 17 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:35:07.270] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:35:07.283] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:35:08.555] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4bfa5eb9
+[2026-06-18T17:35:08.556] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:35:08.604] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:35:08.692] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:35:09.191] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:35:10.235] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:35:10.241] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:35:11.019] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:35:11.025] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:35:11.292] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:35:11.899] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 6.396 seconds (process running for 7.776)
+[2026-06-18T17:35:12.364] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:35:12.371] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:35:12.951] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:38:47.324] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 23664 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:38:47.341] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:38:47.650] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:38:48.103] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:38:48.129] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:38:48.672] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:38:48.686] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:38:50.112] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@2a2b7a35
+[2026-06-18T17:38:50.119] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:38:50.165] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:38:50.251] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:38:50.668] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:38:51.685] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:38:51.688] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:38:52.439] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:38:52.444] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:38:52.652] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:38:53.259] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 6.213 seconds (process running for 7.764)
+[2026-06-18T17:38:53.729] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:38:53.735] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:38:54.442] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:41:05.710] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 6096 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:41:05.733] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:41:06.099] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:41:06.721] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:41:06.758] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 23 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:41:07.559] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:41:07.576] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:41:09.012] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@4bfa5eb9
+[2026-06-18T17:41:09.013] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:41:09.057] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:41:09.158] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:41:09.661] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:41:10.522] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:41:10.526] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:41:11.288] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:41:11.294] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:41:11.608] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:41:12.313] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 6.946 seconds (process running for 8.322)
+[2026-06-18T17:41:12.808] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:41:12.810] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:41:12.917] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.
+[2026-06-18T17:41:54.417] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarting] Starting TarrifBuilderApplicationTests using Java 17.0.12 with PID 20960 (started by muralikrishna.jami in D:\XIUS\TariffBuilder)
+[2026-06-18T17:41:54.434] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStartupProfileInfo] No active profile set, falling back to 1 default profile: "default"
+[2026-06-18T17:41:54.707] [TarrifBuilder] [INFO ]  [org.hibernate.validator.internal.util.Version.<clinit>] HV000001: Hibernate Validator 9.0.1.Final
+[2026-06-18T17:41:55.179] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2026-06-18T17:41:55.206] [TarrifBuilder] [INFO ]  [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn] Finished Spring Data repository scanning in 15 ms. Found 0 JPA repository interfaces.
+[2026-06-18T17:41:55.703] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Starting...
+[2026-06-18T17:41:55.711] [TarrifBuilder] [WARN ]  [com.zaxxer.hikari.util.DriverDataSource.<init>] Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct instantiation.
+[2026-06-18T17:41:56.919] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.pool.HikariPool.checkFailFast] HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@6cd45b6c
+[2026-06-18T17:41:56.921] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.getConnection] HikariPool-1 - Start completed.
+[2026-06-18T17:41:56.958] [TarrifBuilder] [INFO ]  [org.hibernate.orm.jpa.logPersistenceUnitInformation] HHH008540: Processing PersistenceUnitInfo [name: default]
+[2026-06-18T17:41:57.042] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.logVersion] HHH000001: Hibernate ORM core version 7.2.7.Final
+[2026-06-18T17:41:57.445] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo.addTransformer] No LoadTimeWeaver setup: ignoring JPA class transformer
+[2026-06-18T17:41:57.763] [TarrifBuilder] [WARN ]  [org.hibernate.orm.jdbc.logJdbcFetchSize] HHH100123: Low default JDBC fetch size: 10 (consider setting 'hibernate.jdbc.fetch_size')
+[2026-06-18T17:41:57.767] [TarrifBuilder] [INFO ]  [org.hibernate.orm.connections.pooling.logConnectionInfo] HHH10001005: Database info:
+	Database JDBC URL [jdbc:oracle:thin:@192.168.144.34:1521:DEMODB]
+	Database driver: Oracle JDBC driver
+	Database dialect: OracleDialect
+	Database version: 19.27
+	Default catalog/schema: undefined/BSSSDP
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 10
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+[2026-06-18T17:41:58.452] [TarrifBuilder] [INFO ]  [org.hibernate.orm.core.initiateService] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2026-06-18T17:41:58.457] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory] Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:41:58.686] [TarrifBuilder] [WARN ]  [org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2026-06-18T17:41:59.160] [TarrifBuilder] [INFO ]  [com.xius.TarrifBuilder.TarrifBuilderApplicationTests.logStarted] Started TarrifBuilderApplicationTests in 4.972 seconds (process running for 6.326)
+[2026-06-18T17:41:59.592] [TarrifBuilder] [INFO ]  [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.destroy] Closing JPA EntityManagerFactory for persistence unit 'default'
+[2026-06-18T17:41:59.594] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown initiated...
+[2026-06-18T17:42:00.089] [TarrifBuilder] [INFO ]  [com.zaxxer.hikari.HikariDataSource.close] HikariPool-1 - Shutdown completed.

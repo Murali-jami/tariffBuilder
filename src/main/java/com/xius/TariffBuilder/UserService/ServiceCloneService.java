@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 
+import com.xius.TariffBuilder.exception.TariffInsertException;
+
 @Service
 public class ServiceCloneService {
 
@@ -151,6 +153,7 @@ public class ServiceCloneService {
                         """,
                 Long.class);
 
+        try {
         jdbcTemplate.update(
                 """
                         insert into CS_RAT_SERVICE_PACKAGE
@@ -185,7 +188,7 @@ public class ServiceCloneService {
                             )
                             select
                                 ?,
-                                SERVICE_PACKAGE_DESC || '_' || ?,
+                                REGEXP_REPLACE(SERVICE_PACKAGE_DESC,'_(CL|TP|ATP)[0-9]+$','') || '_' || ?,
                                 RENTAL_AMOUNT,
                                 ACTIVATION_CHARGE,
                                 NETWORK_ID,
@@ -204,7 +207,7 @@ public class ServiceCloneService {
                                 TRANSFEREE_CHARGE,
                                 CHANGE_MSISDN_CHARGE,
                                 MAX_AMT_PER_TRANS,
-                                PUBLICITY_ID || '_' || ?,
+                                REGEXP_REPLACE(PUBLICITY_ID,'_(CL|TP|ATP)[0-9]+$','') || '_' || ?,
                                 MAX_FNFSERVICE_NUMBERS,
                                 MAX_SMSSERVICE_NUMBERS,
                                 CA_SERVICE_PACKAGE_YN,
@@ -216,8 +219,11 @@ public class ServiceCloneService {
                                             """,
                 newPackageId,
                 tpName,
-                newPackageId,
+                tpName,
                 servicePackageId);
+        } catch (Exception ex) {
+            throw new TariffInsertException("cloneService", "CS_RAT_SERVICE_PACKAGE", ex);
+        }
 
         List<Long> oldPlanIds = jdbcTemplate.queryForList(
                 """
@@ -251,13 +257,14 @@ public class ServiceCloneService {
              * Clone service plan.
              * ZONE_GROUP_ID is replaced with newPlanZoneId.
              */
+            try {
             jdbcTemplate.update(
                     """
                             insert into CS_RAT_SERVICE_PLANS
                             select
                                 NETWORK_ID,
                                 ?,
-                                SERVICE_PLAN_DESC || '_' || ?,
+                                REGEXP_REPLACE(SERVICE_PLAN_DESC,'_(CL|TP|ATP)[0-9]+$','') || '_' || ?,
                                 SERVICE_PLAN_TYPE,
                                 TYPE_OF_SERVICE,
                                 PRIORITY,
@@ -305,7 +312,11 @@ public class ServiceCloneService {
                     tpName,
                     newPlanZoneId,
                     oldPlanId);
+            } catch (Exception ex) {
+                throw new TariffInsertException("cloneService", "CS_RAT_SERVICE_PLANS", ex);
+            }
 
+            try {
             jdbcTemplate.update(
                     """
                             insert into CS_RAT_SERVICE_PLAN_PACKAGE
@@ -319,6 +330,9 @@ public class ServiceCloneService {
                     newPackageId,
                     newPlanId,
                     networkId);
+            } catch (Exception ex) {
+                throw new TariffInsertException("cloneService", "CS_RAT_SERVICE_PLAN_PACKAGE", ex);
+            }
 
             logger.info("Service plan cloned oldPlanId={} newPlanId={} newPackageId={}",
                     oldPlanId, newPlanId, newPackageId);

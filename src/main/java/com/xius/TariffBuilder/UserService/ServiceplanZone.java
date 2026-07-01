@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.xius.TariffBuilder.exception.TariffInsertException;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -22,22 +24,17 @@ public class ServiceplanZone {
     @Qualifier("oracleJdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
-    /*
-     * Clone zone data:
-     * oldZoneId -> newZoneId
-     *
-     * Does not generate new zone id.
-     * Does not update plan table.
-     * Does not update bucket table.
-     */
+    // ── NEW: delegate DayType / TimeZone / SlotRate cloning ──────────────────
+    @Autowired
+    private DayTypeCloneService dayTypeCloneService;
+
     public Long generateNewZoneId() {
         return jdbcTemplate.queryForObject(
                 """
-                select nvl(max(ZONE_GROUP_ID), 0) + 1
-                from CS_RAT_ZONE_GROUPS
-                """,
-                Long.class
-        );
+                        select nvl(max(ZONE_GROUP_ID), 0) + 1
+                        from CS_RAT_ZONE_GROUPS
+                        """,
+                Long.class);
     }
 
     @Transactional
@@ -58,39 +55,37 @@ public class ServiceplanZone {
             return;
         }
 
-        /*
-         * Clone CS_RAT_ZONE_GROUPS only if:
-         * 1. old zone exists there
-         * 2. new zone does not already exist there
-         */
         if (oldRatCount > 0) {
 
             Integer newRatCount = countZone("CS_RAT_ZONE_GROUPS", newZoneId);
 
             if (newRatCount == 0) {
-                jdbcTemplate.update(
-                        """
-                        insert into CS_RAT_ZONE_GROUPS
-                        (
-                            ZONE_GROUP_ID,
-                            ZONE_GROUP_DESC,
-                            NETWORK_ID,
-                            TYPE_OF_SERVICE,
-                            RATING_YN
-                        )
-                        select
-                            ?,
-                            ZONE_GROUP_DESC || ?,
-                            NETWORK_ID,
-                            TYPE_OF_SERVICE,
-                            RATING_YN
-                        from CS_RAT_ZONE_GROUPS
-                        where ZONE_GROUP_ID = ?
-                        """,
-                        newZoneId,
-                        suffix,
-                        oldZoneId
-                );
+                try {
+                    jdbcTemplate.update(
+                            """
+                                    insert into CS_RAT_ZONE_GROUPS
+                                    (
+                                        ZONE_GROUP_ID,
+                                        ZONE_GROUP_DESC,
+                                        NETWORK_ID,
+                                        TYPE_OF_SERVICE,
+                                        RATING_YN
+                                    )
+                                    select
+                                        ?,
+                                        REGEXP_REPLACE(ZONE_GROUP_DESC,'_CL[0-9]+$','') || ?,
+                                        NETWORK_ID,
+                                        TYPE_OF_SERVICE,
+                                        RATING_YN
+                                    from CS_RAT_ZONE_GROUPS
+                                    where ZONE_GROUP_ID = ?
+                                    """,
+                            newZoneId,
+                            suffix,
+                            oldZoneId);
+                } catch (Exception ex) {
+                    throw new TariffInsertException("cloneZoneGroup", "CS_RAT_ZONE_GROUPS", ex);
+                }
 
                 logger.info("CS_RAT_ZONE_GROUPS cloned oldZoneId={} newZoneId={}", oldZoneId, newZoneId);
             } else {
@@ -98,45 +93,43 @@ public class ServiceplanZone {
             }
         }
 
-        /*
-         * Clone CS_DRE_RATING_GROUP_DETAILS only if:
-         * 1. old zone exists there
-         * 2. new zone does not already exist there
-         */
         if (oldDreCount > 0) {
 
             Integer newDreCount = countZone("CS_DRE_RATING_GROUP_DETAILS", newZoneId);
 
             if (newDreCount == 0) {
-                jdbcTemplate.update(
-                        """
-                        insert into CS_DRE_RATING_GROUP_DETAILS
-                        (
-                            NETWORK_ID,
-                            ROAMING_NETWORK_ID,
-                            ZONE_GROUP_ID,
-                            ZONE_GROUP_NAME,
-                            APN_ID,
-                            RATING_GROUP_ID,
-                            CALENDAR_ID,
-                            RATING_YN
-                        )
-                        select
-                            NETWORK_ID,
-                            ROAMING_NETWORK_ID,
-                            ?,
-                            ZONE_GROUP_NAME || ?,
-                            APN_ID,
-                            RATING_GROUP_ID,
-                            CALENDAR_ID,
-                            RATING_YN
-                        from CS_DRE_RATING_GROUP_DETAILS
-                        where ZONE_GROUP_ID = ?
-                        """,
-                        newZoneId,
-                        suffix,
-                        oldZoneId
-                );
+                try {
+                    jdbcTemplate.update(
+                            """
+                                    insert into CS_DRE_RATING_GROUP_DETAILS
+                                    (
+                                        NETWORK_ID,
+                                        ROAMING_NETWORK_ID,
+                                        ZONE_GROUP_ID,
+                                        ZONE_GROUP_NAME,
+                                        APN_ID,
+                                        RATING_GROUP_ID,
+                                        CALENDAR_ID,
+                                        RATING_YN
+                                    )
+                                    select
+                                        NETWORK_ID,
+                                        ROAMING_NETWORK_ID,
+                                        ?,
+                                        REGEXP_REPLACE(ZONE_GROUP_NAME,'_CL[0-9]+$','') || ?,
+                                        APN_ID,
+                                        RATING_GROUP_ID,
+                                        CALENDAR_ID,
+                                        RATING_YN
+                                    from CS_DRE_RATING_GROUP_DETAILS
+                                    where ZONE_GROUP_ID = ?
+                                    """,
+                            newZoneId,
+                            suffix,
+                            oldZoneId);
+                } catch (Exception ex) {
+                    throw new TariffInsertException("cloneRatingGroupDetails", "CS_DRE_RATING_GROUP_DETAILS", ex);
+                }
 
                 logger.info("CS_DRE_RATING_GROUP_DETAILS cloned oldZoneId={} newZoneId={}", oldZoneId, newZoneId);
             } else {
@@ -158,20 +151,18 @@ public class ServiceplanZone {
         return jdbcTemplate.queryForObject(
                 "select count(*) from " + tableName + " where ZONE_GROUP_ID = ?",
                 Integer.class,
-                zoneId
-        );
+                zoneId);
     }
 
     private void cloneSlabAndCalendar(Long oldZoneId, Long newZoneId, Long networkId, String suffix) {
 
         List<Map<String, Object>> mappings = jdbcTemplate.queryForList(
                 """
-                select SLAB_ID, AIRTIME_CALENDAR
-                from CS_RAT_ZONEGROUP_SLAB_MAPPING
-                where ZONE_GROUP_ID = ?
-                """,
-                oldZoneId
-        );
+                        select SLAB_ID, AIRTIME_CALENDAR
+                        from CS_RAT_ZONEGROUP_SLAB_MAPPING
+                        where ZONE_GROUP_ID = ?
+                        """,
+                oldZoneId);
 
         Map<Long, Long> calendarCache = new HashMap<>();
 
@@ -187,43 +178,41 @@ public class ServiceplanZone {
 
             Integer mappingCount = jdbcTemplate.queryForObject(
                     """
-                    select count(*)
-                    from CS_RAT_ZONEGROUP_SLAB_MAPPING
-                    where ZONE_GROUP_ID = ?
-                    and SLAB_ID = ?
-                    and NETWORK_ID = ?
-                    """,
+                            select count(*)
+                            from CS_RAT_ZONEGROUP_SLAB_MAPPING
+                            where ZONE_GROUP_ID = ?
+                            and SLAB_ID = ?
+                            and NETWORK_ID = ?
+                            """,
                     Integer.class,
                     newZoneId,
                     oldSlabId,
-                    networkId
-            );
+                    networkId);
 
             if (mappingCount == null || mappingCount == 0) {
                 jdbcTemplate.update(
                         """
-                        insert into CS_RAT_ZONEGROUP_SLAB_MAPPING
-                        (
-                            ZONE_GROUP_ID,
-                            SLAB_ID,
-                            AIRTIME_CALENDAR,
-                            NETWORK_ID
-                        )
-                        values (?,?,?,?)
-                        """,
+                                insert into CS_RAT_ZONEGROUP_SLAB_MAPPING
+                                (
+                                    ZONE_GROUP_ID,
+                                    SLAB_ID,
+                                    AIRTIME_CALENDAR,
+                                    NETWORK_ID
+                                )
+                                values (?,?,?,?)
+                                """,
                         newZoneId,
                         oldSlabId,
                         newCalendarId,
-                        networkId
-                );
+                        networkId);
             }
         }
     }
 
     private Long cloneCalendar(Long oldCalendarId,
-                               String suffix,
-                               Long networkId,
-                               Map<Long, Long> calendarCache) {
+            String suffix,
+            Long networkId,
+            Map<Long, Long> calendarCache) {
 
         if (oldCalendarId == null) {
             return null;
@@ -233,56 +222,129 @@ public class ServiceplanZone {
             return calendarCache.get(oldCalendarId);
         }
 
+        // ── Read the original calendar row ───────────────────────────────────
+        Map<String, Object> oldCalRow = jdbcTemplate.queryForMap(
+                """
+                        select *
+                        from RAT_MT_CALENDAR
+                        where CALENDAR_ID = ?
+                        """,
+                oldCalendarId);
+
+        // ── Extract the 7 original DayType IDs ──────────────────────────────
+        Long oldSunday = toLong(oldCalRow.get("SUNDAY_DAYTYPE"));
+        Long oldMonday = toLong(oldCalRow.get("MONDAY_DAYTYPE"));
+        Long oldTuesday = toLong(oldCalRow.get("TUESDAY_DAYTYPE"));
+        Long oldWednesday = toLong(oldCalRow.get("WEDNESDAY_DAYTYPE"));
+        Long oldThursday = toLong(oldCalRow.get("THURSDAY_DAYTYPE"));
+        Long oldFriday = toLong(oldCalRow.get("FRIDAY_DAYTYPE"));
+        Long oldSaturday = toLong(oldCalRow.get("SATURDAY_DAYTYPE"));
+
+        logger.info(
+                "Original calendar CALENDAR_ID={} DayTypes: Sun={} Mon={} Tue={} Wed={} Thu={} Fri={} Sat={}",
+                oldCalendarId,
+                oldSunday, oldMonday, oldTuesday, oldWednesday,
+                oldThursday, oldFriday, oldSaturday);
+
+        // ── Clone each distinct DayType; cache prevents duplicate cloning ────
+        Map<Long, Long> dayTypeCache = new HashMap<>();
+
+        Long newSunday = dayTypeCloneService.cloneDayType(oldSunday, networkId, suffix, dayTypeCache);
+        Long newMonday = dayTypeCloneService.cloneDayType(oldMonday, networkId, suffix, dayTypeCache);
+        Long newTuesday = dayTypeCloneService.cloneDayType(oldTuesday, networkId, suffix, dayTypeCache);
+        Long newWednesday = dayTypeCloneService.cloneDayType(oldWednesday, networkId, suffix, dayTypeCache);
+        Long newThursday = dayTypeCloneService.cloneDayType(oldThursday, networkId, suffix, dayTypeCache);
+        Long newFriday = dayTypeCloneService.cloneDayType(oldFriday, networkId, suffix, dayTypeCache);
+        Long newSaturday = dayTypeCloneService.cloneDayType(oldSaturday, networkId, suffix, dayTypeCache);
+
+        logger.info(
+                "DayType mappings for CALENDAR_ID={}: Sun={}->{} Mon={}->{} Tue={}->{} Wed={}->{} Thu={}->{} Fri={}->{} Sat={}->{}",
+                oldCalendarId,
+                oldSunday, newSunday,
+                oldMonday, newMonday,
+                oldTuesday, newTuesday,
+                oldWednesday, newWednesday,
+                oldThursday, newThursday,
+                oldFriday, newFriday,
+                oldSaturday, newSaturday);
+
+        // ── Generate new CALENDAR_ID ─────────────────────────────────────────
         Long newCalendarId = jdbcTemplate.queryForObject(
                 """
-                select nvl(max(CALENDAR_ID),0)+1
-                from RAT_MT_CALENDAR
-                """,
-                Long.class
-        );
+                        select nvl(max(CALENDAR_ID),0)+1
+                        from RAT_MT_CALENDAR
+                        """,
+                Long.class);
 
-        jdbcTemplate.update(
-                """
-                insert into RAT_MT_CALENDAR
-                (
-                    CALENDAR_ID,
-                    SUNDAY_DAYTYPE,
-                    MONDAY_DAYTYPE,
-                    TUESDAY_DAYTYPE,
-                    WEDNESDAY_DAYTYPE,
-                    THURSDAY_DAYTYPE,
-                    FRIDAY_DAYTYPE,
-                    SATURDAY_DAYTYPE,
-                    CALENDAR_NAME,
-                    DESCRIPTION,
-                    NETWORK_ID,
-                    DURATION_VOLUME_FLAG
-                )
-                select
-                    ?,
-                    SUNDAY_DAYTYPE,
-                    MONDAY_DAYTYPE,
-                    TUESDAY_DAYTYPE,
-                    WEDNESDAY_DAYTYPE,
-                    THURSDAY_DAYTYPE,
-                    FRIDAY_DAYTYPE,
-                    SATURDAY_DAYTYPE,
-                    CALENDAR_NAME || ?,
-                    DESCRIPTION || ?,
-                    ?,
-                    DURATION_VOLUME_FLAG
-                from RAT_MT_CALENDAR
-                where CALENDAR_ID = ?
-                """,
+        logger.info(
+                "Inserting RAT_MT_CALENDAR newCalendarId={} with newDayTypes: Sun={} Mon={} Tue={} Wed={} Thu={} Fri={} Sat={}",
                 newCalendarId,
-                suffix,
-                suffix,
-                networkId,
-                oldCalendarId
-        );
+                newSunday, newMonday, newTuesday, newWednesday,
+                newThursday, newFriday, newSaturday);
+
+        // ── Insert the cloned calendar row using NEW DayType IDs ─────────────
+        try {
+            jdbcTemplate.update(
+                    """
+                            insert into RAT_MT_CALENDAR
+                            (
+                                CALENDAR_ID,
+                                SUNDAY_DAYTYPE,
+                                MONDAY_DAYTYPE,
+                                TUESDAY_DAYTYPE,
+                                WEDNESDAY_DAYTYPE,
+                                THURSDAY_DAYTYPE,
+                                FRIDAY_DAYTYPE,
+                                SATURDAY_DAYTYPE,
+                                CALENDAR_NAME,
+                                DESCRIPTION,
+                                NETWORK_ID,
+                                DURATION_VOLUME_FLAG
+                            )
+                            select
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                REGEXP_REPLACE(CALENDAR_NAME,'_CL[0-9]+$','') || ?,
+                                REGEXP_REPLACE(DESCRIPTION,'_CL[0-9]+$','') || ?,
+                                ?,
+                                DURATION_VOLUME_FLAG
+                            from RAT_MT_CALENDAR
+                            where CALENDAR_ID = ?
+                            """,
+                    newCalendarId,
+                    newSunday,
+                    newMonday,
+                    newTuesday,
+                    newWednesday,
+                    newThursday,
+                    newFriday,
+                    newSaturday,
+                    suffix,
+                    suffix,
+                    networkId,
+                    oldCalendarId);
+        } catch (Exception ex) {
+            logger.error("Error cloning RAT_MT_CALENDAR oldCalendarId={}", oldCalendarId, ex);
+            throw new TariffInsertException("cloneCalendar", "RAT_MT_CALENDAR", ex);
+        }
 
         calendarCache.put(oldCalendarId, newCalendarId);
 
+        logger.info("RAT_MT_CALENDAR cloned oldCalendarId={} newCalendarId={}", oldCalendarId, newCalendarId);
+
         return newCalendarId;
+    }
+
+    private Long toLong(Object value) {
+        if (value == null) {
+            return null;
+        }
+        return ((Number) value).longValue();
     }
 }

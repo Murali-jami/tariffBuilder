@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,10 +40,12 @@ import com.xius.TariffBuilder.UserService.TariffPackageService;
 import com.xius.TariffBuilder.UserService.TariffService;
 import com.xius.TariffBuilder.UserService.UserLoginService;
 import com.xius.TariffBuilder.util.JsonStorage;
+import com.xius.TariffBuilder.UserService.TariffUpdateService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class BuilderController {
 
     private static final Logger logger = LoggerFactory.getLogger(BuilderController.class);
@@ -75,6 +79,9 @@ public class BuilderController {
 
     @Autowired
     private TariffPackageService tariffPackageService;
+
+    @Autowired
+    private TariffUpdateService tariffUpdateService;
 
     // ================= LOGIN =================
 
@@ -398,17 +405,34 @@ public class BuilderController {
     // ================= CLONE =================
 
     /*
+     * POST /clone/validate
+     * Validates tpName and publicityId before a modify-mode clone.
+     */
+    @ResponseBody
+    @PostMapping("/clone/validate")
+    public ResponseEntity<Map<String, Object>> validateClone(
+            @RequestBody Map<String, Object> requestBody) {
+
+        Long networkId = Long.valueOf(requestBody.get("networkId").toString());
+        String tpName = requestBody.get("tpName").toString();
+        String publicityId = requestBody.get("publicityId").toString();
+
+        logger.info("Clone validate request networkId={} tpName={} publicityId={}", networkId, tpName, publicityId);
+
+        Map<String, Object> result = tariffApprovalService.validateClone(networkId, tpName, publicityId);
+
+        return ResponseEntity.ok(result);
+    }
+
+    /*
      * POST /clone
-     * Triggered by the Clone button in the UI.
-     * Accepts the full request body from the caller, suffixes tpName and
-     * publicityId with "_CL" inside TariffApprovalService, then executes
-     * all tariff creation queries with the cloned values.
-     * Response includes clonedTpName, clonedPublicityId, clonedChargeId
-     * in addition to the standard tariff creation fields.
+     * Supports cloneMode=direct (add _CLn suffix) and cloneMode=modify
+     * (use overrideTpName / overridePublicityId supplied by the frontend).
+     * Always returns HTTP 200 with { status: "success"|"error", ... }.
      */
     @ResponseBody
     @PostMapping("/clone")
-    public ResponseEntity<?> clone(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<Map<String, Object>> clone(@RequestBody Map<String, Object> requestBody) {
 
         String tpName = requestBody.get("tpName").toString();
 
@@ -416,7 +440,7 @@ public class BuilderController {
 
         Map<String, Object> result = tariffApprovalService.clone(requestBody);
 
-        logger.info("Clone completed tpName={}", tpName);
+        logger.info("Clone completed tpName={} status={}", tpName, result.get("status"));
 
         return ResponseEntity.ok(result);
     }
@@ -425,22 +449,52 @@ public class BuilderController {
 
     @ResponseBody
     @PostMapping("/approve/{tpName}")
-    public Map<String, Object> approve(
+    public ResponseEntity<Map<String, Object>> approve(
             @PathVariable String tpName) {
 
-        return tariffApprovalService.approve(tpName);
+        Map<String, Object> result = tariffApprovalService.approve(tpName);
+        return ResponseEntity.ok(result);
     }
 
     @ResponseBody
     @PostMapping("/reject/{tpName}")
-    public Map<String, Object> reject(
-            @PathVariable String tpName) {
+    public ResponseEntity<Map<String, Object>> reject(
+            @PathVariable String tpName,
+            @RequestBody(required = false) Map<String, Object> body) {
 
-        tariffApprovalService.reject(tpName);
+        String remarks = (body != null && body.get("remarks") != null)
+                ? body.get("remarks").toString()
+                : "";
+        Map<String, Object> result = tariffApprovalService.reject(tpName, remarks);
+        return ResponseEntity.ok(result);
+    }
 
-        return Map.of(
-                "success", true,
-                "message", "Tariff rejected successfully");
+    @GetMapping("/approved/list")
+    @ResponseBody
+    public Map<String, Object> getApprovedList() {
+        return jsonStorage.readApproved();
+    }
+
+    @GetMapping("/rejected/list")
+    @ResponseBody
+    public Map<String, Object> getRejectedList() {
+        return jsonStorage.readRejected();
+    }
+
+    @PostMapping("/rejected/delete/{tpName}")
+    @ResponseBody
+    public ResponseEntity<?> deleteRejected(
+            @PathVariable String tpName,
+            HttpSession session) {
+
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+
+        jsonStorage.removeRejected(tpName);
+        logger.info("Rejected TP removed after re-submission tpName={} username={}", tpName, username);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/saved/list")
@@ -556,6 +610,18 @@ public class BuilderController {
     @GetMapping("/details")
     public ResponseEntity<?> getTariffPackageDetails(@RequestParam Long networkId, @RequestParam Long tariffPackageId) {
 
-        return ResponseEntity.ok(tariffApprovalService.getTariffPackageDetails(tariffPackageId, networkId));
+        return ResponseEntity.ok(tariffUpdateService.getTariffPackageDetails(tariffPackageId, networkId));
     }
+
+    @ResponseBody
+@PutMapping("/update/{tariffPackageId}")
+public ResponseEntity<Map<String, Object>> updateTariffPackage(
+        @PathVariable Long tariffPackageId,
+        @RequestParam Long networkId,
+        @RequestBody Map<String, Object> requestBody) {
+ 
+    Map<String, Object> result = tariffUpdateService.updateTariffPackage(
+            tariffPackageId, networkId, requestBody);
+    return ResponseEntity.ok(result);
+}
 }

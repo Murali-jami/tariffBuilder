@@ -129,17 +129,17 @@ function refreshSidebar() {
             }
 
             list.innerHTML = data.map(plan => `
-				 
-				                <div class="draggable-item"
+			 
+			                <div class="draggable-item"
 
-				                    data-network-id="${plan.networkId}"
-				                    data-package-id="${plan.servicePackageId}"
-				                    onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}','${plan.networkId}')">
-				                    ${plan.servicePackageName}
-									
-								</div>
+			                    data-network-id="${plan.networkId}"
+			                    data-package-id="${plan.servicePackageId}"
+			                    onclick="addToCenter('${plan.servicePackageId}','${plan.servicePackageName}','${plan.networkId}')">
+			                    ${plan.servicePackageName}
+							
+							</div>
 
-				            `).join('');
+			            `).join('');
         })
         .catch(err => {
             console.error(err);
@@ -167,12 +167,13 @@ function addToCenter(id, name) {
         id: String(id),
         name: name,
         validity: "M",
-        validityDays: "",
+        rentalPeriod: "",
         renewal: "No",
         midnightExpiry: "No",
         rental: "",
         maxCount: "",
-        freeCycles: "0"
+        freeCycles: "0",
+        priority: ""
     };
 
     state.s4.push(item);
@@ -211,12 +212,12 @@ function renderCard(item) {
                 <option value="O"  ${item.validity === 'O' ? 'selected' : ''}>Others</option>
             </select>
         </div>
-        <div class="card-field" id="validity-days-${item.id}" style="display:${item.validity === 'O' ? 'block' : 'none'};">
+        <div class="card-field" id="rental-period-${item.id}" style="display:${item.validity === 'O' ? 'block' : 'none'};">
             <label>NO. OF DAYS</label>
             <input type="number" min="1"
-                value="${item.validityDays || ''}"
+                value="${item.rentalPeriod || ''}"
                 placeholder="Enter days"
-                oninput="updateField('${item.id}', 'validityDays', this.value)">
+                oninput="updateField('${item.id}', 'rentalPeriod', this.value)">
         </div>
  
         <div class="card-field">
@@ -257,22 +258,55 @@ function renderCard(item) {
                        oninput="updateField('${item.id}','freeCycles',this.value)">
             </div>
         </div>
+		<div class="card-field">
+		     <label>PRIORITY</label>
+		     <input type="number"
+		          value="${item.priority ?? ''}"
+		          oninput="updateField('${item.id}', 'priority', this.value)">
+		</div>
     </div>
     `;
 
     container.appendChild(card);
 }
 
-// ---------- UPDATE ----------
 function updateField(id, key, value) {
-
     const state = getState();
     const item = state.s4.find(i => String(i.id) === String(id));
+    if (!item) return;
 
-    if (item) {
-        item[key] = value;
-        saveState(state);
+    if (key === "priority" && value !== "") {
+
+        if (Number(value) <= 0) {
+            alert("Priority must be greater than 0.");
+            item.priority = "";
+            saveState(state);
+            const input = document.querySelector(`#card-s4-${id} input[oninput*="priority"]`);
+            if (input) input.value = "";
+            return;
+        }
+
+        const takenInS4 = (state.s4 || []).some(i =>
+            String(i.id) !== String(id) &&
+            String(i.priority).trim() === String(value).trim()
+        );
+
+        const takenInS3 = (state.s3 || []).some(i =>
+            String(i.priority).trim() === String(value).trim()
+        );
+
+        if (takenInS4 || takenInS3) {
+            alert(`Priority ${value} is already assigned to another package.`);
+            item.priority = "";
+            saveState(state);
+            const input = document.querySelector(`#card-s4-${id} input[oninput*="priority"]`);
+            if (input) input.value = "";
+            return;
+        }
     }
+    item[key] = value;
+
+    saveState(state);
 }
 
 // ---------- VALIDITY ----------
@@ -280,11 +314,11 @@ function handleValidityChange(id, value) {
 
     updateField(id, 'validity', value);
 
-    const daysField = document.getElementById(`validity-days-${id}`);
+    const daysField = document.getElementById(`rental-period-${id}`);
     if (daysField) daysField.style.display = value === 'O' ? 'block' : 'none';
 
-    // Clear days value when switching away from Others
-    if (value !== 'O') updateField(id, 'validityDays', '');
+    // Clear rentalPeriod when switching away from Others
+    if (value !== 'O') updateField(id, 'rentalPeriod', '');
 }
 
 // ---------- RENEWAL ----------
